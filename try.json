@@ -1,79 +1,66 @@
 [
     {
-        "etymology": "From Middle English scole, schole (\u201cgroup of persons, multitude, host, school of fish\u201d), from Middle Dutch scole (\u201cmultitude, troop of people, swarm of animals\u201d), from Old Dutch *scola, *skola (\u201ctroop, multitude\u201d), from Proto-Germanic *skul\u014d (\u201ccrowd\u201d), from Proto-Indo-European *(s)k\u02b7el- (\u201ccrowd, people\u201d). Cognate with Middle Low German sch\u014dle (\u201cmultitude, troop\u201d), Old English scolu (\u201ctroop or band of people, host, multitude, school of fish\u201d). Doublet of shoal. Compare Hebrew \u05d4\u05b7\u05e9\u05b0\u05c2\u05db\u05b8\u05bc\u05dc\u05b8\u05d4\u200e (\u201c*(s)c\u0251l\u0250\u2013education\u201d), Hebrew \u05d0\u05b6\u05e9\u05b0\u05c1\u05db\u05bc\u05d5\u05b9\u05dc\u200e (\u201c*(s)k\u02b7ol\u2013cluster\u201d).\n",
+        "etymology": "From Middle English somthing, some-thing, som thing, sum thinge, sum \u00feinge, from Old English sum \u00feing (literally \u201csome thing\u201d), equivalent to some +\u200e thing. Compare Old English \u0101wiht (\u201csomething\u201d, literally \u201csome thing, any thing\u201d), Swedish n\u00e5gonting (\u201csomething\u201d, literally \u201csome thing, any thing\u201d).\n",
         "definitions": [
             {
-                "part_of_speech": "noun",
+                "part_of_speech": "pronoun",
                 "texts": "",
                 "related_words": [
                     {
-                        "relationship_type": "synonyms",
+                        "relationship_type": "related terms",
                         "words": [
-                            "(fish): shoal"
+                            "-something",
+                            "-somethingth",
+                            "thing",
+                            "nothing",
+                            "anything",
+                            "everything",
+                            "somebody",
+                            "someone",
+                            "somewhere"
                         ]
                     }
                 ],
                 "example_uses": [
-                    "The divers encountered a huge school of mackerel."
+                    "Synonym:  sth",
+                    "I must have forgotten to pack something, but I can't think what.",
+                    "I have something for you in my bag.",
+                    "I have a feeling something good is going to happen today.",
+                    "The answer to four down is P something T something Y.",
+                    "She looked thirty-something. ",
+                    "Seeing the British establishment struggle with the financial sector is like watching an alcoholic who still resists the idea that something drastic needs to happen for him to turn his life around.",
+                    "The performance was something of a disappointment.",
+                    "That child is something of a genius.",
+                    "Then came a maid with hand-bag and shawls, and after her a tall young lady. She stood for a moment holding her skirt above the grimy steps, with something of the stately pose which Richter has given his Queen Louise on the stairway, and the light of the reflector fell full upon her.",
+                    "Christensen, who also edited and co-wrote the film, is becoming something of a specialist in child horror, having launched his feature directorial career with the infant-themed Still/Born in 2017.",
+                    "Synonym: je ne sais quoi",
+                    "She has a certain something.",
+                    "He's really something! I've never heard such a great voice.",
+                    "She's quite something. I can't believe she would do such a mean thing.",
+                    "Some marmosets are less than six inches tall. \u2014Well, isn't that something?"
                 ]
             },
             {
-                "part_of_speech": "verb",
+                "part_of_speech": "adjective",
                 "texts": "",
                 "related_words": [],
-                "example_uses": []
-            }
-        ],
-        "pronunciations": {
-            "text": [
-                "enPR: sko\u035eol, IPA: /sku\u02d0l/",
-                "Rhymes: -u\u02d0l"
-            ],
-            "audio": [
-                "//upload.wikimedia.org/wikipedia/commons/d/d4/En-uk-school.ogg"
-            ]
-        }
-    },
-    {
-        "etymology": "From Middle English scole, from Old English sc\u014dl (\u201cplace of education\u201d), from Proto-Germanic *sk\u014dla (\u201cschool\u201d), from Late Latin schola, scola (\u201clearned discussion or dissertation, lecture, school\u201d), from Ancient Greek \u03c3\u03c7\u03bf\u03bb\u03b5\u1fd6\u03bf\u03bd (skhole\u00eeon), from \u03c3\u03c7\u03bf\u03bb\u03ae (skhol\u1e17, \u201cspare time, leisure; conversations and the knowledge gained through them during free time; the places where these conversations took place\u201d), from Proto-Indo-European *se\u01f5\u02b0- (\u201cto hold, have, possess\u201d). Doublet of schola and shul. Compare Old Frisian sk\u016ble, sch\u016ble (\u201cschool\u201d) (West Frisian skoalle, Saterland Frisian Skoule), Dutch school (\u201cschool\u201d), German Low German School (\u201cschool\u201d), Old High German scuola (\u201cschool\u201d), Old Norse sk\u00f3li (\u201cschool\u201d).\nInfluenced in some senses by Middle English schole (\u201cgroup of persons, host, company\u201d), from Middle Dutch scole (\u201cmultitude, troop, band\u201d). See school1. Related also to Old High German sigi (German Sieg, \u201cvictory\u201d), Old English si\u0121e, sigor (\u201cvictory\u201d).\n",
-        "definitions": [
-            {
-                "part_of_speech": "noun",
-                "texts": "",
-                "related_words": [
-                    {
-                        "relationship_type": "synonyms",
-                        "words": [
-                            "(institution dedicated to teaching and learning): academy, college, university",
-                            "(organizational unity within an educational institution): college, department, faculty, institute"
-                        ]
-                    },
-                    {
-                        "relationship_type": "hyponyms",
-                        "words": [
-                            "See also Thesaurus:school"
-                        ]
-                    },
-                    {
-                        "relationship_type": "coordinate terms",
-                        "words": [
-                            "(institution providing primary and secondary education): nursery school, kindergarten, college, polytechnic, university"
-                        ]
-                    }
-                ],
                 "example_uses": [
-                    "Our children attend a public school in our neighborhood.",
-                    "Harvard University is a famous American postsecondary school.",
-                    "One particularly damaging, but often ignored, effect of conflict on education is the proliferation of attacks on schools [\u2026] as children, teachers or school buildings become the targets of attacks. Parents fear sending their children to school. Girls are particularly vulnerable to sexual violence.",
-                    "Divinity, history and geography are studied for two schools per week.",
-                    "We are enrolled in the same university, but I attend the School of Economics and my brother is in the School of Music.",
-                    "The Barbizon school of painters were part of an art movement towards Realism in art, which arose in the context of the dominant Romantic Movement of the time.",
-                    "Here the stripped panelling was warmly gold and the pictures, mostly of the English school, were mellow and gentle in the afternoon light.",
-                    "These economists belong to the monetarist school.",
-                    "Let no man be less confident in his faith  [\u2026]  by reason of any difference of judgment , which is in the several schools of Christians.",
-                    "I'll see you after school.",
-                    "He was a gentleman of the old school.",
-                    "His face pale but striking, though not handsome after the schools."
+                    "\"Very poetic.\" They came to a halt before the outer door. \"It's very something,\" Rusty said wistfully. \"How do you do it?\"",
+                    "\"It's very \u2014 it's very something,\" said Lucy. \"It's a kind of love-letter, isn't it?\"",
+                    "If it isn't large, I certainly can't say it's small. But it's very something.",
+                    "'How proud they have become,' I said, 'how disobedient. I must say, all in all, it's very something.'"
+                ]
+            },
+            {
+                "part_of_speech": "adverb",
+                "texts": "",
+                "related_words": [],
+                "example_uses": [
+                    "The baby looks something like his father.",
+                    "I miss them something terrible. ",
+                    "You can't thrash when you have rheumatic fever \u2013 though you want to something awful, Mrs. White says.",
+                    "Seeing him here, though, I all of a sudden feel more like I been gone from home three years, instead of three weeks, and I miss my people something fierce.",
+                    "And then she put the coffin right out on her front porch. Jim told everyone he'd built it kind of roomy since Bobby Lee was on the stout side, but that it better get used quick because sycamore tends to warp something terrible."
                 ]
             },
             {
@@ -81,22 +68,32 @@
                 "texts": "",
                 "related_words": [],
                 "example_uses": [
-                    "Many future prime ministers were schooled in Eton.",
-                    "A blind law graduate who put the National Conference of Bar Examiners to the test got schooled in federal court.",
-                    "Two weeks later, the Cornhuskers put on their road whites again and promptly got schooled by miserable Iowa State in Ames. After the shocking loss  [\u2026]",
-                    "\"You again?\" Sandman demanded. \"I guess you didn't learn your lesson.\"",
-                    "\"This time I'm gonna school you.\"",
-                    "She took care to school her expression, not giving away any of her feelings."
+                    "He didn\u2019t apply for it for a long time, and then there was a hitch about it, and it was somethinged\u2014vetoed, I believe she said.",
+                    "She hovers over the something somethinging and awkwardly lowers her bulk.",
+                    "\u201cOh how we somethinged on the hmmm hmm we were wed. Dear, was I ever on the stage?\u201d"
+                ]
+            },
+            {
+                "part_of_speech": "noun",
+                "texts": "",
+                "related_words": [],
+                "example_uses": [
+                    "From the ground, Colombo\u2019s port does not look like much. [\u2026] \u00a0 But viewed from high up in one of the growing number of skyscrapers in Sri Lanka\u2019s capital, it is clear that something extraordinary is happening: China is creating a shipping hub just 200 miles from India\u2019s southern tip.",
+                    "What was the something the pilot saw, the something worth killing for?",
+                    "Moreover, in all of our experience with these sense impressions, we never lose sight of the fact that they are but incidental facts of our mental existence, and that there is a Something Within which is really the Subject of these sense reports\u2014a Something to which these reports are presented, and which receives them.",
+                    "She wiped something with a cloth, wiped at the wall shelf, and put the something on it, clinking glass."
                 ]
             }
         ],
         "pronunciations": {
             "text": [
-                "enPR: sko\u035eol, IPA: /sku\u02d0l/",
-                "Rhymes: -u\u02d0l"
+                "(UK) IPA: /\u02c8s\u028cm\u03b8\u026a\u014b/, [\u02c8s\u0250m\u03b8\u026a\u014b]",
+                "(US) IPA: /\u02c8s\u028cm\u03b8\u026a\u014b/, [\u02c8s\u028cn\u032a\u03b8\u026a\u014b], (sometimes reduced to [\u02c8s\u028c(m)\u0294m\u0329] or [\u02c8s\u028c\u027e\u0303\u026a\u014b], or even monosyllabically to [s\u028c\u0303\u02d0] or [s\u028c\u026a\u014b])",
+                "(General Australian) IPA: /\u02c8sam\u03b8\u026a\u014b/, [\u02c8s\u00e4m\u03b8\u026a\u014b]",
+                "Hyphenation: some\u2027thing"
             ],
             "audio": [
-                "//upload.wikimedia.org/wikipedia/commons/d/d4/En-uk-school.ogg"
+                "//upload.wikimedia.org/wikipedia/commons/1/13/En-us-something.ogg"
             ]
         }
     }
