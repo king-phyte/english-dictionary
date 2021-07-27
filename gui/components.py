@@ -72,9 +72,9 @@ class MainWindow(QMainWindow):
 
         self.search_button.clicked.connect(self.fetch_word_from_internet)
 
-        from gui.words import king, queen, test
+        from gui.words import king, queen, test, try_
 
-        self.dictionary.append_multiple([king, test, queen])
+        self.dictionary.append_multiple([king, test, queen, try_])
         self.list_widget.setSortingEnabled(True)
         self.list_widget.sortItems(Qt.AscendingOrder)
 
