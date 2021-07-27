@@ -1,0 +1,103 @@
+[
+    {
+        "etymology": "From Middle English scole, schole (\u201cgroup of persons, multitude, host, school of fish\u201d), from Middle Dutch scole (\u201cmultitude, troop of people, swarm of animals\u201d), from Old Dutch *scola, *skola (\u201ctroop, multitude\u201d), from Proto-Germanic *skul\u014d (\u201ccrowd\u201d), from Proto-Indo-European *(s)k\u02b7el- (\u201ccrowd, people\u201d). Cognate with Middle Low German sch\u014dle (\u201cmultitude, troop\u201d), Old English scolu (\u201ctroop or band of people, host, multitude, school of fish\u201d). Doublet of shoal. Compare Hebrew \u05d4\u05b7\u05e9\u05b0\u05c2\u05db\u05b8\u05bc\u05dc\u05b8\u05d4\u200e (\u201c*(s)c\u0251l\u0250\u2013education\u201d), Hebrew \u05d0\u05b6\u05e9\u05b0\u05c1\u05db\u05bc\u05d5\u05b9\u05dc\u200e (\u201c*(s)k\u02b7ol\u2013cluster\u201d).\n",
+        "definitions": [
+            {
+                "part_of_speech": "noun",
+                "texts": "",
+                "related_words": [
+                    {
+                        "relationship_type": "synonyms",
+                        "words": [
+                            "(fish): shoal"
+                        ]
+                    }
+                ],
+                "example_uses": [
+                    "The divers encountered a huge school of mackerel."
+                ]
+            },
+            {
+                "part_of_speech": "verb",
+                "texts": "",
+                "related_words": [],
+                "example_uses": []
+            }
+        ],
+        "pronunciations": {
+            "text": [
+                "enPR: sko\u035eol, IPA: /sku\u02d0l/",
+                "Rhymes: -u\u02d0l"
+            ],
+            "audio": [
+                "//upload.wikimedia.org/wikipedia/commons/d/d4/En-uk-school.ogg"
+            ]
+        }
+    },
+    {
+        "etymology": "From Middle English scole, from Old English sc\u014dl (\u201cplace of education\u201d), from Proto-Germanic *sk\u014dla (\u201cschool\u201d), from Late Latin schola, scola (\u201clearned discussion or dissertation, lecture, school\u201d), from Ancient Greek \u03c3\u03c7\u03bf\u03bb\u03b5\u1fd6\u03bf\u03bd (skhole\u00eeon), from \u03c3\u03c7\u03bf\u03bb\u03ae (skhol\u1e17, \u201cspare time, leisure; conversations and the knowledge gained through them during free time; the places where these conversations took place\u201d), from Proto-Indo-European *se\u01f5\u02b0- (\u201cto hold, have, possess\u201d). Doublet of schola and shul. Compare Old Frisian sk\u016ble, sch\u016ble (\u201cschool\u201d) (West Frisian skoalle, Saterland Frisian Skoule), Dutch school (\u201cschool\u201d), German Low German School (\u201cschool\u201d), Old High German scuola (\u201cschool\u201d), Old Norse sk\u00f3li (\u201cschool\u201d).\nInfluenced in some senses by Middle English schole (\u201cgroup of persons, host, company\u201d), from Middle Dutch scole (\u201cmultitude, troop, band\u201d). See school1. Related also to Old High German sigi (German Sieg, \u201cvictory\u201d), Old English si\u0121e, sigor (\u201cvictory\u201d).\n",
+        "definitions": [
+            {
+                "part_of_speech": "noun",
+                "texts": "",
+                "related_words": [
+                    {
+                        "relationship_type": "synonyms",
+                        "words": [
+                            "(institution dedicated to teaching and learning): academy, college, university",
+                            "(organizational unity within an educational institution): college, department, faculty, institute"
+                        ]
+                    },
+                    {
+                        "relationship_type": "hyponyms",
+                        "words": [
+                            "See also Thesaurus:school"
+                        ]
+                    },
+                    {
+                        "relationship_type": "coordinate terms",
+                        "words": [
+                            "(institution providing primary and secondary education): nursery school, kindergarten, college, polytechnic, university"
+                        ]
+                    }
+                ],
+                "example_uses": [
+                    "Our children attend a public school in our neighborhood.",
+                    "Harvard University is a famous American postsecondary school.",
+                    "One particularly damaging, but often ignored, effect of conflict on education is the proliferation of attacks on schools [\u2026] as children, teachers or school buildings become the targets of attacks. Parents fear sending their children to school. Girls are particularly vulnerable to sexual violence.",
+                    "Divinity, history and geography are studied for two schools per week.",
+                    "We are enrolled in the same university, but I attend the School of Economics and my brother is in the School of Music.",
+                    "The Barbizon school of painters were part of an art movement towards Realism in art, which arose in the context of the dominant Romantic Movement of the time.",
+                    "Here the stripped panelling was warmly gold and the pictures, mostly of the English school, were mellow and gentle in the afternoon light.",
+                    "These economists belong to the monetarist school.",
+                    "Let no man be less confident in his faith  [\u2026]  by reason of any difference of judgment , which is in the several schools of Christians.",
+                    "I'll see you after school.",
+                    "He was a gentleman of the old school.",
+                    "His face pale but striking, though not handsome after the schools."
+                ]
+            },
+            {
+                "part_of_speech": "verb",
+                "texts": "",
+                "related_words": [],
+                "example_uses": [
+                    "Many future prime ministers were schooled in Eton.",
+                    "A blind law graduate who put the National Conference of Bar Examiners to the test got schooled in federal court.",
+                    "Two weeks later, the Cornhuskers put on their road whites again and promptly got schooled by miserable Iowa State in Ames. After the shocking loss  [\u2026]",
+                    "\"You again?\" Sandman demanded. \"I guess you didn't learn your lesson.\"",
+                    "\"This time I'm gonna school you.\"",
+                    "She took care to school her expression, not giving away any of her feelings."
+                ]
+            }
+        ],
+        "pronunciations": {
+            "text": [
+                "enPR: sko\u035eol, IPA: /sku\u02d0l/",
+                "Rhymes: -u\u02d0l"
+            ],
+            "audio": [
+                "//upload.wikimedia.org/wikipedia/commons/d/d4/En-uk-school.ogg"
+            ]
+        }
+    }
+]
