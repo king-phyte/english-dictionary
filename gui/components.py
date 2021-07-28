@@ -52,7 +52,7 @@ class MainWindow(QMainWindow):
         self.show()
 
     def build_window(self):
-        left, top, width, height = 100, 100, 1000, 800
+        left, top, width, height = 100, 100, 800, 600
         self.setWindowTitle(self.window_title)
         self.setGeometry(left, top, width, height)
 
@@ -67,7 +67,6 @@ class MainWindow(QMainWindow):
         self.search_bar.setClearButtonEnabled(True)
         self.search_bar.setMaxLength(32)
         self.search_bar.textChanged.connect(self.filter_displayed_words)
-        # self.search_bar.editingFinished.connect(self.fetch_word_from_internet)
         self.search_bar.returnPressed.connect(self.fetch_word_from_internet)
 
         self.search_button.clicked.connect(self.fetch_word_from_internet)
@@ -84,11 +83,10 @@ class MainWindow(QMainWindow):
         self.top_left_layout_2.addWidget(self.list_widget, 2, 1, 1, 6, Qt.AlignLeft)
 
         self.splitter.setHandleWidth(20)
-        # self.splitter.setSizes([252, 500])
 
         self.delete_word_button.setStyleSheet("background: red")
 
-        self.detail_display.setMinimumSize(1000, 800)
+        self.detail_display.setMinimumSize(600, 600)
         self.detail_display.setAcceptRichText(True)
         self.detail_display.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.detail_display.setStyleSheet("background: white")
@@ -160,40 +158,10 @@ class MainWindow(QMainWindow):
                         }
                     ],
                 }
-                # print(word_data)
-                # definition = word_data["definitions"][0]
-                # related_words = definition["related_words"][0]
-
-                # self.dictionary.append(
-                #     WordData(
-                #         name=word_data.get("name"),
-                #         etymology=word_data.get("etymology"),
-                #         definitions=[
-                #             Definition(
-                #                 part_of_speech=definition.get("part_of_speech"),
-                #                 texts=[
-                #                     definition.get("texts"),
-                #                 ],
-                #                 related_words=[
-                #                     RelatedWord(
-                #                         relationship_type=related_words.get(
-                #                             "relationship_type"
-                #                         ),
-                #                         words=related_words.get("words"),
-                #                     ),
-                #                 ],
-                #                 example_uses=[
-                #                     definition.get("example_uses"),
-                #                 ],
-                #             )
-                #         ],
-                #     )
-                # )
                 self.dictionary.append(WordData.from_dict(word_data))
 
                 self.update_dictionary([WordData.from_dict(word_data).get_name()])
 
-                # print(self.dictionary.peek())
                 dialog.close()
 
             def cancel_handler():
@@ -202,15 +170,11 @@ class MainWindow(QMainWindow):
             vbox = QVBoxLayout()
             dialog = QDialog()
             dialog.setWindowTitle("Add Word")
-
-            # input_widget = QInputDialog()
-
             description = QFormLayout()
             part_of_speech_field = QLineEdit()
             description.addRow(QLabel("Part of Speech"), part_of_speech_field)
             text_field = QLineEdit()
             description.addRow(QLabel("Text"), text_field)
-            # description.addRow(QLabel("Related Words"), QLineEdit())
             description_group = QGroupBox()
 
             description_group.setLayout(description)
@@ -219,7 +183,6 @@ class MainWindow(QMainWindow):
             relationship_type_field = QLineEdit()
             related_words.addRow(QLabel("Relationship Type"), relationship_type_field)
             words_field = QLineEdit()
-            # words_field.setValidator()
             related_words.addRow(QLabel("Words"), words_field)
             related_words_group = QGroupBox()
 
@@ -242,15 +205,7 @@ class MainWindow(QMainWindow):
             form_layout.addRow(QLabel("Description"), description_group)
             form_layout.addRow(QLabel("Related Words"), related_words_group)
             form_layout.addRow(QLabel("Examples"), examples_group)
-            # input_widget.setOkButtonText("Add")
 
-            # print(form_layout.takeRow(1).fieldItem)
-            # input_widget.accepted.connect(accepted_)
-            # input_widget.rejected.connect(cancel_handler)
-
-            # vbox.addWidget(input_widget)
-            # vbox.addWidget(form_layout)
-            # dialog.setLayout(form_layout)
             vbox.addLayout(form_layout)
             group_box = QGroupBox()
 
@@ -330,8 +285,6 @@ class MainWindow(QMainWindow):
                 }
                 result = WordData.from_dict(word_data)
                 self.delete_word()
-                # self.dictionary.append(result)
-                # self.update_dictionary([result])
 
                 self.dictionary.append(result)
 
@@ -476,9 +429,6 @@ class MainWindow(QMainWindow):
 
         parser = WiktionaryParser()
 
-        # with open("../data.json") as f:
-        #     json_data = json.load(f)
-
         json_data = parser.fetch(text)
 
         print(json_data)
@@ -490,7 +440,7 @@ class MainWindow(QMainWindow):
         word = WordData.from_dict(json_data)
         self.dictionary.append(word)
         self.update_dictionary([word.get_name()])
-        print(self.dictionary.peek())
+        # print(self.dictionary.peek())
 
     def parse_word_data(self, word: str) -> str:
         word = self.fetch_word(word)

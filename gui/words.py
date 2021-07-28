@@ -1,3 +1,5 @@
+import json
+
 from utils.types import WordData, Definition, RelatedWord, Pronunciation
 
 
@@ -32,6 +34,11 @@ queen = WordData(
     definitions=(queen_def,),
     related_words=queen_rw,
 )
+
+with open("../try.json") as f:
+    json_data = json.load(f)
+
+try_ = WordData.from_dict({"name": "try", "data": json_data})
 
 test = WordData(
     name="test",

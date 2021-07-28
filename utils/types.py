@@ -1,5 +1,6 @@
 from typing import Union, List, NoReturn, Type, Any, Sequence, Optional
 from utils.formatter import FormatWord
+from utils.functions import binary_search
 
 
 class OrderedList:
@@ -10,6 +11,25 @@ class OrderedList:
         self._instance = instance
         self._list = []
 
+    @staticmethod
+    def bisect_left(
+        sorted_collection: list, item: int, lo: int = 0, hi: int = -1
+    ) -> int:
+        if hi < 0:
+            hi = len(sorted_collection)
+
+        while lo < hi:
+            mid = (lo + hi) // 2
+            if sorted_collection[mid] < item:
+                lo = mid + 1
+            else:
+                hi = mid
+
+        return lo
+
+    def insort_left(self, item: int) -> None:
+        self._list.insert(self.bisect_left(self._list, item), item)
+
     def append(self, item) -> None:
         if not isinstance(item, self._instance):
             raise ValueError
@@ -18,7 +38,12 @@ class OrderedList:
             return
 
         if len(self) < 1:
-            return self._list.append(item)
+            self._list.append(item)
+            return
+
+        if not self._allow_duplicates:
+            self.insort_left(item)
+            return
 
         for i in range(len(self)):
             if item > self._list[i]:
@@ -29,25 +54,7 @@ class OrderedList:
         return self._list.append(item)
 
     def find(self, target):
-        if len(self) < 1:
-            return -1
-
-        lower_bound = 0
-        upper_bound = len(self._list) - 1
-
-        while lower_bound <= upper_bound:
-            mid_point = (lower_bound + upper_bound) // 2
-
-            if self._list[mid_point] == target:
-                return mid_point
-
-            elif self._list[mid_point] > target:
-                upper_bound = mid_point - 1
-
-            elif self._list[mid_point] < target:
-                lower_bound = mid_point + 1
-
-        return -1
+        return binary_search(self._list, target)
 
     def index(self, item) -> Union[int, List[int], NoReturn]:
         """
@@ -100,12 +107,6 @@ class OrderedList:
 
     def __contains__(self, item) -> bool:
         return item in self._list
-
-
-#
-# class OrderedDict(OrderedList):
-#     def __init__(self) -> None:
-#         super().__init__(allow_duplicates=False, instance=str)
 
 
 class RelatedWord:
@@ -197,6 +198,8 @@ class WordData:
     @staticmethod
     def from_dict(word_data: dict):
         name = word_data.get("name")
+        if not word_data.get("data"):
+            return WordData(name)
         word_data = word_data.get("data")[0]
         definition = word_data["definitions"][0]
         related_words = (
@@ -262,4 +265,4 @@ class Dictionary(OrderedList):
         return self.find(word)
 
     def get_word_details(self, word: str):
-        return self._list[self.peek().index(word)]
+        return self._list[binary_search(self.peek(), word)]

@@ -1,6 +1,6 @@
 import pytest
 
-from utils.types import OrderedList, OrderedDict, WordData
+from utils.types import OrderedList, WordData
 
 
 def test_ordered_list_no_duplicates():
@@ -62,32 +62,6 @@ def test_ordered_list_duplicates():
     assert duplicates.pop(8) == 5
     assert duplicates.clear() is None
     assert duplicates.peek() == []
-
-
-def test_ordered_dict():
-    dictionary = OrderedDict()
-
-    assert dictionary.peek() == []
-
-    with pytest.raises(IndexError):
-        dictionary.pop()
-        raise IndexError("List index out of range")
-
-    assert dictionary.append("king") is None
-    assert dictionary.append_multiple(["hey", "huh?", "a", "zab"]) is None
-    assert len(dictionary) == len(["king", "hey", "huh?", "a", "zab"])
-    assert dictionary.peek() == sorted(["king", "hey", "huh?", "a", "zab"])
-    assert dictionary.pop() == "zab"
-
-    with pytest.raises(ValueError):
-        dictionary.index(3)
-        raise ValueError
-
-    assert "king" in dictionary
-    assert "pop" not in dictionary
-
-    assert dictionary.find("zab") == -1
-    assert dictionary.find("hey") == 1
 
 
 def test_word_data():
