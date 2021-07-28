@@ -1,4 +1,5 @@
 from typing import Union, List, NoReturn, Type, Any, Sequence, Optional
+
 from utils.formatter import FormatWord
 from utils.functions import binary_search
 
@@ -13,21 +14,21 @@ class OrderedList:
 
     @staticmethod
     def bisect_left(
-        sorted_collection: list, item: int, lo: int = 0, hi: int = -1
+        sorted_collection: list, item: int, lower_bound: int = 0, upper_bound: int = -1
     ) -> int:
-        if hi < 0:
-            hi = len(sorted_collection)
+        if upper_bound < 0:
+            upper_bound = len(sorted_collection)
 
-        while lo < hi:
-            mid = (lo + hi) // 2
+        while lower_bound < upper_bound:
+            mid = (lower_bound + upper_bound) // 2
             if sorted_collection[mid] < item:
-                lo = mid + 1
+                lower_bound = mid + 1
             else:
-                hi = mid
+                upper_bound = mid
 
-        return lo
+        return lower_bound
 
-    def insort_left(self, item: int) -> None:
+    def insort_left(self, item) -> None:
         self._list.insert(self.bisect_left(self._list, item), item)
 
     def append(self, item) -> None:

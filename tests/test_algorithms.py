@@ -1,4 +1,5 @@
 import pytest
+
 from utils.functions import binary_search
 
 
