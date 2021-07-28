@@ -1,3 +1,4 @@
+import os
 from typing import Sequence
 
 from PyQt5.QtCore import Qt
@@ -7,7 +8,6 @@ from PyQt5.QtWidgets import (
     QMainWindow,
     QHBoxLayout,
     QFrame,
-    QApplication,
     QLineEdit,
     QPushButton,
     QListWidget,
@@ -21,6 +21,7 @@ from PyQt5.QtWidgets import (
     QMessageBox,
 )
 
+from settings import BASEDIR
 from utils.types import Dictionary, WordData
 
 
@@ -41,8 +42,12 @@ class MainWindow(QMainWindow):
         self.list_widget = QListWidget()
         self.search_bar = QLineEdit()
 
-        self.search_button = QPushButton(QIcon("../utils/svgs/search.svg"), "")
-        self.add_word_button = QPushButton(QIcon("../utils/svgs/plus.svg"), "")
+        self.search_button = QPushButton(
+            QIcon(os.path.join(BASEDIR, "utils", "svgs", "search.svg")), ""
+        )
+        self.add_word_button = QPushButton(
+            QIcon(os.path.join(BASEDIR, "utils", "svgs", "plus.svg")), ""
+        )
         self.edit_word_button = QPushButton("Edit")
         self.delete_word_button = QPushButton("Delete")
         self.detail_display = QTextBrowser()
@@ -71,9 +76,9 @@ class MainWindow(QMainWindow):
 
         self.search_button.clicked.connect(self.fetch_word_from_internet)
 
-        from gui.words import king, queen, test
+        from gui.words import test, try_
 
-        self.dictionary.append_multiple([king, test, queen])
+        self.dictionary.append_multiple([test, try_])
         self.list_widget.setSortingEnabled(True)
         self.list_widget.sortItems(Qt.AscendingOrder)
 
@@ -114,7 +119,6 @@ class MainWindow(QMainWindow):
 
         def add_handler():
             def accepted_():
-
                 if word_field.text() == "":
                     message = QMessageBox.critical(
                         None, self.window_title, "Word field cannot be empty"
@@ -243,7 +247,6 @@ class MainWindow(QMainWindow):
 
         def add_handler():
             def accepted_():
-
                 if word_field.text().strip() == "":
                     message = QMessageBox.critical(
                         None, self.window_title, "Word field cannot be empty"
@@ -424,23 +427,15 @@ class MainWindow(QMainWindow):
         if response == QMessageBox.No:
             return
 
-        import json
         from wiktionaryparser.core import WiktionaryParser
 
         parser = WiktionaryParser()
 
         json_data = parser.fetch(text)
-
-        print(json_data)
-
-        with open("../try.json", "w") as f:
-            json.dump(json_data, f, indent=4)
-
         json_data = {"name": text, "data": json_data}
         word = WordData.from_dict(json_data)
         self.dictionary.append(word)
         self.update_dictionary([word.get_name()])
-        # print(self.dictionary.peek())
 
     def parse_word_data(self, word: str) -> str:
         word = self.fetch_word(word)
@@ -451,11 +446,3 @@ class MainWindow(QMainWindow):
             f"<b style='font-size: 40px'>{word.get_name().capitalize()}</b><hr />"
             + FormatWord.to_html(word)
         )
-
-
-if __name__ == "__main__":
-    import sys
-
-    app = QApplication(sys.argv)
-    window = MainWindow()
-    sys.exit(app.exec_())

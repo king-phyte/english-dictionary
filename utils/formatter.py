@@ -1,6 +1,6 @@
-import json
-from wiktionaryparser.utils import WordData, Definition, RelatedWord, Pronunciation
-from typing import List, Optional, Iterable
+from typing import List, Iterable
+
+from wiktionaryparser.utils import WordData, Definition
 
 
 class FormatWord:
@@ -74,96 +74,3 @@ class FormatWord:
             + "</pre>"
             for section in html_version
         )
-
-
-# class HumanReadableFormat:
-#     def __init__(self, data: Optional[List[dict]]) -> None:
-#         self._raw_data = data
-#         self._string = []
-#
-#     @staticmethod
-#     def parse_etymology(group: WordData) -> str:
-#         if group.etymology is not None:
-#             return f"Etymology: {group.etymology.strip()}"
-#
-#         return ""
-#
-#     @staticmethod
-#     def parse_pronunciation(group: WordData) -> str:
-#         if group.pronunciations:
-#             group_string = ["Pronunciations"]
-#             pronunciation = Pronunciation(**group.pronunciations)
-#             group_string.extend(
-#                 map(
-#                     lambda x: f"\t{x}",
-#                     pronunciation.text,
-#                 )
-#             )
-#             return "\n".join(group_string)
-#
-#         return ""
-#
-#     @staticmethod
-#     def parse_definitions(group: WordData) -> str:
-#         if group.definition_list and isinstance(group.definition_list, list):
-#             group_string = ["Definitions:"]
-#
-#             for section in group.definition_list:
-#                 definition = Definition(**section)
-#
-#                 if definition.part_of_speech:
-#                     group_string.append(
-#                         "\n\tPart of speech: " + definition.part_of_speech
-#                     )
-#
-#                     group_string.extend(
-#                         map(
-#                             lambda x: f"\t{x[0]}. {x[1]}",
-#                             enumerate(definition.text, start=1),
-#                         )
-#                     )
-#
-#                 if definition.related_words:
-#                     for sec in definition.related_words:
-#                         related_words = RelatedWord(**sec)
-#
-#                         group_string.append(f"\n\t{related_words.relationship_type}")
-#
-#                         group_string.extend(
-#                             map(
-#                                 lambda x: f"\t{x[0]}. {x[1]}",
-#                                 enumerate(related_words.words, start=1),
-#                             )
-#                         )
-#
-#                 if definition.example_uses:
-#                     group_string.append(f"\n\tExamples:")
-#
-#                     group_string.extend(
-#                         map(
-#                             lambda x: f"\t{x[0]}. {x[1]}",
-#                             enumerate(definition.example_uses, start=1),
-#                         )
-#                     )
-#
-#             return "\n".join(group_string)
-#
-#     def display(self) -> None:
-#         print(self.get_formatted_form())
-#
-#     def get_formatted_form(self) -> str:
-#         for group in self._raw_data:
-#             group = WordData(**group)
-#             self._string.append(self.parse_etymology(group))
-#             self._string.append(self.parse_pronunciation(group))
-#             self._string.append(self.parse_definitions(group))
-#
-#         return "\n\n".join(self._string)
-
-
-if __name__ == "__main__":
-    with open("../data.json") as f:
-        data = json.load(f)
-
-    formatter = HumanReadableFormat(data)
-    formatter.display()

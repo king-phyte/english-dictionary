@@ -1,41 +1,10 @@
 import json
+import os
 
+from settings import BASEDIR
 from utils.types import WordData, Definition, RelatedWord, Pronunciation
 
-
-king_def = Definition(
-    "noun",
-    (
-        "Someone who rules things",
-        "A something else",
-    ),
-)
-king_rw = [
-    RelatedWord("synonyms", ["ruler", "emporer"]),
-    RelatedWord("antonyms", ("slave", "boy boy")),
-]
-
-king = WordData(
-    name="king",
-    etymology="From middle english",
-    definitions=(king_def,),
-    related_words=king_rw,
-)
-
-queen_def = Definition("noun", ("Someone who rules things",))
-queen_rw = [
-    RelatedWord("synonyms", ["ruler", "king"]),
-    RelatedWord("antonyms", ("slave", "girl girl")),
-]
-
-queen = WordData(
-    name="queen",
-    etymology="From middle english",
-    definitions=(queen_def,),
-    related_words=queen_rw,
-)
-
-with open("../try.json") as f:
+with open(os.path.join(BASEDIR, "try.json")) as f:
     json_data = json.load(f)
 
 try_ = WordData.from_dict({"name": "try", "data": json_data})
