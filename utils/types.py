@@ -198,6 +198,8 @@ class WordData:
     @staticmethod
     def from_dict(word_data: dict):
         name = word_data.get("name")
+        if not word_data.get("data"):
+            return WordData(name)
         word_data = word_data.get("data")[0]
         definition = word_data["definitions"][0]
         related_words = (
