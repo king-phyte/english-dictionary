@@ -42,17 +42,7 @@ class OrderedList:
             self._list.append(item)
             return
 
-        if not self._allow_duplicates:
-            self.insort_left(item)
-            return
-
-        for i in range(len(self)):
-            if item > self._list[i]:
-                continue
-            else:
-                return self._list.insert(i, item)
-
-        return self._list.append(item)
+        self.insort_left(item)
 
     def find(self, target):
         return binary_search(self._list, target)
@@ -66,17 +56,11 @@ class OrderedList:
             raise ValueError
 
         if not self._allow_duplicates:
-            return self._list.index(item)
+            return self.find(item)
 
-        indexes = []
+        first_item_index = self._list.index(item)
 
-        start = 0
-        for i in range(self._list.count(item)):
-            current_index = self._list.index(item, start)
-            indexes.append(current_index)
-            start = current_index + 1
-
-        return indexes
+        return list(range(first_item_index, first_item_index + self._list.count(item)))
 
     def append_multiple(self, iterable) -> None:
         for item in iterable:
@@ -88,8 +72,6 @@ class OrderedList:
     def pop(self, index=-1) -> Union[int, NoReturn]:
         """Remove and return item at index (default last).
         Raises IndexError if list is empty or index is out of range."""
-        if len(self) <= 0:
-            raise IndexError("List index out of range")
 
         return self._list.pop(index)
 
@@ -98,16 +80,16 @@ class OrderedList:
         self._list = []
 
     def __str__(self) -> str:
-        return f"{self._list}"
+        return self.__repr__()
 
     def __repr__(self) -> str:
-        return self.__str__()
+        return f"{self._list}"
 
     def __len__(self) -> int:
         return len(self._list)
 
     def __contains__(self, item) -> bool:
-        return item in self._list
+        return binary_search(self._list, item) != -1
 
 
 class RelatedWord:
