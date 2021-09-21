@@ -6,8 +6,19 @@ from english_dictionary.types import Dictionary, WordData, Definition
 class TestDictionary:
     @pytest.fixture
     def word(self):
-        definition1 = Definition(part_of_speech="noun", text="Nothing here")
-        word = WordData(name="hi", etymology="From nowhere", definitions=[definition1])
+        definition1 = Definition(
+            part_of_speech="noun",
+            texts=[
+                "Nothing here",
+            ],
+        )
+        word = WordData(
+            name="hi",
+            etymology="From nowhere",
+            definitions=[
+                definition1,
+            ],
+        )
         return word
 
     def test_dictionary_is_sorted(self, word):

@@ -2,6 +2,7 @@ from typing import Union, List, NoReturn, Type, Any, Sequence, Optional
 
 from english_dictionary.utils.formatter import FormatWord
 from english_dictionary.utils.helpers import binary_search
+from dataclasses import dataclass, field
 
 
 class OrderedList:
@@ -75,6 +76,9 @@ class OrderedList:
 
         return self._list.pop(index)
 
+    def remove(self, item):
+        self.pop(self.index(item))
+
     def clear(self) -> None:
         """Removes all elements in the list"""
         self._list = []
@@ -92,16 +96,10 @@ class OrderedList:
         return binary_search(self._list, item) != -1
 
 
+@dataclass
 class RelatedWord:
-    def __init__(
-        self,
-        relationship_type: str,
-        words: Sequence[str],
-        *args,
-        **kwargs,
-    ):
-        self.relationship_type = relationship_type if relationship_type else ""
-        self.words = words if words else []
+    relationship_type: str
+    words: Sequence[str] = field(default_factory=list)
 
     def to_html(self):
         return f"{self.relationship_type.capitalize()}: {', '.join(self.words)}"
@@ -110,16 +108,10 @@ class RelatedWord:
         return getattr(item)
 
 
+@dataclass
 class Pronunciation:
-    def __init__(
-        self,
-        text: List[str] = None,
-        audio: List[str] = None,
-        *args,
-        **kwargs,
-    ) -> None:
-        self.text = text if text is not None else []
-        self.audio = audio if audio is not None else []
+    text: Sequence[str] = field(default_factory=list)
+    audio: Optional[Sequence[str]] = None
 
     def to_html(self) -> str:
         return FormatWord.convert_to_list(self.text)
@@ -128,20 +120,12 @@ class Pronunciation:
         return getattr(item)
 
 
+@dataclass
 class Definition:
-    def __init__(
-        self,
-        part_of_speech: Optional[str] = None,
-        texts: Optional[Sequence[str]] = None,
-        related_words: Optional[Sequence[RelatedWord]] = None,
-        example_uses: Optional[Sequence[str]] = None,
-        *args,
-        **kwargs,
-    ) -> None:
-        self.part_of_speech = part_of_speech
-        self.texts = texts
-        self.related_words = related_words
-        self.example_uses = example_uses
+    part_of_speech: Optional[str] = None
+    texts: Optional[Sequence[str]] = None
+    related_words: Optional[Sequence[RelatedWord]] = None
+    example_uses: Optional[Sequence[str]] = None
 
     def to_html(self):
         section = (
@@ -238,14 +222,11 @@ class Dictionary(OrderedList):
         return list(map(str, self._list))
 
     def remove_word(self, word: WordData):
-        self._list.remove(word)
+        self.remove(word)
 
     def edit_word(self, old: WordData, new: WordData):
         self.remove_word(old)
         self.append(new)
-
-    def find_word(self, word: WordData):
-        return self.find(word)
 
     def get_word_details(self, word: str):
         return self._list[binary_search(self.peek(), word)]
