@@ -2,7 +2,7 @@ import json
 import os
 
 from settings import BASEDIR
-from english_dictionary.utils.types import (
+from english_dictionary.types import (
     WordData,
     Definition,
     RelatedWord,
