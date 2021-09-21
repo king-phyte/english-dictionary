@@ -22,10 +22,10 @@ from PyQt5.QtWidgets import (
 )
 
 from settings import BASEDIR
-from english_dictionary.utils.types import Dictionary, WordData
+from english_dictionary.types import Dictionary, WordData
 
 
-SVGS_DIR = BASEDIR.joinpath(Path(__file__).parent.parent, Path("utils", "svgs"))
+SVGS_DIR = BASEDIR.joinpath(Path(__file__).parent.parent, Path("gui", "svgs"))
 
 
 class MainWindow(QMainWindow):
