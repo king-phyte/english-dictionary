@@ -1,6 +1,6 @@
 import pytest
 
-from english_dictionary.utils import OrderedList, WordData
+from english_dictionary.types import OrderedList, WordData
 
 
 def test_ordered_list_no_duplicates():

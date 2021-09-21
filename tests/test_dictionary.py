@@ -1,6 +1,6 @@
 import pytest
 
-from english_dictionary.utils import Dictionary, WordData, Definition
+from english_dictionary.types import Dictionary, WordData, Definition
 
 
 class TestDictionary:
