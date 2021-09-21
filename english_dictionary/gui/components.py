@@ -1,6 +1,6 @@
+from pathlib import Path
 from typing import Sequence
 
-from pathlib import Path
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QGuiApplication, QIcon
 from PyQt5.QtWidgets import (
@@ -21,9 +21,8 @@ from PyQt5.QtWidgets import (
     QMessageBox,
 )
 
-from settings import BASEDIR
 from english_dictionary.types import Dictionary, WordData
-
+from settings import BASEDIR
 
 SVGS_DIR = BASEDIR.joinpath(Path(__file__).parent.parent, Path("gui", "svgs"))
 

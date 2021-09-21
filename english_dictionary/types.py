@@ -1,8 +1,8 @@
+from dataclasses import dataclass, field
 from typing import Union, List, NoReturn, Type, Any, Sequence, Optional
 
 from english_dictionary.utils.formatter import FormatWord
 from english_dictionary.utils.helpers import binary_search
-from dataclasses import dataclass, field
 
 
 class OrderedList:
