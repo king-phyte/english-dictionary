@@ -1,6 +1,6 @@
-import os
 from typing import Sequence
 
+from pathlib import Path
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QGuiApplication, QIcon
 from PyQt5.QtWidgets import (
@@ -25,6 +25,9 @@ from settings import BASEDIR
 from english_dictionary.utils.types import Dictionary, WordData
 
 
+SVGS_DIR = BASEDIR.joinpath(Path(__file__).parent.parent, Path("utils", "svgs"))
+
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -42,12 +45,8 @@ class MainWindow(QMainWindow):
         self.list_widget = QListWidget()
         self.search_bar = QLineEdit()
 
-        self.search_button = QPushButton(
-            QIcon(os.path.join(BASEDIR, "utils", "svgs", "search.svg")), ""
-        )
-        self.add_word_button = QPushButton(
-            QIcon(os.path.join(BASEDIR, "utils", "svgs", "plus.svg")), ""
-        )
+        self.search_button = QPushButton(QIcon(str(SVGS_DIR / "search.svg")), "")
+        self.add_word_button = QPushButton(QIcon(str(SVGS_DIR / "plus.svg")), "")
         self.edit_word_button = QPushButton("Edit")
         self.delete_word_button = QPushButton("Delete")
         self.detail_display = QTextBrowser()

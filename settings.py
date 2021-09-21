@@ -1,3 +1,3 @@
-import os
+from pathlib import Path
 
-BASEDIR = os.getcwd()
+BASEDIR = Path.cwd()
