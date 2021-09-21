@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QApplication
 
-from gui.components import MainWindow
+from english_dictionary.gui.components import MainWindow
 
 if __name__ == "__main__":
     import sys

@@ -22,7 +22,7 @@ from PyQt5.QtWidgets import (
 )
 
 from settings import BASEDIR
-from utils.types import Dictionary, WordData
+from english_dictionary.utils.types import Dictionary, WordData
 
 
 class MainWindow(QMainWindow):
@@ -76,7 +76,7 @@ class MainWindow(QMainWindow):
 
         self.search_button.clicked.connect(self.fetch_word_from_internet)
 
-        from gui.words import test, try_
+        from english_dictionary.gui.words import test, try_
 
         self.dictionary.append_multiple([test, try_])
         self.list_widget.setSortingEnabled(True)
@@ -427,7 +427,7 @@ class MainWindow(QMainWindow):
         if response == QMessageBox.No:
             return
 
-        from wiktionaryparser.core import WiktionaryParser
+        from english_dictionary.wiktionaryparser.core import WiktionaryParser
 
         parser = WiktionaryParser()
 
@@ -440,7 +440,7 @@ class MainWindow(QMainWindow):
     def parse_word_data(self, word: str) -> str:
         word = self.fetch_word(word)
 
-        from utils.formatter import FormatWord
+        from english_dictionary.utils.formatter import FormatWord
 
         return (
             f"<b style='font-size: 40px'>{word.get_name().capitalize()}</b><hr />"

@@ -1,6 +1,6 @@
 import pytest
 
-from utils.functions import binary_search
+from english_dictionary.utils import binary_search
 
 
 @pytest.mark.parametrize(

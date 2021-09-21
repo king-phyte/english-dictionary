@@ -1,7 +1,7 @@
 from typing import Union, List, NoReturn, Type, Any, Sequence, Optional
 
-from utils.formatter import FormatWord
-from utils.functions import binary_search
+from english_dictionary.utils.formatter import FormatWord
+from english_dictionary.utils.functions import binary_search
 
 
 class OrderedList:

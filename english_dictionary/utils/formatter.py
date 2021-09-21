@@ -1,6 +1,6 @@
 from typing import List, Iterable
 
-from wiktionaryparser.utils import WordData, Definition
+from english_dictionary.wiktionaryparser.utils import WordData, Definition
 
 
 class FormatWord:

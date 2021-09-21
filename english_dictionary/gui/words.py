@@ -2,7 +2,12 @@ import json
 import os
 
 from settings import BASEDIR
-from utils.types import WordData, Definition, RelatedWord, Pronunciation
+from english_dictionary.utils.types import (
+    WordData,
+    Definition,
+    RelatedWord,
+    Pronunciation,
+)
 
 with open(os.path.join(BASEDIR, "try.json")) as f:
     json_data = json.load(f)
