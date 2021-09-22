@@ -74,8 +74,8 @@ class AddWordDialog(QDialog):
         self.form_layout.addRow(QLabel("Related Words"), self.related_words_group)
         self.form_layout.addRow(QLabel("Examples"), self.examples_group)
         self.vbox.addLayout(self.form_layout)
-        self.done_button.clicked.connect(self.accepted)
-        self.cancel_button.clicked.connect(self.cancel)
+        self.done_button.clicked.connect(self.accept)
+        self.cancel_button.clicked.connect(self.reject)
         self.hbox.addWidget(self.done_button)
         self.hbox.addWidget(self.cancel_button)
         self.group_box.setLayout(self.hbox)
@@ -84,11 +84,43 @@ class AddWordDialog(QDialog):
 
         self.setLayout(self.vbox)
 
-    def accepted(self):
-        ...
+    def get_results(self):
+        if self.word_field.text().strip() == "":
+            message = QMessageBox.critical(
+                None, self.windowTitle(), "Word field cannot be empty"
+            )
+            return None
 
-    def cancel(self):
-        self.close()
+        word_data = [
+            {
+                "name": self.word_field.text().strip(),
+                "etymology": self.etymology_field.text().strip(),
+                "meanings": [
+                    {
+                        "part_of_speech": self.part_of_speech_field.text().strip(),
+                        "definitions": [
+                            {
+                                "definition": [
+                                    self.text_field.text().strip(),
+                                ],
+                                "example": [
+                                    self.examples_field.text().strip(),
+                                ],
+                                "related_words": [
+                                    {
+                                        "relationship_type": self.relationship_type_field.text().strip(),
+                                        "words": self.words_field.text().strip().split()
+                                        if self.words_field.text()
+                                        else "",
+                                    }
+                                ],
+                            }
+                        ],
+                    }
+                ],
+            }
+        ]
+        return word_data
 
 
 class MainWindow(QMainWindow):
@@ -295,7 +327,10 @@ class MainWindow(QMainWindow):
             # dialog.exec_()
 
             dialog = AddWordDialog()
-            dialog.exec_()
+            if dialog.exec_() == QDialog.Accepted:
+                if result := dialog.get_results():
+                    self.dictionary.append(WordData.from_api(result))
+                    self.update_dictionary([WordData.from_api(result).get_name()])
 
         self.add_word_button.clicked.connect(add_handler)
 
