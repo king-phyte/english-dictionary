@@ -221,11 +221,8 @@ class Dictionary(OrderedList):
     def peek(self) -> list:
         return list(map(str, self._list))
 
-    def remove_word(self, word: WordData):
-        self.remove(word)
-
     def edit_word(self, old: WordData, new: WordData):
-        self.remove_word(old)
+        self.remove(old)
         self.append(new)
 
     def get_word_details(self, word: str):

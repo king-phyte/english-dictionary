@@ -47,5 +47,5 @@ class TestDictionary:
         dictionary.append(WordData("zab"))
         dictionary.append(WordData("ghana"))
 
-        dictionary.remove_word(WordData("king"))
+        dictionary.remove(WordData("king"))
         assert dictionary.peek() == sorted(["ape", "zab", "ghana"])

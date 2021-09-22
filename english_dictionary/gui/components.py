@@ -142,12 +142,8 @@ class MainWindow(QMainWindow):
                                     ],
                                     "related_words": [
                                         {
-                                            "relationship_type": relationship_type_field.text().strip()
-                                            if relationship_type_field.text()
-                                            else None,
-                                            "words": words_field.text().strip().split()
-                                            if relationship_type_field.text()
-                                            else None,
+                                            "relationship_type": relationship_type_field.text().strip(),
+                                            "words": words_field.text().strip().split(),
                                         }
                                     ],
                                     "example_uses": [
@@ -388,7 +384,7 @@ class MainWindow(QMainWindow):
 
     def delete_word(self):
         word = self.list_widget.currentItem().text()
-        self.dictionary.remove_word(self.dictionary.get_word_details(word))
+        self.dictionary.remove(self.dictionary.get_word_details(word))
         self.list_widget.takeItem(self.list_widget.row(self.list_widget.currentItem()))
 
     def display_detail(self):
