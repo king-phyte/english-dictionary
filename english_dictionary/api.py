@@ -23,11 +23,9 @@ class BaseAPIBuilder:
                         "example": str,
                         "related_words": [
                             {
-                                "synonyms": list[str],
+                                "relationship_type": str,
+                                "words": list[str],
                             },
-                            {
-                                "antonyms": list[str],
-                            }
                         ]
                     }
                 ]
@@ -51,8 +49,14 @@ class BaseAPIBuilder:
                                 "definition": definition.get("definition"),
                                 "example": definition.get("example"),
                                 "related_words": [
-                                    {"synonyms": definition.get("synonyms")},
-                                    {"antonyms": definition.get("antonyms")},
+                                    {
+                                        "relationship_type": "synonyms",
+                                        "words": definition.get("synonyms"),
+                                    },
+                                    {
+                                        "relationship_type": "antonyms",
+                                        "words": definition.get("antonyms"),
+                                    },
                                 ],
                             }
                             for definition in meaning.get("definitions")
