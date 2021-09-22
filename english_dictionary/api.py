@@ -1,4 +1,68 @@
+from typing import Sequence
 import requests
+
+
+class BaseAPIBuilder:
+    """
+    Desired final API
+    {
+        "name": str,
+        "etymology": str,
+        "pronunciations: [
+            {
+                "text": str,
+                "audio": str,
+            }
+        ]
+        "meanings": [
+            {
+                "part_of_speech": str,
+                "definitions": [
+                    {
+                        "definition": str,
+                        "example": str,
+                        "related_words": [
+                            {
+                                "synonyms": list[str],
+                            },
+                            {
+                                "antonyms": list[str],
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+    """
+
+    @staticmethod
+    def from_free_dictionary_api(api: Sequence[dict]):
+        return [
+            {
+                "name": data_group.get("word"),
+                "pronunciations": data_group.get("phonetics"),
+                "etymology": data_group.get("origin"),
+                "meanings": [
+                    {
+                        "part_of_speech": meaning.get("partOfSpeech"),
+                        "definitions": [
+                            {
+                                "definition": definition.get("definition"),
+                                "example": definition.get("example"),
+                                "related_words": [
+                                    {"synonyms": definition.get("synonyms")},
+                                    {"antonyms": definition.get("antonyms")},
+                                ],
+                            }
+                            for definition in meaning.get("definitions")
+                        ],
+                    }
+                    for meaning in data_group.get("meanings")
+                ],
+            }
+            for data_group in api
+        ]
 
 
 class FreeDictionaryApi:

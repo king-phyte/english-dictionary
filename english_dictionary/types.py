@@ -144,6 +144,26 @@ class Definition:
         return getattr(item)
 
 
+class RW:
+    ...
+
+
+class Def:
+    def __init__(self, definition: str, example: str, related_words: RW):
+        ...
+
+    def __getitem__(self, item):
+        return getattr(item)
+
+
+class Meaning:
+    def __init__(self, part_of_speech: Optional[str], definitions: list[Def]):
+        ...
+
+    def __getitem__(self, item):
+        return getattr(item)
+
+
 class WordData:
     def __init__(
         self,
@@ -158,9 +178,14 @@ class WordData:
         self.etymology = etymology if etymology else ""
         self.definition_list = definitions
         self.pronunciations = pronunciations
+        self.meanings: Optional[Sequence[Meaning]] = kwargs.get("meanings")
 
     def get_name(self) -> str:
         return self._name
+
+    @staticmethod
+    def from_api(api: list[dict]):
+        return WordData(**api[0])
 
     @staticmethod
     def from_dict(word_data: dict):
