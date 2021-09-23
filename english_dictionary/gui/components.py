@@ -158,6 +158,7 @@ class MainWindow(QMainWindow):
         self.detail_display = QTextBrowser()
 
         self.build_window()
+        self.fill_with_dummy_data()
         self.list_widget.setCurrentItem(self.list_widget.item(0))
         self.show()
 
@@ -325,3 +326,178 @@ class MainWindow(QMainWindow):
             f"<b style='font-size: 40px'>{word.get_name().capitalize()}</b><hr />"
             + formatter.to_html()
         )
+
+    def fill_with_dummy_data(self):
+        from ..api import BaseAPIBuilder
+
+        king = WordData.from_api(
+            BaseAPIBuilder.from_free_dictionary_api(
+                [
+                    {
+                        "word": "king",
+                        "phonetic": "kɪŋ",
+                        "phonetics": [
+                            {
+                                "text": "kɪŋ",
+                                "audio": "//ssl.gstatic.com/dictionary/static/sounds/20200429/king--1_gb_1.mp3",
+                            }
+                        ],
+                        "origin": (
+                            "Old English cyning, cyng, of Germanic origin;"
+                            "related to Dutch koning and German König, also to kin."
+                        ),
+                        "meanings": [
+                            {
+                                "partOfSpeech": "noun",
+                                "definitions": [
+                                    {
+                                        "definition": (
+                                            "the male ruler of an independent state, especially one who inherits"
+                                            "the position by right of birth."
+                                        ),
+                                        "example": "King Henry VIII",
+                                        "synonyms": [
+                                            "ruler",
+                                            "sovereign",
+                                            "monarch",
+                                            "supreme ruler",
+                                            "crowned head",
+                                            "majesty",
+                                            "Crown",
+                                            "head of state",
+                                            "royal personage",
+                                            "emperor",
+                                            "prince",
+                                            "potentate",
+                                            "overlord",
+                                            "liege lord",
+                                            "lord",
+                                            "leader",
+                                            "chief",
+                                        ],
+                                        "antonyms": [],
+                                    },
+                                    {
+                                        "definition": (
+                                            "the most important chess piece, of which each player has one,"
+                                            "which the opponent has to checkmate in order to win."
+                                            "The king can move in any direction, including diagonally, to any"
+                                            "adjacent square that is not attacked by an opponent's piece or pawn."
+                                        ),
+                                        "synonyms": [],
+                                        "antonyms": [],
+                                    },
+                                ],
+                            },
+                            {
+                                "partOfSpeech": "verb",
+                                "definitions": [
+                                    {
+                                        "definition": "make (someone) king.",
+                                        "synonyms": [],
+                                        "antonyms": [],
+                                    },
+                                    {
+                                        "definition": "act in an unpleasantly superior and domineering way.",
+                                        "example": "he'll start kinging it over the lot of us again",
+                                        "synonyms": [],
+                                        "antonyms": [],
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                    {
+                        "word": "God Save the Queen",
+                        "phonetic": "ɡɒdseɪvðəˈkwiːn",
+                        "phonetics": [
+                            {
+                                "text": "ɡɒdseɪvðəˈkwiːn",
+                                "audio": "//ssl.gstatic.com/dictionary/static/sounds/20200429/god_save_the_queen--1_gb_1.mp3",
+                            }
+                        ],
+                        "origin": (
+                            "evidence suggests a 17th-century origin for the complete words and tune of the anthem."
+                            "The ultimate origin is obscure: the phrase ‘God save the King’ occurs in various passages in the"
+                            "Old Testament, while as early as 1545 it was a watchword in the navy, with ‘long to reign over us’"
+                            "as a countersign."
+                        ),
+                        "meanings": [
+                            {
+                                "partOfSpeech": "noun",
+                                "definitions": [
+                                    {
+                                        "definition": "the British national anthem.",
+                                        "synonyms": [],
+                                        "antonyms": [],
+                                    }
+                                ],
+                            }
+                        ],
+                    },
+                ]
+            )
+        )
+
+        hello = WordData.from_api(
+            BaseAPIBuilder.from_free_dictionary_api(
+                [
+                    {
+                        "word": "hello",
+                        "phonetics": [
+                            {
+                                "text": "/həˈloʊ/",
+                                "audio": "https://lex-audio.useremarkable.com/mp3/hello_us_1_rr.mp3",
+                            },
+                            {
+                                "text": "/hɛˈloʊ/",
+                                "audio": "https://lex-audio.useremarkable.com/mp3/hello_us_2_rr.mp3",
+                            },
+                        ],
+                        "meanings": [
+                            {
+                                "partOfSpeech": "exclamation",
+                                "definitions": [
+                                    {
+                                        "definition": "Used as a greeting or to begin a phone conversation.",
+                                        "example": "hello there, Katie!",
+                                    }
+                                ],
+                            },
+                            {
+                                "partOfSpeech": "noun",
+                                "definitions": [
+                                    {
+                                        "definition": "An utterance of “hello”; a greeting.",
+                                        "example": "she was getting polite nods and hellos from people",
+                                        "synonyms": [
+                                            "greeting",
+                                            "welcome",
+                                            "salutation",
+                                            "saluting",
+                                            "hailing",
+                                            "address",
+                                            "hello",
+                                            "hallo",
+                                        ],
+                                    }
+                                ],
+                            },
+                            {
+                                "partOfSpeech": "intransitive verb",
+                                "definitions": [
+                                    {
+                                        "definition": "Say or shout “hello”; greet someone.",
+                                        "example": "I pressed the phone button and helloed",
+                                    }
+                                ],
+                            },
+                        ],
+                    }
+                ]
+            )
+        )
+
+        self.dictionary.append(king)
+        self.dictionary.append(hello)
+        self.update_dictionary([king.get_name(), hello.get_name()])

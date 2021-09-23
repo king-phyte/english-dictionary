@@ -103,7 +103,11 @@ class RelatedWord:
     words: Sequence[str] = field(default_factory=list)
 
     def to_html(self):
-        return f"{self.relationship_type.capitalize()}: {', '.join(self.words)}"
+        return (
+            f"<b>{self.relationship_type.capitalize()}</b>: {', '.join(self.words)}"
+            if self.words
+            else ""
+        )
 
     def __getitem__(self, item):
         return getattr(item)
@@ -115,7 +119,7 @@ class Pronunciation:
     audio: Optional[Sequence[str]] = None
 
     def to_html(self) -> str:
-        return f"<b>{self.text}</b>"
+        return self.text
 
     def __getitem__(self, item):
         return getattr(item)
@@ -128,11 +132,19 @@ class Definition:
     related_words: Sequence[RelatedWord] = field(default_factory=list)
 
     def to_html(self):
-        return (
-            f"{self.definition}\n"
-            f"<b>Example:</b> {self.example}\n"
-            f"<pre>Related Words</pre>{''.join(related_word.to_html() for related_word in self.related_words)}"
-        )
+        html_version = []
+
+        if self.definition:
+            html_version.append(self.definition)
+
+        if self.example:
+            html_version.append(f"<b>Example:</b> {self.example}")
+
+        for related_word in self.related_words:
+            if related_word.words:
+                html_version.append(related_word.to_html())
+
+        return "\n\n".join(html_version)
 
     def __getitem__(self, item):
         return getattr(item)
@@ -144,7 +156,7 @@ class Meaning:
     definitions: list[Definition] = field(default_factory=list)
 
     def to_html(self):
-        pos = f"<b>Part of speech:</b> {self.part_of_speech}"
+        pos = f"<b>Part of speech:</b> {self.part_of_speech}\n\n"
         definitions = "\n".join(
             (definition.to_html()) for definition in self.definitions
         )
