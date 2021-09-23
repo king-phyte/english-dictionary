@@ -3,6 +3,7 @@ import pytest
 from english_dictionary.api import BaseAPIBuilder
 from english_dictionary.types import WordData
 from english_dictionary.utils.formatter import BaseAPIFormatter
+from .test_api import king
 
 
 @pytest.fixture
