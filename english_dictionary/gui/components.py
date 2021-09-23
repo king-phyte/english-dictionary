@@ -305,13 +305,21 @@ class MainWindow(QMainWindow):
         if response == QMessageBox.No:
             return
 
-        from english_dictionary.wiktionaryparser.core import WiktionaryParser
+        from ..api import FreeDictionaryApi, BaseAPIBuilder
 
-        parser = WiktionaryParser()
+        parser = FreeDictionaryApi()
 
-        json_data = parser.fetch(text)
-        json_data = {"name": text, "data": json_data}
-        word = WordData.from_dict(json_data)
+        try:
+            word = parser.get_json(text)
+        except Exception:
+            message = QMessageBox.critical(
+                None,
+                self.windowTitle(),
+                "Could not fetch word\nCheck your internet connection and try again",
+            )
+            return
+
+        word = WordData.from_api(BaseAPIBuilder.from_free_dictionary_api(word))
         self.dictionary.append(word)
         self.update_dictionary([word.get_name()])
 
