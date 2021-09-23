@@ -3,7 +3,7 @@ A school project to build an English dictionary.
 
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-![Python version: 3.8 | 3.9](https://img.shields.io/badge/Python%20version-3.6%20%7C%203.7%20%7C%203.8%20%7C%203.9-green)
+![Python version: 3.8 | 3.9](https://img.shields.io/badge/Python%20version-3.8%20%7C%203.9-green)
 
 
 **This app is in beta phase. It has known issues.**
@@ -22,7 +22,7 @@ A school project to build an English dictionary.
 
 ## Installation
 
-**Note: The app requires python3.6 or higher.**
+**Note: The app requires python3.8 or higher.**
 
 1. Clone the repository 
     - ```
@@ -56,15 +56,15 @@ Activate the virtual environment with ``. ./bin/activate`` or ``source ./bin/act
 If you do not have it installed, find out from the [installation section](#installation) above.
 
 - Click the plus button near the search bar to add a word. __(Note: currently, the fields are limited).__
-- If the word you searched for is not in the dictionary, click the search button or press enter for "fetch from internet" dialog. __(Note: the parser might fail sometimes)__
-- To edit a word, click the edit button. __(Note: currently, the fields are limited and you might lose a few fields)__
+- If the word you searched for is not in the dictionary, click the search button or press enter for "fetch from internet" dialog. __(Note: the parser might sometimes fail)__
+- To edit a word, click the edit button. __(Note: currently, the fields are limited, and you might lose a few fields)__
 - To delete a word, use the delete button
   
 ### Running the app
 - In your terminal, move into the root directory (english-dictionary) and type ``python main.py`` or ``python3 main.py``.
   
  
-- **Enjoyy! 😁**
+- **Enjoy! 😁**
 
 
 ## Key Features
