@@ -123,6 +123,17 @@ class AddWordDialog(QDialog):
         return word_data
 
 
+class EditWordDialog(AddWordDialog):
+    def __init__(self, parent: QWidget = None, word_data: WordData = None) -> None:
+        super(AddWordDialog, self).__init__(parent=parent)
+        self.word_data = word_data
+        self.fill_values()
+        self.build_ui()
+
+    def fill_values(self):
+        self.word_field.setText(self.word_data["name"])
+
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -219,113 +230,6 @@ class MainWindow(QMainWindow):
         self.list_widget.currentItemChanged.connect(lambda: self.display_detail())
 
         def add_handler():
-            # def accepted_():
-            #     if word_field.text() == "":
-            #         message = QMessageBox.critical(
-            #             None, self.window_title, "Word field cannot be empty"
-            #         )
-            #         return
-            #
-            #     word_data = {
-            #         "name": word_field.text().strip(),
-            #         "data": [
-            #             {
-            #                 "etymology": etymology_field.text().strip()
-            #                 if etymology_field.text()
-            #                 else None,
-            #                 "definitions": [
-            #                     {
-            #                         "part_of_speech": part_of_speech_field.text().strip()
-            #                         if part_of_speech_field.text()
-            #                         else None,
-            #                         "texts": [
-            #                             text_field.text().strip()
-            #                             if text_field.text()
-            #                             else None,
-            #                         ],
-            #                         "related_words": [
-            #                             {
-            #                                 "relationship_type": relationship_type_field.text().strip(),
-            #                                 "words": words_field.text().strip().split(),
-            #                             }
-            #                         ],
-            #                         "example_uses": [
-            #                             examples_field.text().strip()
-            #                             if examples_field.text()
-            #                             else None,
-            #                         ],
-            #                     }
-            #                 ],
-            #             }
-            #         ],
-            #     }
-            #     self.dictionary.append(WordData.from_dict(word_data))
-            #
-            #     self.update_dictionary([WordData.from_dict(word_data).get_name()])
-            #
-            #     dialog.close()
-            #
-            # def cancel_handler():
-            #     dialog.close()
-            #
-            # vbox = QVBoxLayout()
-            # dialog = QDialog()
-            # dialog.setWindowTitle("Add Word")
-            # description = QFormLayout()
-            # part_of_speech_field = QLineEdit()
-            # description.addRow(QLabel("Part of Speech"), part_of_speech_field)
-            # text_field = QLineEdit()
-            # description.addRow(QLabel("Text"), text_field)
-            # description_group = QGroupBox()
-            #
-            # description_group.setLayout(description)
-            #
-            # related_words = QFormLayout()
-            # relationship_type_field = QLineEdit()
-            # related_words.addRow(QLabel("Relationship Type"), relationship_type_field)
-            # words_field = QLineEdit()
-            # related_words.addRow(QLabel("Words"), words_field)
-            # related_words_group = QGroupBox()
-            #
-            # related_words_group.setLayout(related_words)
-            #
-            # examples = QFormLayout()
-            # examples_field = QLineEdit()
-            # examples.addWidget(examples_field)
-            #
-            # examples_group = QGroupBox()
-            # examples_group.setLayout(examples)
-            #
-            # form_layout = QFormLayout()
-            #
-            # word_field = QLineEdit()
-            # etymology_field = QLineEdit()
-            # word_field.setClearButtonEnabled(True)
-            # form_layout.addRow(QLabel("Word"), word_field)
-            # form_layout.addRow(QLabel("Etymology"), etymology_field)
-            # form_layout.addRow(QLabel("Description"), description_group)
-            # form_layout.addRow(QLabel("Related Words"), related_words_group)
-            # form_layout.addRow(QLabel("Examples"), examples_group)
-            #
-            # vbox.addLayout(form_layout)
-            # group_box = QGroupBox()
-            #
-            # hbox = QHBoxLayout()
-            #
-            # done_button = QPushButton("Done")
-            # done_button.clicked.connect(accepted_)
-            #
-            # cancel_button = QPushButton("Cancel")
-            # cancel_button.clicked.connect(cancel_handler)
-            # hbox.addWidget(done_button)
-            # hbox.addWidget(cancel_button)
-            #
-            # group_box.setLayout(hbox)
-            # vbox.addWidget(group_box)
-            # dialog.setLayout(vbox)
-            # dialog.setModal(True)
-            # dialog.exec_()
-
             dialog = AddWordDialog()
             if dialog.exec_() == QDialog.Accepted:
                 if result := dialog.get_results():
@@ -349,142 +253,8 @@ class MainWindow(QMainWindow):
         word = self.fetch_word(text)
 
         def add_handler():
-
-            dialog = AddWordDialog()
+            dialog = EditWordDialog(word_data=word)
             dialog.exec_()
-
-            # def accepted_():
-            #     if word_field.text().strip() == "":
-            #         message = QMessageBox.critical(
-            #             None, self.window_title, "Word field cannot be empty"
-            #         )
-            #         return
-            #
-            #     word_data = {
-            #         "name": word_field.text().strip(),
-            #         "data": [
-            #             {
-            #                 "etymology": etymology_field.text().strip()
-            #                 if etymology_field.text()
-            #                 else None,
-            #                 "definitions": [
-            #                     {
-            #                         "part_of_speech": part_of_speech_field.text().strip()
-            #                         if part_of_speech_field.text()
-            #                         else None,
-            #                         "texts": [
-            #                             text_field.text().strip()
-            #                             if text_field.text()
-            #                             else None,
-            #                         ],
-            #                         "related_words": None
-            #                         if not relationship_type_field.text().strip()
-            #                         else [
-            #                             {
-            #                                 "relationship_type": relationship_type_field.text().strip(),
-            #                                 "words": words_field.text().strip(),
-            #                             }
-            #                         ],
-            #                         "example_uses": None
-            #                         if not examples_field.text().strip()
-            #                         else [examples_field.text().strip()],
-            #                     }
-            #                 ],
-            #             }
-            #         ],
-            #     }
-            #     result = WordData.from_dict(word_data)
-            #     self.delete_word()
-            #
-            #     self.dictionary.append(result)
-            #
-            #     self.update_dictionary([result.get_name()])
-            #     self.list_widget.setCurrentItem(
-            #         self.list_widget.item(self.list_widget.currentRow() - 1)
-            #     )
-            #     dialog.close()
-            #
-            # def cancel_handler():
-            #     dialog.close()
-            #
-            # vbox = QVBoxLayout()
-            # dialog = QDialog()
-            # dialog.setWindowTitle("Add Word")
-            #
-            # description = QFormLayout()
-            # part_of_speech_field = QLineEdit(word.definition_list[0].part_of_speech)
-            # part_of_speech_field.setClearButtonEnabled(True)
-            # description.addRow(QLabel("Part of Speech"), part_of_speech_field)
-            # text_field = QLineEdit(
-            #     word.definition_list[0].texts[0]
-            #     if word.definition_list[0].texts
-            #     else ""
-            # )
-            # text_field.setClearButtonEnabled(True)
-            #
-            # description.addRow(QLabel("Text"), text_field)
-            # description_group = QGroupBox()
-            #
-            # description_group.setLayout(description)
-            #
-            # related_words = QFormLayout()
-            # rel_wor = word.definition_list[0].related_words
-            # relationship_type_field = QLineEdit(
-            #     f"{rel_wor[0].relationship_type if rel_wor else ''}"
-            # )
-            # relationship_type_field.setClearButtonEnabled(True)
-            #
-            # related_words.addRow(QLabel("Relationship Type"), relationship_type_field)
-            # words_field = QLineEdit(f"{rel_wor[0].words[0] if rel_wor else ''}")
-            # words_field.setClearButtonEnabled(True)
-            #
-            # related_words.addRow(QLabel("Words"), words_field)
-            # related_words_group = QGroupBox()
-            #
-            # related_words_group.setLayout(related_words)
-            #
-            # examples = QFormLayout()
-            # examples_field = QLineEdit(
-            #     word.definition_list[0].example_uses[0]
-            #     if word.definition_list[0].example_uses
-            #     else ""
-            # )
-            # examples_field.setClearButtonEnabled(True)
-            # examples.addWidget(examples_field)
-            #
-            # examples_group = QGroupBox()
-            # examples_group.setLayout(examples)
-            #
-            # form_layout = QFormLayout()
-            #
-            # word_field = QLineEdit(word.get_name())
-            # word_field.setClearButtonEnabled(True)
-            # etymology_field = QLineEdit(word.etymology if word.etymology else "")
-            # etymology_field.setClearButtonEnabled(True)
-            # form_layout.addRow(QLabel("Word"), word_field)
-            # form_layout.addRow(QLabel("Etymology"), etymology_field)
-            # form_layout.addRow(QLabel("Description"), description_group)
-            # form_layout.addRow(QLabel("Related Words"), related_words_group)
-            # form_layout.addRow(QLabel("Examples"), examples_group)
-            #
-            # vbox.addLayout(form_layout)
-            # group_box = QGroupBox()
-            #
-            # hbox = QHBoxLayout()
-            #
-            # done_button = QPushButton("Done")
-            # done_button.clicked.connect(accepted_)
-            #
-            # cancel_button = QPushButton("Cancel")
-            # cancel_button.clicked.connect(cancel_handler)
-            # hbox.addWidget(done_button)
-            # hbox.addWidget(cancel_button)
-            #
-            # group_box.setLayout(hbox)
-            # vbox.addWidget(group_box)
-            # dialog.setLayout(vbox)
-            # dialog.setModal(True)
-            # dialog.exec_()
 
         add_handler()
 

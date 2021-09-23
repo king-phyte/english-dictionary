@@ -1,6 +1,42 @@
 from typing import List, Iterable
 
-from english_dictionary.wiktionaryparser.utils import WordData, Definition
+from english_dictionary.types import WordData, Definition
+
+
+class BaseAPIFormatter:
+    def __init__(self, word: WordData) -> None:
+        self._word_data = word
+
+    def parse_etymology(self) -> str:
+        return f"<b>Etymology:</b> {self._word_data.etymology.strip()}"
+
+    def parse_pronunciations(self) -> str:
+        for pronunciation in self._word_data.pronunciations:
+            return f"<p><b>Pronunciations:</b></p> <p>{pronunciation.to_html()}</p>"
+
+    def parse_definitions(self) -> List[str]:
+        meanings = []
+
+        for meaning in self._word_data.meanings:
+            meanings.append(meaning.to_html())
+
+        return meanings
+
+    def to_html(self):
+        html_version = []
+
+        if self._word_data.etymology:
+            html_version.append(FormatWord.parse_etymology(self._word_data))
+
+        if self._word_data.pronunciations:
+            html_version.append(FormatWord.parse_pronunciations(self._word_data))
+
+        return "<hr />".join(
+            "<pre style='font-family: initial; font-size: initial'>"
+            + section
+            + "</pre>"
+            for section in html_version
+        )
 
 
 class FormatWord:

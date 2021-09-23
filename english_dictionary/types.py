@@ -1,8 +1,9 @@
 from dataclasses import dataclass, field
 from typing import Union, List, NoReturn, Type, Any, Sequence, Optional
 
-from english_dictionary.utils.formatter import FormatWord
-from english_dictionary.utils.helpers import binary_search
+# from english_dictionary.utils.formatter import FormatWord
+# from english_dictionary.utils.formatter import BaseAPIFormatter
+from english_dictionary.utils.helpers import binary_search, convert_to_list
 
 
 class OrderedList:
@@ -114,7 +115,7 @@ class Pronunciation:
     audio: Optional[Sequence[str]] = None
 
     def to_html(self) -> str:
-        return FormatWord.convert_to_list(self.text)
+        return f"<b>{self.text}</b>"
 
     def __getitem__(self, item):
         return getattr(item)
@@ -159,7 +160,38 @@ class WordData:
 
     @staticmethod
     def from_api(api: list[dict]):
-        return WordData(**api[0])
+        word = api[0]
+        return WordData(
+            name=word.get("name"),
+            etymology=word.get("etymology"),
+            pronunciations=[
+                Pronunciation(
+                    text=pronunciation.get("text"),
+                    audio=pronunciation.get("audio"),
+                )
+                for pronunciation in word.get("pronunciations")
+            ],
+            meanings=[
+                Meaning(
+                    part_of_speech=meaning.get("part_of_speech"),
+                    definitions=[
+                        Definition(
+                            definition=definition.get("definition"),
+                            example=definition.get("example"),
+                            related_words=[
+                                RelatedWord(
+                                    relationship_type=related_word.relationship_type,
+                                    words=related_word.words,
+                                )
+                                for related_word in definition.get("related_words")
+                            ],
+                        )
+                        for definition in meaning.get("definitions")
+                    ],
+                )
+                for meaning in word.get("meanings")
+            ],
+        )
 
     def __getitem__(self, item):
         return getattr(item)

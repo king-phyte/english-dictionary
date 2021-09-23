@@ -1,4 +1,4 @@
-from typing import Sequence, Union
+from typing import Sequence, Union, Iterable
 
 
 def binary_search(array: Sequence[Union[str, int]], target: Union[str, int]):
@@ -21,3 +21,24 @@ def binary_search(array: Sequence[Union[str, int]], target: Union[str, int]):
             lower_bound = mid_point + 1
 
     return -1
+
+
+def convert_to_list(iterable: Iterable[str], start=1):
+    """
+    Returns numbered strings starting from :start
+    Example:
+        iterable: ("hello", "world", "!")
+        start: 1
+
+        Returns:
+            1. hello
+            2. world
+            3. !
+    """
+
+    return "\n".join(
+        map(
+            lambda x: f"\t{x[0]}. {x[1]}",
+            enumerate(iterable, start=start),
+        )
+    )
