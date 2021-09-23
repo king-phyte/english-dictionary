@@ -413,14 +413,17 @@ class MainWindow(QMainWindow):
                         "phonetics": [
                             {
                                 "text": "ɡɒdseɪvðəˈkwiːn",
-                                "audio": "//ssl.gstatic.com/dictionary/static/sounds/20200429/god_save_the_queen--1_gb_1.mp3",
+                                "audio": (
+                                    "//ssl.gstatic.com/dictionary/static/sounds/20200429/"
+                                    "god_save_the_queen--1_gb_1.mp3"
+                                ),
                             }
                         ],
                         "origin": (
                             "evidence suggests a 17th-century origin for the complete words and tune of the anthem."
-                            "The ultimate origin is obscure: the phrase ‘God save the King’ occurs in various passages in the"
-                            "Old Testament, while as early as 1545 it was a watchword in the navy, with ‘long to reign over us’"
-                            "as a countersign."
+                            "The ultimate origin is obscure: the phrase ‘God save the King’ occurs "
+                            "in various passages in the Old Testament, while as early as 1545 it was a watchword in "
+                            "the navy, with ‘long to reign over us’ as a countersign."
                         ),
                         "meanings": [
                             {

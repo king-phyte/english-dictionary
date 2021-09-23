@@ -1,10 +1,8 @@
 import pytest
 
-from english_dictionary.utils.formatter import BaseAPIFormatter
 from english_dictionary.api import BaseAPIBuilder
 from english_dictionary.types import WordData
-
-from .test_api import king
+from english_dictionary.utils.formatter import BaseAPIFormatter
 
 
 @pytest.fixture
@@ -26,6 +24,7 @@ def test_parse_pronunciations(formatter_instance):
     )
 
 
+#
 # def test_parse_meanings(formatter_instance):
 #     assert (
 #         formatter_instance.parse_meanings().strip()

@@ -1,7 +1,6 @@
-from english_dictionary.api import FreeDictionaryApi, BaseAPIBuilder
-
-
 import pytest
+
+from english_dictionary.api import FreeDictionaryApi, BaseAPIBuilder
 
 
 @pytest.fixture

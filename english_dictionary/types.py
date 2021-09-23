@@ -3,7 +3,7 @@ from typing import Union, List, NoReturn, Type, Any, Sequence, Optional
 
 # from english_dictionary.utils.formatter import FormatWord
 # from english_dictionary.utils.formatter import BaseAPIFormatter
-from english_dictionary.utils.helpers import binary_search, convert_to_list
+from english_dictionary.utils.helpers import binary_search
 
 
 class OrderedList:

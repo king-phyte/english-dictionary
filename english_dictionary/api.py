@@ -1,4 +1,5 @@
 from typing import Sequence
+
 import requests
 
 
