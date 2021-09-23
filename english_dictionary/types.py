@@ -127,6 +127,13 @@ class Definition:
     example: Optional[str] = None
     related_words: Sequence[RelatedWord] = field(default_factory=list)
 
+    def to_html(self):
+        return (
+            f"{self.definition}\n"
+            f"<b>Example:</b> {self.example}\n"
+            f"<pre>Related Words</pre>{''.join(related_word.to_html() for related_word in self.related_words)}"
+        )
+
     def __getitem__(self, item):
         return getattr(item)
 
@@ -135,6 +142,13 @@ class Definition:
 class Meaning:
     part_of_speech: Optional[str] = None
     definitions: list[Definition] = field(default_factory=list)
+
+    def to_html(self):
+        pos = f"<b>Part of speech:</b> {self.part_of_speech}"
+        definitions = "\n".join(
+            (definition.to_html()) for definition in self.definitions
+        )
+        return pos + definitions
 
     def __getitem__(self, item):
         return getattr(item)
@@ -165,12 +179,11 @@ class WordData:
             name=word.get("name"),
             etymology=word.get("etymology"),
             pronunciations=[
-                Pronunciation(
-                    text=pronunciation.get("text"),
-                    audio=pronunciation.get("audio"),
-                )
+                Pronunciation(**pronunciation)
                 for pronunciation in word.get("pronunciations")
-            ],
+            ]
+            if word.get("pronunciations")
+            else [],
             meanings=[
                 Meaning(
                     part_of_speech=meaning.get("part_of_speech"),
@@ -179,10 +192,7 @@ class WordData:
                             definition=definition.get("definition"),
                             example=definition.get("example"),
                             related_words=[
-                                RelatedWord(
-                                    relationship_type=related_word.relationship_type,
-                                    words=related_word.words,
-                                )
+                                RelatedWord(**related_word)
                                 for related_word in definition.get("related_words")
                             ],
                         )

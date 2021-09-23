@@ -14,7 +14,7 @@ class BaseAPIFormatter:
         for pronunciation in self._word_data.pronunciations:
             return f"<p><b>Pronunciations:</b></p> <p>{pronunciation.to_html()}</p>"
 
-    def parse_definitions(self) -> List[str]:
+    def parse_meanings(self) -> List[str]:
         meanings = []
 
         for meaning in self._word_data.meanings:
@@ -26,10 +26,10 @@ class BaseAPIFormatter:
         html_version = []
 
         if self._word_data.etymology:
-            html_version.append(FormatWord.parse_etymology(self._word_data))
+            html_version.append(self.parse_etymology())
 
         if self._word_data.pronunciations:
-            html_version.append(FormatWord.parse_pronunciations(self._word_data))
+            html_version.append(self.parse_pronunciations())
 
         return "<hr />".join(
             "<pre style='font-family: initial; font-size: initial'>"

@@ -317,9 +317,11 @@ class MainWindow(QMainWindow):
     def parse_word_data(self, word: str) -> str:
         word = self.fetch_word(word)
 
-        from english_dictionary.utils.formatter import FormatWord
+        from english_dictionary.utils.formatter import BaseAPIFormatter
+
+        formatter = BaseAPIFormatter(word)
 
         return (
             f"<b style='font-size: 40px'>{word.get_name().capitalize()}</b><hr />"
-            + FormatWord.to_html(word)
+            + formatter.to_html()
         )
