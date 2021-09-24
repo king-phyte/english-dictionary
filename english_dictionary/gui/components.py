@@ -100,12 +100,8 @@ class AddWordDialog(QDialog):
                         "part_of_speech": self.part_of_speech_field.text().strip(),
                         "definitions": [
                             {
-                                "definition": [
-                                    self.text_field.text().strip(),
-                                ],
-                                "example": [
-                                    self.examples_field.text().strip(),
-                                ],
+                                "definition": self.text_field.text().strip(),
+                                "example": self.examples_field.text().strip(),
                                 "related_words": [
                                     {
                                         "relationship_type": self.relationship_type_field.text().strip(),
