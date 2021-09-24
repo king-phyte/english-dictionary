@@ -181,17 +181,6 @@ class MainWindow(QMainWindow):
         self.search_bar.returnPressed.connect(self.fetch_word_from_internet)
 
         self.search_button.clicked.connect(self.fetch_word_from_internet)
-        #
-        # from english_dictionary.gui.words import test, try_
-        #
-        # from english_dictionary.api import FreeDictionaryApi, BaseAPIBuilder
-        #
-        # p = FreeDictionaryApi()
-        # word_data = BaseAPIBuilder.from_free_dictionary_api(p.get_json(word="king"))
-        # word_2 = WordData.from_api(word_data)
-        # print(word_2)
-        #
-        # self.dictionary.append_multiple([test, try_, word_2])
         self.list_widget.setSortingEnabled(True)
         self.list_widget.sortItems(Qt.AscendingOrder)
 
