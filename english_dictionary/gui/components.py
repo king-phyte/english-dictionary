@@ -22,7 +22,7 @@ from PyQt5.QtWidgets import (
     QWidget,
 )
 
-from english_dictionary.types import Dictionary, WordData
+from ..types import Dictionary, WordData
 
 SVGS_DIR = Path(__file__).parent / "svgs"
 
