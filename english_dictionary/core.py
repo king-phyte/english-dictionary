@@ -1,8 +1,7 @@
 from dataclasses import dataclass, field
 from typing import Union, List, NoReturn, Type, Any, Sequence, Optional
 
-from english_dictionary.utils.formatter import FormatWord
-from english_dictionary.utils.helpers import binary_search
+from .utils.helpers import binary_search
 
 
 class OrderedList:
@@ -102,7 +101,11 @@ class RelatedWord:
     words: Sequence[str] = field(default_factory=list)
 
     def to_html(self):
-        return f"{self.relationship_type.capitalize()}: {', '.join(self.words)}"
+        return (
+            f"<b>{self.relationship_type.capitalize()}</b>: {', '.join(self.words)}"
+            if self.words
+            else ""
+        )
 
     def __getitem__(self, item):
         return getattr(item)
@@ -114,7 +117,7 @@ class Pronunciation:
     audio: Optional[Sequence[str]] = None
 
     def to_html(self) -> str:
-        return FormatWord.convert_to_list(self.text)
+        return self.text
 
     def __getitem__(self, item):
         return getattr(item)
@@ -122,23 +125,40 @@ class Pronunciation:
 
 @dataclass
 class Definition:
-    part_of_speech: Optional[str] = None
-    texts: Optional[Sequence[str]] = None
-    related_words: Optional[Sequence[RelatedWord]] = None
-    example_uses: Optional[Sequence[str]] = None
+    definition: Optional[str] = None
+    example: Optional[str] = None
+    related_words: Sequence[RelatedWord] = field(default_factory=list)
 
     def to_html(self):
-        section = (
-            f"<b>Part of speech:</b> {self.part_of_speech}<br />"
-            + f"{FormatWord.convert_to_list(self.texts)}"
+        html_version = []
+
+        if self.definition:
+            html_version.append(self.definition)
+
+        if self.example:
+            html_version.append(f"<b>Example:</b> {self.example}")
+
+        for related_word in self.related_words:
+            if related_word.words:
+                html_version.append(related_word.to_html())
+
+        return "\n\n".join(html_version)
+
+    def __getitem__(self, item):
+        return getattr(item)
+
+
+@dataclass
+class Meaning:
+    part_of_speech: Optional[str] = None
+    definitions: list[Definition] = field(default_factory=list)
+
+    def to_html(self):
+        pos = f"<b>Part of speech:</b> {self.part_of_speech}\n\n"
+        definitions = "\n".join(
+            (definition.to_html()) for definition in self.definitions
         )
-        if self.example_uses:
-            section += f"<p><b>Examples:</b></p> <p>{FormatWord.convert_to_list(self.example_uses)}</p>"
-
-        if self.related_words:
-            section += f"<p><b>Related Words:</b></p> <p>{FormatWord.convert_to_list(FormatWord.parse_related_words(self))}</p>"
-
-        return section
+        return pos + definitions
 
     def __getitem__(self, item):
         return getattr(item)
@@ -149,46 +169,47 @@ class WordData:
         self,
         name: str,
         etymology: Optional[str] = None,
-        definitions: Optional[Sequence[Definition]] = None,
+        meanings: Optional[Sequence[Meaning]] = None,
         pronunciations: Optional[Sequence[Pronunciation]] = None,
         *args,
         **kwargs,
     ):
         self._name = name.lower()
         self.etymology = etymology if etymology else ""
-        self.definition_list = definitions
         self.pronunciations = pronunciations
+        self.meanings = meanings
 
     def get_name(self) -> str:
         return self._name
 
     @staticmethod
-    def from_dict(word_data: dict):
-        name = word_data.get("name")
-        if not word_data.get("data"):
-            return WordData(name)
-        word_data = word_data.get("data")[0]
-        definition = word_data["definitions"][0]
-        related_words = (
-            definition["related_words"][0] if definition["related_words"] else None
-        )
+    def from_api(api: list[dict]):
+        word = api[0]
         return WordData(
-            name=name,
-            etymology=word_data.get("etymology"),
-            definitions=[
-                Definition(
-                    part_of_speech=definition.get("part_of_speech"),
-                    texts=definition.get("texts"),
-                    related_words=None
-                    if not related_words
-                    else [
-                        RelatedWord(
-                            relationship_type=related_words.get("relationship_type"),
-                            words=related_words.get("words"),
-                        ),
+            name=word.get("name"),
+            etymology=word.get("etymology"),
+            pronunciations=[
+                Pronunciation(**pronunciation)
+                for pronunciation in word.get("pronunciations")
+            ]
+            if word.get("pronunciations")
+            else [],
+            meanings=[
+                Meaning(
+                    part_of_speech=meaning.get("part_of_speech"),
+                    definitions=[
+                        Definition(
+                            definition=definition.get("definition"),
+                            example=definition.get("example"),
+                            related_words=[
+                                RelatedWord(**related_word)
+                                for related_word in definition.get("related_words")
+                            ],
+                        )
+                        for definition in meaning.get("definitions")
                     ],
-                    example_uses=definition.get("example_uses"),
                 )
+                for meaning in word.get("meanings")
             ],
         )
 

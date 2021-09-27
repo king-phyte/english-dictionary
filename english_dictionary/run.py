@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
 
+import english_dictionary
 from PyQt5.QtWidgets import QApplication
 
-from english_dictionary.gui.components import MainWindow
 
-if __name__ == "__main__":
+def main():
     import sys
 
     app = QApplication(sys.argv)
-    window = MainWindow()
+    window = english_dictionary.gui.components.MainWindow()
     sys.exit(app.exec_())
+
+
+if __name__ == "__main__":
+    main()
