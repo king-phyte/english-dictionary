@@ -23,9 +23,8 @@ from PyQt5.QtWidgets import (
 )
 
 from english_dictionary.types import Dictionary, WordData
-from settings import BASEDIR
 
-SVGS_DIR = BASEDIR.joinpath(Path(__file__).parent.parent, Path("gui", "svgs"))
+SVGS_DIR = Path(__file__).parent / "svgs"
 
 
 class AddWordDialog(QDialog):
