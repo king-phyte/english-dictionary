@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from PyQt5.QtWidgets import QApplication
 
 from english_dictionary.gui.components import MainWindow

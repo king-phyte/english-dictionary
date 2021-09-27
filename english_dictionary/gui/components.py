@@ -22,7 +22,7 @@ from PyQt5.QtWidgets import (
     QWidget,
 )
 
-from ..types import Dictionary, WordData
+from english_dictionary.types import Dictionary, WordData
 
 SVGS_DIR = Path(__file__).parent / "svgs"
 
@@ -320,7 +320,7 @@ class MainWindow(QMainWindow):
         )
 
     def fill_with_dummy_data(self):
-        from ..api import BaseAPIBuilder
+        from english_dictionary.api import BaseAPIBuilder
 
         king = WordData.from_api(
             BaseAPIBuilder.from_free_dictionary_api(
