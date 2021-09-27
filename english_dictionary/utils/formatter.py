@@ -1,4 +1,4 @@
-from english_dictionary.types import WordData
+from english_dictionary.core import WordData
 
 
 class BaseAPIFormatter:

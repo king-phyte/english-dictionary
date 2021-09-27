@@ -1,6 +1,6 @@
 import pytest
 
-from english_dictionary.types import Dictionary, WordData, Definition, RelatedWord
+from english_dictionary.core import Dictionary, WordData, Definition, RelatedWord
 
 
 @pytest.fixture
