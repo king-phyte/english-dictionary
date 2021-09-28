@@ -81,10 +81,14 @@ If you do not have a virtual environment, find out from the [installation sectio
 - **Enjoy! 😁**
 
 ## Extending the app
-The backend was rewritten with extensibility in mind. To use another data source, simply write a class to conform to the Base API
-and replace all occurrences of the current data source API (called FreeDictionaryAPI) to yours. Done. Easy!
+The backend was rewritten with extensibility in mind. 
+The default API can be found in __./english_dictionary/api.py.__
 
-Your class should simply parse your data source into the JSON format as shown below:
+To extend the app by using another data source:
+1. Write a static method for BaseAPIBuilder in __api.py__ that converts the data from your data source to the __base API__
+and replace all occurrences of "BaseAPIBuilder.from_free_dictionary_api" with your static method. E.g. Say you name your static method is "from_data_source", the implementation will look like "BaseAPIBuilder.from_data_source". 
+Your static method should parse your data source into the __Base API__ JSON format as shown below.
+
 ```json
 [
    {
@@ -113,15 +117,20 @@ Your class should simply parse your data source into the JSON format as shown be
                 ]
             }
         ]
- }
+  }
 ]
 ```
+
 Keys with their values as lists scan contain more than one item.
+
+2. Write a class which implements a "get_json" method to get the data from the data source, conveniently in JSON, and replace all occurrences of FreeDictionaryAPI with your class name.
+
+Done!
 
 __Feel free to share any ideas you may have or improvements you make.__
 
 ## Key Features
-- Extensible backend
+- Extensible
 - Real-time filtering as you search for words
 - Add words
 - Delete words
