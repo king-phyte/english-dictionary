@@ -29,9 +29,11 @@ class OrderedList:
         return lower_bound
 
     def insort_left(self, item) -> None:
+        """Insert an item with into the list but maintain order"""
         self._list.insert(self.bisect_left(self._list, item), item)
 
     def append(self, item) -> None:
+        """Add a new item to the list"""
         if not isinstance(item, self._instance):
             raise ValueError
 
@@ -45,6 +47,7 @@ class OrderedList:
         self.insort_left(item)
 
     def find(self, target):
+        """Return the index of :param target or -1 if not found."""
         return binary_search(self._list, target)
 
     def index(self, item) -> Union[int, List[int], NoReturn]:
@@ -63,11 +66,13 @@ class OrderedList:
         return list(range(first_item_index, first_item_index + self._list.count(item)))
 
     def append_multiple(self, iterable) -> None:
+        """Convenience function to add multiple items to the list"""
         for item in iterable:
             self.append(item)
 
     def peek(self) -> list:
-        return self._list
+        """Return a copy of the list"""
+        return self._list[:]
 
     def pop(self, index=-1) -> Union[int, NoReturn]:
         """Remove and return item at index (default last).
@@ -76,6 +81,7 @@ class OrderedList:
         return self._list.pop(index)
 
     def remove(self, item):
+        """Removes the first occurrence of :param item from the list"""
         self.pop(self.index(item))
 
     def clear(self) -> None:
@@ -247,4 +253,5 @@ class Dictionary(OrderedList):
         self.append(new)
 
     def get_word_details(self, word: str):
+        """Return WordData by specifying word alone"""
         return self._list[binary_search(self.peek(), word)]

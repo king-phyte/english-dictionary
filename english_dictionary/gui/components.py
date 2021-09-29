@@ -215,6 +215,7 @@ class MainWindow(QMainWindow):
         self.list_widget.currentItemChanged.connect(lambda: self.display_detail())
 
         def add_handler():
+            """Handler for adding new words to the dictionary"""
             dialog = AddWordDialog()
             if dialog.exec_() == QDialog.Accepted:
                 if result := dialog.get_results():
@@ -227,6 +228,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.central_frame)
 
     def filter_displayed_words(self, text: str):
+        """Perform real time filtering of words as the user is typing"""
         for widget in self.list_widget.findItems("", Qt.MatchContains):
             if widget in self.list_widget.findItems(text, Qt.MatchContains):
                 widget.setHidden(False)
@@ -244,6 +246,7 @@ class MainWindow(QMainWindow):
         add_handler()
 
     def update_dictionary(self, words: Sequence[str]) -> None:
+        """Update the UI"""
         for word in words:
             if self.list_widget.findItems(word, Qt.MatchExactly):
                 continue
@@ -251,11 +254,13 @@ class MainWindow(QMainWindow):
         self.list_widget.sortItems(Qt.AscendingOrder)
 
     def delete_word(self):
+        """Remove a word from the dictionary"""
         word = self.list_widget.currentItem().text()
         self.dictionary.remove(self.dictionary.get_word_details(word))
         self.list_widget.takeItem(self.list_widget.row(self.list_widget.currentItem()))
 
     def display_detail(self):
+        """Display details of a word in the dictionary"""
         if len(self.list_widget.findItems("", Qt.MatchContains)) == 1:
             self.detail_display.clear()
             self.edit_word_button.setVisible(False)
@@ -269,9 +274,11 @@ class MainWindow(QMainWindow):
             self.edit_word_button.setVisible(True)
 
     def fetch_word(self, word: str) -> WordData:
+        """Returns a word with its details from the dictionary with the word's name alone"""
         return self.dictionary.get_word_details(word)
 
     def fetch_word_from_internet(self):
+        """Fetch word from internet if not present in storage"""
         text = self.search_bar.text().strip().lower()
 
         if text in self.dictionary.peek():
@@ -308,6 +315,7 @@ class MainWindow(QMainWindow):
         self.update_dictionary([word.get_name()])
 
     def parse_word_data(self, word: str) -> str:
+        """Convert a word (with name alone) into HTML with all its details."""
         word = self.fetch_word(word)
 
         from english_dictionary.utils.formatter import BaseAPIFormatter

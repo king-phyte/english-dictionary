@@ -5,38 +5,43 @@ import requests
 
 class BaseAPIBuilder:
     """
-    Desired final API
-    {
-        "name": str,
-        "etymology": str,
-        "pronunciations: [
-            {
-                "text": str,
-                "audio": str,
-            }
-        ]
-        "meanings": [
-            {
-                "part_of_speech": str,
-                "definitions": [
-                    {
-                        "definition": str,
-                        "example": str,
-                        "related_words": [
-                            {
-                                "relationship_type": str,
-                                "words": list[str],
-                            },
-                        ]
-                    }
-                ]
-            }
-        ]
-    }
+    Desired final API:
+    [
+        {
+            "name": str,
+            "etymology": str,
+            "pronunciations": [
+                {
+                    "text": str,
+                    "audio": str,
+                }
+            ]
+            "meanings": [
+                {
+                    "part_of_speech": str,
+                    "definitions": [
+                        {
+                            "definition": str,
+                            "example": str,
+                            "related_words": [
+                                {
+                                    "relationship_type": str,
+                                    "words": list[str],
+                                },
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+    ]
+
+    Fields with lists can take more than one value
     """
 
     @staticmethod
     def from_free_dictionary_api(api: Sequence[dict]):
+        """Convert FreeDictionaryAPI data to desired API"""
         return [
             {
                 "name": data_group.get("word"),
