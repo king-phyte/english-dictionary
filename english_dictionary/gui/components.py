@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Sequence
+from typing import Sequence, Optional
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QGuiApplication, QIcon
@@ -23,12 +23,13 @@ from PyQt5.QtWidgets import (
 )
 
 from ..core import Dictionary, WordData
+from ..api import BaseAPI
 
 SVGS_DIR = Path(__file__).parent / "svgs"
 
 
 class AddWordDialog(QDialog):
-    def __init__(self, parent: QWidget = None):
+    def __init__(self, parent: QWidget = None) -> None:
         super().__init__(parent)
 
         self.description = QFormLayout()
@@ -52,7 +53,7 @@ class AddWordDialog(QDialog):
         self.etymology_field = QLineEdit()
         self.build_ui()
 
-    def build_ui(self):
+    def build_ui(self) -> None:
         self.setWindowTitle("Add Word")
         self.setModal(True)
 
@@ -83,7 +84,7 @@ class AddWordDialog(QDialog):
 
         self.setLayout(self.vbox)
 
-    def get_results(self):
+    def get_results(self) -> Optional[BaseAPI]:
         if self.word_field.text().strip() == "":
             message = QMessageBox.critical(
                 None, self.windowTitle(), "Word field cannot be empty"
@@ -125,7 +126,7 @@ class EditWordDialog(AddWordDialog):
         self.fill_values()
         self.build_ui()
 
-    def fill_values(self):
+    def fill_values(self) -> None:
         self.word_field.setText(self.word_data["name"])
 
 
@@ -157,7 +158,7 @@ class MainWindow(QMainWindow):
         self.list_widget.setCurrentItem(self.list_widget.item(0))
         self.show()
 
-    def build_window(self):
+    def build_window(self) -> None:
         left, top, width, height = 100, 100, 800, 600
         self.setWindowTitle(self.window_title)
         self.setGeometry(left, top, width, height)
@@ -214,7 +215,7 @@ class MainWindow(QMainWindow):
 
         self.list_widget.currentItemChanged.connect(lambda: self.display_detail())
 
-        def add_handler():
+        def add_handler() -> None:
             """Handler for adding new words to the dictionary"""
             dialog = AddWordDialog()
             if dialog.exec_() == QDialog.Accepted:
@@ -227,7 +228,7 @@ class MainWindow(QMainWindow):
         self.central_frame.setLayout(hbox)
         self.setCentralWidget(self.central_frame)
 
-    def filter_displayed_words(self, text: str):
+    def filter_displayed_words(self, text: str) -> None:
         """Perform real time filtering of words as the user is typing"""
         for widget in self.list_widget.findItems("", Qt.MatchContains):
             if widget in self.list_widget.findItems(text, Qt.MatchContains):
@@ -235,7 +236,7 @@ class MainWindow(QMainWindow):
             else:
                 widget.setHidden(True)
 
-    def edit_word(self):
+    def edit_word(self) -> None:
         text = self.list_widget.currentItem().text()
         word = self.fetch_word(text)
 
@@ -253,13 +254,13 @@ class MainWindow(QMainWindow):
             self.list_widget.addItem(word)
         self.list_widget.sortItems(Qt.AscendingOrder)
 
-    def delete_word(self):
+    def delete_word(self) -> None:
         """Remove a word from the dictionary"""
         word = self.list_widget.currentItem().text()
         self.dictionary.remove(self.dictionary.get_word_details(word))
         self.list_widget.takeItem(self.list_widget.row(self.list_widget.currentItem()))
 
-    def display_detail(self):
+    def display_detail(self) -> None:
         """Display details of a word in the dictionary"""
         if len(self.list_widget.findItems("", Qt.MatchContains)) == 1:
             self.detail_display.clear()

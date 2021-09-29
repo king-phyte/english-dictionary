@@ -46,7 +46,7 @@ class OrderedList:
 
         self.insort_left(item)
 
-    def find(self, target):
+    def find(self, target) -> int:
         """Return the index of :param target or -1 if not found."""
         return binary_search(self._list, target)
 
@@ -80,7 +80,7 @@ class OrderedList:
 
         return self._list.pop(index)
 
-    def remove(self, item):
+    def remove(self, item) -> None:
         """Removes the first occurrence of :param item from the list"""
         self.pop(self.index(item))
 
@@ -106,7 +106,7 @@ class RelatedWord:
     relationship_type: str
     words: Sequence[str] = field(default_factory=list)
 
-    def to_html(self):
+    def to_html(self) -> str:
         return (
             f"<b>{self.relationship_type.capitalize()}</b>: {', '.join(self.words)}"
             if self.words
@@ -122,7 +122,7 @@ class Pronunciation:
     text: Sequence[str] = field(default_factory=list)
     audio: Optional[Sequence[str]] = None
 
-    def to_html(self) -> str:
+    def to_html(self) -> Sequence[str]:
         return self.text
 
     def __getitem__(self, item):
@@ -135,7 +135,7 @@ class Definition:
     example: Optional[str] = None
     related_words: Sequence[RelatedWord] = field(default_factory=list)
 
-    def to_html(self):
+    def to_html(self) -> str:
         html_version = []
 
         if self.definition:
@@ -159,7 +159,7 @@ class Meaning:
     part_of_speech: Optional[str] = None
     definitions: list[Definition] = field(default_factory=list)
 
-    def to_html(self):
+    def to_html(self) -> str:
         pos = f"<b>Part of speech:</b> {self.part_of_speech}\n\n"
         definitions = "\n".join(
             (definition.to_html()) for definition in self.definitions
@@ -189,7 +189,7 @@ class WordData:
         return self._name
 
     @staticmethod
-    def from_api(api: list[dict]):
+    def from_api(api: list[dict]) -> "WordData":
         word = api[0]
         return WordData(
             name=word.get("name"),
@@ -242,16 +242,16 @@ class WordData:
 
 
 class Dictionary(OrderedList):
-    def __init__(self, *args, **kwargs):
+    def __init__(self) -> None:
         super().__init__(allow_duplicates=False, instance=WordData)
 
     def peek(self) -> list:
         return list(map(str, self._list))
 
-    def edit_word(self, old: WordData, new: WordData):
+    def edit_word(self, old: WordData, new: WordData) -> None:
         self.remove(old)
         self.append(new)
 
-    def get_word_details(self, word: str):
+    def get_word_details(self, word: str) -> WordData:
         """Return WordData by specifying word alone"""
         return self._list[binary_search(self.peek(), word)]

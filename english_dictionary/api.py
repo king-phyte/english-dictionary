@@ -1,6 +1,8 @@
-from typing import Sequence
+from typing import Sequence, Optional, List, Dict, Any
 
 import requests
+
+BaseAPI = List[Dict[str, Optional[List[Dict[str, List[Dict[str, Any]]]]]]]
 
 
 class BaseAPIBuilder:
@@ -40,7 +42,7 @@ class BaseAPIBuilder:
     """
 
     @staticmethod
-    def from_free_dictionary_api(api: Sequence[dict]):
+    def from_free_dictionary_api(api: Sequence[dict]) -> BaseAPI:
         """Convert FreeDictionaryAPI data to desired API"""
         return [
             {
