@@ -502,6 +502,139 @@ class MainWindow(QMainWindow):
             )
         )
 
-        self.dictionary.append(king)
-        self.dictionary.append(hello)
-        self.update_dictionary([king.get_name(), hello.get_name()])
+        power = WordData.from_api(
+            BaseAPIBuilder.from_free_dictionary_api(
+                [
+                    {
+                        "word": "power",
+                        "phonetic": "\u02c8pa\u028a\u0259",
+                        "phonetics": [
+                            {
+                                "text": "\u02c8pa\u028a\u0259",
+                                "audio": "//ssl.gstatic.com/dictionary/static/sounds/20200429/power--_gb_1.mp3",
+                            }
+                        ],
+                        "origin": "Middle English: from Anglo-Norman French poeir, from an alteration of Latin posse \u2018be able\u2019.",
+                        "meanings": [
+                            {
+                                "partOfSpeech": "noun",
+                                "definitions": [
+                                    {
+                                        "definition": "the ability or capacity to do something or act in a particular way.",
+                                        "example": "the power of speech",
+                                        "synonyms": [
+                                            "ability",
+                                            "capacity",
+                                            "capability",
+                                            "potential",
+                                            "potentiality",
+                                            "faculty",
+                                            "property",
+                                            "competence",
+                                            "competency",
+                                        ],
+                                        "antonyms": ["inability", "incapacity"],
+                                    },
+                                    {
+                                        "definition": "the capacity or ability to direct or influence the behaviour of others or the course of events.",
+                                        "example": "a political process that offers people power over their own lives",
+                                        "synonyms": [],
+                                        "antonyms": [],
+                                    },
+                                    {
+                                        "definition": "physical strength and force exerted by something or someone.",
+                                        "example": "the power of the storm",
+                                        "synonyms": [
+                                            "strength",
+                                            "powerfulness",
+                                            "might",
+                                            "force",
+                                            "forcefulness",
+                                            "mightiness",
+                                            "weight",
+                                            "vigour",
+                                            "energy",
+                                            "intensity",
+                                            "potency",
+                                            "brawn",
+                                            "brawniness",
+                                            "muscle",
+                                            "punch",
+                                            "welly",
+                                            "thew",
+                                            "eloquence",
+                                            "effectiveness",
+                                            "cogency",
+                                            "persuasiveness",
+                                            "impressiveness",
+                                            "authoritativeness",
+                                        ],
+                                        "antonyms": ["weakness", "impotence"],
+                                    },
+                                    {
+                                        "definition": "energy that is produced by mechanical, electrical, or other means and used to operate a device.",
+                                        "example": "generating power from waste",
+                                        "synonyms": [
+                                            "energy",
+                                            "electrical power",
+                                            "nuclear power",
+                                            "solar power",
+                                            "steam power",
+                                            "water power",
+                                            "juice",
+                                        ],
+                                        "antonyms": [],
+                                    },
+                                    {
+                                        "definition": "the rate of doing work, measured in watts or less frequently horse power.",
+                                        "synonyms": [],
+                                        "antonyms": [],
+                                    },
+                                    {
+                                        "definition": "the product obtained when a number is multiplied by itself a certain number of times.",
+                                        "example": "2 to the power of 4 equals 16",
+                                        "synonyms": [],
+                                        "antonyms": [],
+                                    },
+                                    {
+                                        "definition": "a large number or amount of something.",
+                                        "example": "there's a power of difference between farming now and when I was a lad",
+                                        "synonyms": [
+                                            "a great deal of",
+                                            "a lot of",
+                                            "much",
+                                            "lots of",
+                                            "loads of",
+                                            "heaps of",
+                                            "masses of",
+                                            "tons of",
+                                            "a deal of",
+                                        ],
+                                        "antonyms": [],
+                                    },
+                                ],
+                            },
+                            {
+                                "partOfSpeech": "verb",
+                                "definitions": [
+                                    {
+                                        "definition": "supply (a device) with mechanical or electrical energy.",
+                                        "example": "the car is powered by a fuel-injected 3.0-litre engine",
+                                        "synonyms": [],
+                                        "antonyms": [],
+                                    },
+                                    {
+                                        "definition": "move or travel with great speed or force.",
+                                        "example": "he powered round a bend",
+                                        "synonyms": [],
+                                        "antonyms": [],
+                                    },
+                                ],
+                            },
+                        ],
+                    }
+                ]
+            )
+        )
+        self.dictionary.append_multiple([king, hello, power])
+        self.update_dictionary([king.get_name(), hello.get_name(), power.get_name()])
