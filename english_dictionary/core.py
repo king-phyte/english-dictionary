@@ -122,8 +122,8 @@ class Pronunciation:
     text: Sequence[str] = field(default_factory=list)
     audio: Optional[Sequence[str]] = None
 
-    def to_html(self) -> Sequence[str]:
-        return self.text
+    def to_html(self) -> str:
+        return f"<b>Pronunciations:</b> {self.text}"
 
     def __getitem__(self, item):
         return getattr(item)
@@ -139,7 +139,7 @@ class Definition:
         html_version = []
 
         if self.definition:
-            html_version.append(self.definition)
+            html_version.append(f"<b>Definition:</b> {self.definition}")
 
         if self.example:
             html_version.append(f"<b>Example:</b> {self.example}")
@@ -148,7 +148,7 @@ class Definition:
             if related_word.words:
                 html_version.append(related_word.to_html())
 
-        return "\n\n".join(html_version)
+        return "\n".join(html_version)
 
     def __getitem__(self, item):
         return getattr(item)
@@ -160,8 +160,8 @@ class Meaning:
     definitions: list[Definition] = field(default_factory=list)
 
     def to_html(self) -> str:
-        pos = f"<b>Part of speech:</b> {self.part_of_speech}\n\n"
-        definitions = "\n".join(
+        pos = f"<p style='text-align : center; text-decoration: underline'>Part of speech: {self.part_of_speech}</p>\n"
+        definitions = "<hr />".join(
             (definition.to_html()) for definition in self.definitions
         )
         return pos + definitions
