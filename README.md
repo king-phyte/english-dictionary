@@ -138,7 +138,7 @@ __Feel free to share any ideas you may have or improvements you make.__
 - Fetch words from the internet if not found in the program.
 
 ## Bugs?
-If you find a bug, feel free to open an issue or [message me directly on Telegram](https://t.me/king-phyte). 
+If you find a bug, feel free to open an issue or [message me directly on Telegram](https://t.me/king_phyte). 
 There are known bugs that are being worked on, and new bugs found will be fixed ASAP.
 
 
