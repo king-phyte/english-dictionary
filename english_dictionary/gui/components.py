@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Sequence
+from typing import Sequence, Optional
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QGuiApplication, QIcon
@@ -23,12 +23,13 @@ from PyQt5.QtWidgets import (
 )
 
 from ..core import Dictionary, WordData
+from ..api import BaseAPI
 
 SVGS_DIR = Path(__file__).parent / "svgs"
 
 
 class AddWordDialog(QDialog):
-    def __init__(self, parent: QWidget = None):
+    def __init__(self, parent: QWidget = None) -> None:
         super().__init__(parent)
 
         self.description = QFormLayout()
@@ -52,7 +53,7 @@ class AddWordDialog(QDialog):
         self.etymology_field = QLineEdit()
         self.build_ui()
 
-    def build_ui(self):
+    def build_ui(self) -> None:
         self.setWindowTitle("Add Word")
         self.setModal(True)
 
@@ -83,7 +84,7 @@ class AddWordDialog(QDialog):
 
         self.setLayout(self.vbox)
 
-    def get_results(self):
+    def get_results(self) -> Optional[BaseAPI]:
         if self.word_field.text().strip() == "":
             message = QMessageBox.critical(
                 None, self.windowTitle(), "Word field cannot be empty"
@@ -125,7 +126,7 @@ class EditWordDialog(AddWordDialog):
         self.fill_values()
         self.build_ui()
 
-    def fill_values(self):
+    def fill_values(self) -> None:
         self.word_field.setText(self.word_data["name"])
 
 
@@ -157,7 +158,7 @@ class MainWindow(QMainWindow):
         self.list_widget.setCurrentItem(self.list_widget.item(0))
         self.show()
 
-    def build_window(self):
+    def build_window(self) -> None:
         left, top, width, height = 100, 100, 800, 600
         self.setWindowTitle(self.window_title)
         self.setGeometry(left, top, width, height)
@@ -214,7 +215,8 @@ class MainWindow(QMainWindow):
 
         self.list_widget.currentItemChanged.connect(lambda: self.display_detail())
 
-        def add_handler():
+        def add_handler() -> None:
+            """Handler for adding new words to the dictionary"""
             dialog = AddWordDialog()
             if dialog.exec_() == QDialog.Accepted:
                 if result := dialog.get_results():
@@ -226,14 +228,15 @@ class MainWindow(QMainWindow):
         self.central_frame.setLayout(hbox)
         self.setCentralWidget(self.central_frame)
 
-    def filter_displayed_words(self, text: str):
+    def filter_displayed_words(self, text: str) -> None:
+        """Perform real time filtering of words as the user is typing"""
         for widget in self.list_widget.findItems("", Qt.MatchContains):
             if widget in self.list_widget.findItems(text, Qt.MatchContains):
                 widget.setHidden(False)
             else:
                 widget.setHidden(True)
 
-    def edit_word(self):
+    def edit_word(self) -> None:
         text = self.list_widget.currentItem().text()
         word = self.fetch_word(text)
 
@@ -244,18 +247,21 @@ class MainWindow(QMainWindow):
         add_handler()
 
     def update_dictionary(self, words: Sequence[str]) -> None:
+        """Update the UI"""
         for word in words:
             if self.list_widget.findItems(word, Qt.MatchExactly):
                 continue
             self.list_widget.addItem(word)
         self.list_widget.sortItems(Qt.AscendingOrder)
 
-    def delete_word(self):
+    def delete_word(self) -> None:
+        """Remove a word from the dictionary"""
         word = self.list_widget.currentItem().text()
         self.dictionary.remove(self.dictionary.get_word_details(word))
         self.list_widget.takeItem(self.list_widget.row(self.list_widget.currentItem()))
 
-    def display_detail(self):
+    def display_detail(self) -> None:
+        """Display details of a word in the dictionary"""
         if len(self.list_widget.findItems("", Qt.MatchContains)) == 1:
             self.detail_display.clear()
             self.edit_word_button.setVisible(False)
@@ -269,9 +275,11 @@ class MainWindow(QMainWindow):
             self.edit_word_button.setVisible(True)
 
     def fetch_word(self, word: str) -> WordData:
+        """Returns a word with its details from the dictionary with the word's name alone"""
         return self.dictionary.get_word_details(word)
 
     def fetch_word_from_internet(self):
+        """Fetch word from internet if not present in storage"""
         text = self.search_bar.text().strip().lower()
 
         if text in self.dictionary.peek():
@@ -308,6 +316,7 @@ class MainWindow(QMainWindow):
         self.update_dictionary([word.get_name()])
 
     def parse_word_data(self, word: str) -> str:
+        """Convert a word (with name alone) into HTML with all its details."""
         word = self.fetch_word(word)
 
         from english_dictionary.utils.formatter import BaseAPIFormatter
@@ -493,6 +502,139 @@ class MainWindow(QMainWindow):
             )
         )
 
-        self.dictionary.append(king)
-        self.dictionary.append(hello)
-        self.update_dictionary([king.get_name(), hello.get_name()])
+        power = WordData.from_api(
+            BaseAPIBuilder.from_free_dictionary_api(
+                [
+                    {
+                        "word": "power",
+                        "phonetic": "\u02c8pa\u028a\u0259",
+                        "phonetics": [
+                            {
+                                "text": "\u02c8pa\u028a\u0259",
+                                "audio": "//ssl.gstatic.com/dictionary/static/sounds/20200429/power--_gb_1.mp3",
+                            }
+                        ],
+                        "origin": "Middle English: from Anglo-Norman French poeir, from an alteration of Latin posse \u2018be able\u2019.",
+                        "meanings": [
+                            {
+                                "partOfSpeech": "noun",
+                                "definitions": [
+                                    {
+                                        "definition": "the ability or capacity to do something or act in a particular way.",
+                                        "example": "the power of speech",
+                                        "synonyms": [
+                                            "ability",
+                                            "capacity",
+                                            "capability",
+                                            "potential",
+                                            "potentiality",
+                                            "faculty",
+                                            "property",
+                                            "competence",
+                                            "competency",
+                                        ],
+                                        "antonyms": ["inability", "incapacity"],
+                                    },
+                                    {
+                                        "definition": "the capacity or ability to direct or influence the behaviour of others or the course of events.",
+                                        "example": "a political process that offers people power over their own lives",
+                                        "synonyms": [],
+                                        "antonyms": [],
+                                    },
+                                    {
+                                        "definition": "physical strength and force exerted by something or someone.",
+                                        "example": "the power of the storm",
+                                        "synonyms": [
+                                            "strength",
+                                            "powerfulness",
+                                            "might",
+                                            "force",
+                                            "forcefulness",
+                                            "mightiness",
+                                            "weight",
+                                            "vigour",
+                                            "energy",
+                                            "intensity",
+                                            "potency",
+                                            "brawn",
+                                            "brawniness",
+                                            "muscle",
+                                            "punch",
+                                            "welly",
+                                            "thew",
+                                            "eloquence",
+                                            "effectiveness",
+                                            "cogency",
+                                            "persuasiveness",
+                                            "impressiveness",
+                                            "authoritativeness",
+                                        ],
+                                        "antonyms": ["weakness", "impotence"],
+                                    },
+                                    {
+                                        "definition": "energy that is produced by mechanical, electrical, or other means and used to operate a device.",
+                                        "example": "generating power from waste",
+                                        "synonyms": [
+                                            "energy",
+                                            "electrical power",
+                                            "nuclear power",
+                                            "solar power",
+                                            "steam power",
+                                            "water power",
+                                            "juice",
+                                        ],
+                                        "antonyms": [],
+                                    },
+                                    {
+                                        "definition": "the rate of doing work, measured in watts or less frequently horse power.",
+                                        "synonyms": [],
+                                        "antonyms": [],
+                                    },
+                                    {
+                                        "definition": "the product obtained when a number is multiplied by itself a certain number of times.",
+                                        "example": "2 to the power of 4 equals 16",
+                                        "synonyms": [],
+                                        "antonyms": [],
+                                    },
+                                    {
+                                        "definition": "a large number or amount of something.",
+                                        "example": "there's a power of difference between farming now and when I was a lad",
+                                        "synonyms": [
+                                            "a great deal of",
+                                            "a lot of",
+                                            "much",
+                                            "lots of",
+                                            "loads of",
+                                            "heaps of",
+                                            "masses of",
+                                            "tons of",
+                                            "a deal of",
+                                        ],
+                                        "antonyms": [],
+                                    },
+                                ],
+                            },
+                            {
+                                "partOfSpeech": "verb",
+                                "definitions": [
+                                    {
+                                        "definition": "supply (a device) with mechanical or electrical energy.",
+                                        "example": "the car is powered by a fuel-injected 3.0-litre engine",
+                                        "synonyms": [],
+                                        "antonyms": [],
+                                    },
+                                    {
+                                        "definition": "move or travel with great speed or force.",
+                                        "example": "he powered round a bend",
+                                        "synonyms": [],
+                                        "antonyms": [],
+                                    },
+                                ],
+                            },
+                        ],
+                    }
+                ]
+            )
+        )
+        self.dictionary.append_multiple([king, hello, power])
+        self.update_dictionary([king.get_name(), hello.get_name(), power.get_name()])

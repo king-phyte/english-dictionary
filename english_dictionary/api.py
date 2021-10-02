@@ -1,42 +1,49 @@
-from typing import Sequence
+from typing import Sequence, Optional, List, Dict, Any
 
 import requests
+
+BaseAPI = List[Dict[str, Optional[List[Dict[str, List[Dict[str, Any]]]]]]]
 
 
 class BaseAPIBuilder:
     """
-    Desired final API
-    {
-        "name": str,
-        "etymology": str,
-        "pronunciations: [
-            {
-                "text": str,
-                "audio": str,
-            }
-        ]
-        "meanings": [
-            {
-                "part_of_speech": str,
-                "definitions": [
-                    {
-                        "definition": str,
-                        "example": str,
-                        "related_words": [
-                            {
-                                "relationship_type": str,
-                                "words": list[str],
-                            },
-                        ]
-                    }
-                ]
-            }
-        ]
-    }
+    Desired final API:
+    [
+        {
+            "name": str,
+            "etymology": str,
+            "pronunciations": [
+                {
+                    "text": str,
+                    "audio": str,
+                }
+            ]
+            "meanings": [
+                {
+                    "part_of_speech": str,
+                    "definitions": [
+                        {
+                            "definition": str,
+                            "example": str,
+                            "related_words": [
+                                {
+                                    "relationship_type": str,
+                                    "words": list[str],
+                                },
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+    ]
+
+    Fields with lists can take more than one value
     """
 
     @staticmethod
-    def from_free_dictionary_api(api: Sequence[dict]):
+    def from_free_dictionary_api(api: Sequence[dict]) -> BaseAPI:
+        """Convert FreeDictionaryAPI data to desired API"""
         return [
             {
                 "name": data_group.get("word"),
