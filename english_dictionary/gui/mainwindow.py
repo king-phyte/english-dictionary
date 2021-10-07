@@ -9,6 +9,9 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from pathlib import Path
+
+SVGS_DIR = Path(__file__).parent / "svgs"
 
 
 class Ui_MainWindow(object):
@@ -42,7 +45,9 @@ class Ui_MainWindow(object):
         self.search_button.setText("")
         icon = QtGui.QIcon()
         icon.addPixmap(
-            QtGui.QPixmap("svgs/search.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off
+            QtGui.QPixmap(str(SVGS_DIR / "search.svg")),
+            QtGui.QIcon.Normal,
+            QtGui.QIcon.Off,
         )
         self.search_button.setIcon(icon)
         self.search_button.setObjectName("search_button")
@@ -51,7 +56,9 @@ class Ui_MainWindow(object):
         self.add_button.setText("")
         icon1 = QtGui.QIcon()
         icon1.addPixmap(
-            QtGui.QPixmap("svgs/plus.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off
+            QtGui.QPixmap(str(SVGS_DIR / "plus.svg")),
+            QtGui.QIcon.Normal,
+            QtGui.QIcon.On,
         )
         self.add_button.setIcon(icon1)
         self.add_button.setObjectName("add_button")
