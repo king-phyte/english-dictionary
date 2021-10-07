@@ -58,7 +58,7 @@ If you do not have a virtual environment, find out from the [installation sectio
 
 
 ### Running the app
-- If you used setup.py to install the app, you can start it with:
+- If you used `setup.py` to install the app, you can start it with:
    ```
    $ eng-dict
    ```
@@ -72,8 +72,9 @@ If you do not have a virtual environment, find out from the [installation sectio
    ```
 
 ### How to use the app
-- Click the plus button near the search bar to add a word. __(Note: currently, the fields are limited).__
-- If the word you searched for is not in the dictionary, click the search button or press enter for "fetch from internet" dialog.
+- Type the word to be searched for in the search bar.
+- Click the plus button near the search bar to add a word.
+- If the word you searched for is not in the dictionary, click the search button or press enter for __fetch from internet dialog__.
 - To edit a word, click the edit button. __(Note: currently, the fields are limited, and you might lose a few fields)__
 - To delete a word, use the delete button
   
@@ -82,11 +83,11 @@ If you do not have a virtual environment, find out from the [installation sectio
 
 ## Extending the app
 The backend was rewritten with extensibility in mind. 
-The default API can be found in __./english_dictionary/api.py.__
+The default API can be found in ```./english_dictionary/api.py```
 
 To extend the app by using another data source:
 1. Write a static method for BaseAPIBuilder in __api.py__ that converts the data from your data source to the __base API__
-and replace all occurrences of "BaseAPIBuilder.from_free_dictionary_api" with your static method. E.g. Say you name your static method is "from_data_source", the implementation will look like "BaseAPIBuilder.from_data_source". 
+and replace all occurrences of ``BaseAPIBuilder.from_free_dictionary_api`` with your static method. E.g. Say you name your static method is ``from_data_source``, the implementation will look like ``BaseAPIBuilder.from_data_source``. 
 Your static method should parse your data source into the __Base API__ JSON format as shown below.
 
 ```json
@@ -123,7 +124,7 @@ Your static method should parse your data source into the __Base API__ JSON form
 
 Keys with their values as lists scan contain more than one item.
 
-2. Write a class which implements a "get_json" method to get the data from the data source, conveniently in JSON, and replace all occurrences of FreeDictionaryAPI with your class name.
+2. Write a class which implements a `get_json` method to get the data from the data source, conveniently in JSON, and replace all occurrences of FreeDictionaryAPI with your class name.
 
 Done!
 
