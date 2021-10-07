@@ -24,68 +24,18 @@ from PyQt5.QtWidgets import (
 
 from ..core import Dictionary, WordData
 from ..api import BaseAPI
+from .add_word_dialog import Ui_Dialog
 
 SVGS_DIR = Path(__file__).parent / "svgs"
 
 
-class AddWordDialog(QDialog):
-    def __init__(self, parent: QWidget = None) -> None:
-        super().__init__(parent)
-
-        self.description = QFormLayout()
-        self.part_of_speech_field = QLineEdit()
-        self.text_field = QLineEdit()
-        self.description_group = QGroupBox()
-        self.vbox = QVBoxLayout()
-        self.group_box = QGroupBox()
-        self.hbox = QHBoxLayout()
-        self.done_button = QPushButton("Done")
-        self.cancel_button = QPushButton("Cancel")
-        self.related_words = QFormLayout()
-        self.relationship_type_field = QLineEdit()
-        self.words_field = QLineEdit()
-        self.related_words_group = QGroupBox()
-        self.examples = QFormLayout()
-        self.examples_field = QLineEdit()
-        self.examples_group = QGroupBox()
-        self.form_layout = QFormLayout()
-        self.word_field = QLineEdit()
-        self.etymology_field = QLineEdit()
-        self.build_ui()
-
-    def build_ui(self) -> None:
-        self.setWindowTitle("Add Word")
-        self.setModal(True)
-
-        self.description.addRow(QLabel("Part of Speech"), self.part_of_speech_field)
-        self.description.addRow(QLabel("Text"), self.text_field)
-        self.description_group.setLayout(self.description)
-        self.related_words.addRow(
-            QLabel("Relationship Type"), self.relationship_type_field
-        )
-        self.related_words.addRow(QLabel("Words"), self.words_field)
-        self.related_words_group.setLayout(self.related_words)
-        self.examples.addWidget(self.examples_field)
-        self.examples_group.setLayout(self.examples)
-        self.word_field.setClearButtonEnabled(True)
-        self.form_layout.addRow(QLabel("Word"), self.word_field)
-        self.form_layout.addRow(QLabel("Etymology"), self.etymology_field)
-        self.form_layout.addRow(QLabel("Description"), self.description_group)
-        self.form_layout.addRow(QLabel("Related Words"), self.related_words_group)
-        self.form_layout.addRow(QLabel("Examples"), self.examples_group)
-        self.vbox.addLayout(self.form_layout)
-        self.done_button.clicked.connect(self.accept)
-        self.cancel_button.clicked.connect(self.reject)
-        self.hbox.addWidget(self.done_button)
-        self.hbox.addWidget(self.cancel_button)
-        self.group_box.setLayout(self.hbox)
-
-        self.vbox.addWidget(self.group_box)
-
-        self.setLayout(self.vbox)
+class AddWordDialog(QDialog, Ui_Dialog):
+    def __init__(self, *args, **kwargs) -> None:
+        super(AddWordDialog, self).__init__(*args, **kwargs)
+        self.setupUi(self)
 
     def get_results(self) -> Optional[BaseAPI]:
-        if self.word_field.text().strip() == "":
+        if self.name_textedit.text().strip() == "":
             message = QMessageBox.critical(
                 None, self.windowTitle(), "Word field cannot be empty"
             )
@@ -93,20 +43,22 @@ class AddWordDialog(QDialog):
 
         word_data = [
             {
-                "name": self.word_field.text().strip(),
-                "etymology": self.etymology_field.text().strip(),
+                "name": self.name_textedit.text().strip(),
+                "etymology": self.etymology_textedit.text().strip(),
                 "meanings": [
                     {
-                        "part_of_speech": self.part_of_speech_field.text().strip(),
+                        "part_of_speech": self.part_of_speech_textedit_1.text().strip(),
                         "definitions": [
                             {
-                                "definition": self.text_field.text().strip(),
-                                "example": self.examples_field.text().strip(),
+                                "definition": self.definition_textedit_1.text().strip(),
+                                "example": self.examples_textedit_1.text().strip(),
                                 "related_words": [
                                     {
-                                        "relationship_type": self.relationship_type_field.text().strip(),
-                                        "words": self.words_field.text().strip().split()
-                                        if self.words_field.text()
+                                        "relationship_type": self.relationship_type_textedit.text().strip(),
+                                        "words": self.words_text_edit_1.text()
+                                        .strip()
+                                        .split(", ")
+                                        if self.words_text_edit_1.text()
                                         else "",
                                     }
                                 ],
@@ -120,14 +72,14 @@ class AddWordDialog(QDialog):
 
 
 class EditWordDialog(AddWordDialog):
-    def __init__(self, parent: QWidget = None, word_data: WordData = None) -> None:
-        super(AddWordDialog, self).__init__(parent=parent)
-        self.word_data = word_data
+    def __init__(self, word_data: WordData = None, *args, **kwargs) -> None:
+        super(AddWordDialog, self).__init__(*args, **kwargs)
+        self._word_data = word_data
+        self.setupUi(self)
         self.fill_values()
-        self.build_ui()
 
     def fill_values(self) -> None:
-        self.word_field.setText(self.word_data["name"])
+        self.name_textedit.setText(self._word_data.get_name())
 
 
 class MainWindow(QMainWindow):
