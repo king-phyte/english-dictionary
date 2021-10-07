@@ -11,15 +11,10 @@ from PyQt5.QtWidgets import (
     QLineEdit,
     QPushButton,
     QListWidget,
-    QVBoxLayout,
     QGridLayout,
     QTextBrowser,
     QDialog,
-    QFormLayout,
-    QLabel,
-    QGroupBox,
     QMessageBox,
-    QWidget,
 )
 
 from ..core import Dictionary, WordData
