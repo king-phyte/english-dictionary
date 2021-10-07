@@ -1,27 +1,13 @@
-from pathlib import Path
 from typing import Sequence, Optional
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QGuiApplication, QIcon
-from PyQt5.QtWidgets import (
-    QSplitter,
-    QMainWindow,
-    QHBoxLayout,
-    QFrame,
-    QLineEdit,
-    QPushButton,
-    QListWidget,
-    QGridLayout,
-    QTextBrowser,
-    QDialog,
-    QMessageBox,
-)
+from PyQt5.QtGui import QGuiApplication
+from PyQt5.QtWidgets import QMainWindow, QDialog, QMessageBox
 
-from ..core import Dictionary, WordData
-from ..api import BaseAPI
 from .add_word_dialog import Ui_Dialog
-
-SVGS_DIR = Path(__file__).parent / "svgs"
+from .mainwindow import Ui_MainWindow
+from ..api import BaseAPI
+from ..core import Dictionary, WordData
 
 
 class AddWordDialog(QDialog, Ui_Dialog):
@@ -77,103 +63,40 @@ class EditWordDialog(AddWordDialog):
         self.name_textedit.setText(self._word_data.get_name())
 
 
-class MainWindow(QMainWindow):
-    def __init__(self):
-        super(MainWindow, self).__init__()
+class MainWindow(QMainWindow, Ui_MainWindow):
+    def __init__(self, *args, **kwargs):
+        super(MainWindow, self).__init__(*args, **kwargs)
         self.dictionary = Dictionary()
-
-        self.window_title = "English Dictionary"
-
-        self.central_frame = QFrame(self)
-        self.splitter = QSplitter(self.central_frame)
-        self.left_frame = QFrame(self.splitter)
-        self.right_frame = QFrame(self.splitter)
-        self.top_left_layout_2 = QGridLayout(self.left_frame)
-        self.grid_layout = QGridLayout(self.right_frame)
-
-        self.list_widget = QListWidget()
-        self.search_bar = QLineEdit()
-
-        self.search_button = QPushButton(QIcon(str(SVGS_DIR / "search.svg")), "")
-        self.add_word_button = QPushButton(QIcon(str(SVGS_DIR / "plus.svg")), "")
-        self.edit_word_button = QPushButton("Edit")
-        self.delete_word_button = QPushButton("Delete")
-        self.detail_display = QTextBrowser()
-
-        self.build_window()
+        self.setupUi(self)
+        self.install_handlers()
+        QGuiApplication.setFallbackSessionManagementEnabled(False)
+        self.setUnifiedTitleAndToolBarOnMac(True)
+        self.update_dictionary(self.dictionary.peek())
         self.fill_with_dummy_data()
+        self.list_widget.sortItems(Qt.AscendingOrder)
         self.list_widget.setCurrentItem(self.list_widget.item(0))
         self.show()
 
-    def build_window(self) -> None:
-        left, top, width, height = 100, 100, 800, 600
-        self.setWindowTitle(self.window_title)
-        self.setGeometry(left, top, width, height)
+    def add_word_handler(self) -> None:
+        """Handler for adding new words to the dictionary"""
+        dialog = AddWordDialog()
+        if dialog.exec_() == QDialog.Accepted:
+            if result := dialog.get_results():
+                self.dictionary.append(WordData.from_api(result))
+                self.update_dictionary([WordData.from_api(result).get_name()])
 
-        QGuiApplication.setFallbackSessionManagementEnabled(False)
-        self.setUnifiedTitleAndToolBarOnMac(True)
-
-        hbox = QHBoxLayout(self.central_frame)
-        hbox.addWidget(self.splitter)
-
-        self.search_bar.setFixedWidth(200)
-        self.search_bar.setPlaceholderText("Search")
-        self.search_bar.setClearButtonEnabled(True)
-        self.search_bar.setMaxLength(32)
+    def install_handlers(self) -> None:
         self.search_bar.textChanged.connect(self.filter_displayed_words)
         self.search_bar.returnPressed.connect(self.fetch_word_from_internet)
-
         self.search_button.clicked.connect(self.fetch_word_from_internet)
-        self.list_widget.setSortingEnabled(True)
-        self.list_widget.sortItems(Qt.AscendingOrder)
 
-        self.top_left_layout_2.addWidget(self.search_bar, 1, 1, 1, 4, Qt.AlignLeft)
-        self.top_left_layout_2.addWidget(self.search_button, 1, 5, 1, 1, Qt.AlignLeft)
-        self.top_left_layout_2.addWidget(self.add_word_button, 1, 6, 1, 1, Qt.AlignLeft)
-        self.top_left_layout_2.addWidget(self.list_widget, 2, 1, 1, 6, Qt.AlignLeft)
+        self.add_button.clicked.connect(self.add_word_handler)
 
-        self.splitter.setHandleWidth(20)
+        self.list_widget.currentItemChanged.connect(self.display_detail)
 
-        self.delete_word_button.setStyleSheet("background: red")
+        self.edit_button.clicked.connect(self.edit_word)
 
-        self.detail_display.setMinimumSize(600, 600)
-        self.detail_display.setAcceptRichText(True)
-        self.detail_display.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-        self.detail_display.setStyleSheet("background: white")
-        self.detail_display.setPlaceholderText(
-            "Welcome to the English Dictionary app.\nPlease add a word to the dictionary."
-        )
-        self.detail_display.setReadOnly(True)
-
-        self.grid_layout.addWidget(
-            self.edit_word_button, 0, 4, 1, 1, alignment=Qt.AlignRight
-        )
-        self.grid_layout.addWidget(
-            self.delete_word_button, 0, 5, 1, 1, alignment=Qt.AlignRight
-        )
-        self.grid_layout.addWidget(
-            self.detail_display, 2, 0, 1, 6, alignment=Qt.AlignCenter
-        )
-
-        self.delete_word_button.clicked.connect(self.delete_word)
-        self.edit_word_button.clicked.connect(self.edit_word)
-
-        self.update_dictionary(self.dictionary.peek())
-
-        self.list_widget.currentItemChanged.connect(lambda: self.display_detail())
-
-        def add_handler() -> None:
-            """Handler for adding new words to the dictionary"""
-            dialog = AddWordDialog()
-            if dialog.exec_() == QDialog.Accepted:
-                if result := dialog.get_results():
-                    self.dictionary.append(WordData.from_api(result))
-                    self.update_dictionary([WordData.from_api(result).get_name()])
-
-        self.add_word_button.clicked.connect(add_handler)
-
-        self.central_frame.setLayout(hbox)
-        self.setCentralWidget(self.central_frame)
+        self.delete_button.clicked.connect(self.delete_word)
 
     def filter_displayed_words(self, text: str) -> None:
         """Perform real time filtering of words as the user is typing"""
@@ -210,16 +133,16 @@ class MainWindow(QMainWindow):
     def display_detail(self) -> None:
         """Display details of a word in the dictionary"""
         if len(self.list_widget.findItems("", Qt.MatchContains)) == 1:
-            self.detail_display.clear()
-            self.edit_word_button.setVisible(False)
+            self.text_browser.clear()
+            self.edit_button.setVisible(False)
             return
 
         text = self.parse_word_data(self.list_widget.currentItem().text())
-        self.detail_display.setHtml(text)
+        self.text_browser.setHtml(text)
         self.list_widget.sortItems(Qt.AscendingOrder)
 
-        if not self.edit_word_button.isVisible():
-            self.edit_word_button.setVisible(True)
+        if not self.edit_button.isVisible():
+            self.edit_button.setVisible(True)
 
     def fetch_word(self, word: str) -> WordData:
         """Returns a word with its details from the dictionary with the word's name alone"""
@@ -461,13 +384,18 @@ class MainWindow(QMainWindow):
                                 "audio": "//ssl.gstatic.com/dictionary/static/sounds/20200429/power--_gb_1.mp3",
                             }
                         ],
-                        "origin": "Middle English: from Anglo-Norman French poeir, from an alteration of Latin posse \u2018be able\u2019.",
+                        "origin": (
+                            "Middle English: from Anglo-Norman French poeir, "
+                            "from an alteration of Latin posse \u2018be able\u2019."
+                        ),
                         "meanings": [
                             {
                                 "partOfSpeech": "noun",
                                 "definitions": [
                                     {
-                                        "definition": "the ability or capacity to do something or act in a particular way.",
+                                        "definition": (
+                                            "the ability or capacity to do something or act in a particular way."
+                                        ),
                                         "example": "the power of speech",
                                         "synonyms": [
                                             "ability",
@@ -483,7 +411,10 @@ class MainWindow(QMainWindow):
                                         "antonyms": ["inability", "incapacity"],
                                     },
                                     {
-                                        "definition": "the capacity or ability to direct or influence the behaviour of others or the course of events.",
+                                        "definition": (
+                                            "the capacity or ability to direct or influence "
+                                            "the behaviour of others or the course of events."
+                                        ),
                                         "example": "a political process that offers people power over their own lives",
                                         "synonyms": [],
                                         "antonyms": [],
@@ -519,7 +450,10 @@ class MainWindow(QMainWindow):
                                         "antonyms": ["weakness", "impotence"],
                                     },
                                     {
-                                        "definition": "energy that is produced by mechanical, electrical, or other means and used to operate a device.",
+                                        "definition": (
+                                            "energy that is produced by mechanical, electrical, "
+                                            "or other means and used to operate a device."
+                                        ),
                                         "example": "generating power from waste",
                                         "synonyms": [
                                             "energy",
@@ -533,19 +467,28 @@ class MainWindow(QMainWindow):
                                         "antonyms": [],
                                     },
                                     {
-                                        "definition": "the rate of doing work, measured in watts or less frequently horse power.",
+                                        "definition": (
+                                            "the rate of doing work, measured in watts "
+                                            "or less frequently horse power."
+                                        ),
                                         "synonyms": [],
                                         "antonyms": [],
                                     },
                                     {
-                                        "definition": "the product obtained when a number is multiplied by itself a certain number of times.",
+                                        "definition": (
+                                            "the product obtained when a number is multiplied "
+                                            "by itself a certain number of times."
+                                        ),
                                         "example": "2 to the power of 4 equals 16",
                                         "synonyms": [],
                                         "antonyms": [],
                                     },
                                     {
                                         "definition": "a large number or amount of something.",
-                                        "example": "there's a power of difference between farming now and when I was a lad",
+                                        "example": (
+                                            "there's a power of difference between "
+                                            "farming now and when I was a lad"
+                                        ),
                                         "synonyms": [
                                             "a great deal of",
                                             "a lot of",
