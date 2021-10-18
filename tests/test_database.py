@@ -1,8 +1,9 @@
+from pathlib import Path
+
 import pytest
 
-from english_dictionary.database import DATABASE_DIRECTORY, DATABASE_NAME, Database
-from pathlib import Path
 from english_dictionary.api import BaseAPIBuilder
+from english_dictionary.database import DATABASE_DIRECTORY, DATABASE_NAME, Database
 from .test_api import hello
 
 
