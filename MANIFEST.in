@@ -1,1 +1,2 @@
+include english_dictionary/words.db
 graft english_dictionary/gui/svgs
