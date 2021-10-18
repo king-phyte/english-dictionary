@@ -13,6 +13,8 @@ An extensible (offline) English Dictionary.
 - [Usage](#usage)
   - [Running the app](#running-the-app)
   - [How to use the app](#how-to-use-the-app)
+- [Extending the app](#extending-the-app)
+  - [Extending the app by using another data source](#extend-the-app-by-using-another-data-source) 
 - [Key Features](#key-features)
 - [Bugs?](#bugs)
 - [Contributing](#contributing)
@@ -20,7 +22,7 @@ An extensible (offline) English Dictionary.
 
 ## Installation
 
-**Note: The app requires python3.8 or higher.**
+**Note: The app requires python3.8 or newer.**
 
 1. There are a number of ways to get the source code. You can:
    - [Download the latest release](https://github.com/king-phyte/english-dictionary/releases/latest) (english-dictionary-x.y.z.tar.gz) for linux releases and extract it.
@@ -72,12 +74,13 @@ If you do not have a virtual environment, find out from the [installation sectio
    ```
 
 ### How to use the app
-- Type the word to be searched for in the search bar.
+- Type the word to be searched for in the search bar and press enter or click on the search button beside the search bar.
 - Click the plus button near the search bar to add a word.
-- If the word you searched for is not in the dictionary, click the search button or press enter for __fetch from internet dialog__.
 - To edit a word, click the edit button. __(Note: currently, the fields are limited, and you might lose a few fields)__
 - To delete a word, use the delete button
-  
+
+    **Note:** If the word you searched for is not in the dictionary, clicking the search button or pressing return/enter key will prompt you with the __fetch from internet dialog__.
+
 
 - **Enjoy! 😁**
 
@@ -85,46 +88,47 @@ If you do not have a virtual environment, find out from the [installation sectio
 The backend was rewritten with extensibility in mind. 
 The default API can be found in ```./english_dictionary/api.py```
 
-To extend the app by using another data source:
-1. Write a static method for BaseAPIBuilder in __api.py__ that converts the data from your data source to the __base API__
-and replace all occurrences of ``BaseAPIBuilder.from_free_dictionary_api`` with your static method. E.g. Say you name your static method is ``from_data_source``, the implementation will look like ``BaseAPIBuilder.from_data_source``. 
-Your static method should parse your data source into the __Base API__ JSON format as shown below.
+- ###Extend the app by using another data source:
 
-```json
-[
-   {
-        "name": "str",
-        "etymology": "str",
-        "pronunciations": [
-            {
-                "text": "str",
-                "audio": "str"
-            }
-        ],
-        "meanings": [
-            {
-                "part_of_speech": "str",
-                "definitions": [
-                    {
-                        "definition": "str",
-                        "example": "str",
-                        "related_words": [
-                            {
-                                "relationship_type": "str",
-                                "words": "list[str]"
-                            }
-                        ]
-                    }
-                ]
-            }
-        ]
-  }
-]
-```
+  1. Write a static method for BaseAPIBuilder in __api.py__ that converts the data from your data source to the __base API__
+  and replace all occurrences of ``BaseAPIBuilder.from_free_dictionary_api`` with your static method. E.g. Say you name your static method is ``from_data_source``, the implementation will look like ``BaseAPIBuilder.from_data_source``. 
+  Your static method should parse your data source into the __Base API__ JSON format as shown below.
 
-Keys with their values as lists scan contain more than one item.
+  ```json
+  [
+      {
+          "name": "str",
+          "etymology": "str",
+          "pronunciations": [
+              {
+                  "text": "str",
+                  "audio": "str"
+              }
+          ],
+          "meanings": [
+              {
+                  "part_of_speech": "str",
+                  "definitions": [
+                      {
+                          "definition": "str",
+                          "example": "str",
+                          "related_words": [
+                              {
+                                  "relationship_type": "str",
+                                  "words": "list[str]"
+                              }
+                          ]
+                      }
+                  ]
+              }
+          ]
+      }
+  ]
+  ```
+   
+  **Note:** Keys with their values as lists scan contain more than one item.
 
-2. Write a class which implements a `get_json` method to get the data from the data source, conveniently in JSON, and replace all occurrences of FreeDictionaryAPI with your class name.
+  2. Write a class which implements a `get_json` method to get the data from the data source, conveniently in JSON, and replace all occurrences of FreeDictionaryAPI with your class name.
 
 Done!
 
@@ -133,10 +137,9 @@ __Feel free to share any ideas you may have or improvements you make.__
 ## Key Features
 - Extensible
 - Real-time filtering as you search for words
-- Add words
-- Delete words
-- Edit words
-- Fetch words from the internet if not found in the program.
+- Persistent data even after app restart
+- Add, edit and delete words
+- Fetch words from the internet if not found in the database.
 
 ## Bugs?
 If you find a bug, feel free to open an issue or [message me directly on Telegram](https://t.me/king_phyte). 
