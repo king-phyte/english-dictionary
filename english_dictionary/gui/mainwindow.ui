@@ -60,23 +60,21 @@
           </item>
           <item>
            <widget class="QPushButton" name="search_button">
+            <property name="toolTip">
+             <string>Search word from the internet</string>
+            </property>
             <property name="text">
              <string/>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>svgs/search.svg</normaloff>svgs/search.svg</iconset>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QPushButton" name="add_button">
+            <property name="toolTip">
+             <string>Manually add a new word</string>
+            </property>
             <property name="text">
              <string/>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>svgs/plus.svg</normaloff>svgs/plus.svg</iconset>
             </property>
            </widget>
           </item>
@@ -153,15 +151,21 @@
          <layout class="QHBoxLayout" name="horizontalLayout_4">
           <item>
            <widget class="QPushButton" name="edit_button">
+            <property name="toolTip">
+             <string>Edit currently displayed word</string>
+            </property>
             <property name="text">
-             <string>Edit</string>
+             <string/>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QPushButton" name="delete_button">
+            <property name="toolTip">
+             <string>Delete currently displayed word</string>
+            </property>
             <property name="text">
-             <string>Delete</string>
+             <string/>
             </property>
            </widget>
           </item>

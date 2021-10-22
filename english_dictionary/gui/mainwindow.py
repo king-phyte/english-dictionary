@@ -9,9 +9,6 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from pathlib import Path
-
-SVGS_DIR = Path(__file__).parent / "svgs"
 
 
 class Ui_MainWindow(object):
@@ -43,24 +40,10 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3.addWidget(self.search_bar)
         self.search_button = QtWidgets.QPushButton(self.frame_4)
         self.search_button.setText("")
-        icon = QtGui.QIcon()
-        icon.addPixmap(
-            QtGui.QPixmap(str(SVGS_DIR / "search.svg")),
-            QtGui.QIcon.Normal,
-            QtGui.QIcon.Off,
-        )
-        self.search_button.setIcon(icon)
         self.search_button.setObjectName("search_button")
         self.horizontalLayout_3.addWidget(self.search_button)
         self.add_button = QtWidgets.QPushButton(self.frame_4)
         self.add_button.setText("")
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(
-            QtGui.QPixmap(str(SVGS_DIR / "plus.svg")),
-            QtGui.QIcon.Normal,
-            QtGui.QIcon.On,
-        )
-        self.add_button.setIcon(icon1)
         self.add_button.setObjectName("add_button")
         self.horizontalLayout_3.addWidget(self.add_button)
         self.verticalLayout.addWidget(self.frame_4)
@@ -75,9 +58,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.list_widget = QtWidgets.QListWidget(self.scrollAreaWidgetContents_2)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.list_widget.sizePolicy().hasHeightForWidth())
@@ -103,9 +84,11 @@ class Ui_MainWindow(object):
         self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.frame_5)
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
         self.edit_button = QtWidgets.QPushButton(self.frame_5)
+        self.edit_button.setText("")
         self.edit_button.setObjectName("edit_button")
         self.horizontalLayout_4.addWidget(self.edit_button)
         self.delete_button = QtWidgets.QPushButton(self.frame_5)
+        self.delete_button.setText("")
         self.delete_button.setObjectName("delete_button")
         self.horizontalLayout_4.addWidget(self.delete_button)
         self.verticalLayout_2.addWidget(self.frame_5, 0, QtCore.Qt.AlignRight)
@@ -125,6 +108,8 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "English Dictionary"))
         self.search_bar.setPlaceholderText(_translate("MainWindow", "Search"))
+        self.search_button.setToolTip(_translate("MainWindow", "Search word from the internet"))
+        self.add_button.setToolTip(_translate("MainWindow", "Manually add a new word"))
         self.list_widget.setSortingEnabled(True)
-        self.edit_button.setText(_translate("MainWindow", "Edit"))
-        self.delete_button.setText(_translate("MainWindow", "Delete"))
+        self.edit_button.setToolTip(_translate("MainWindow", "Edit currently displayed word"))
+        self.delete_button.setToolTip(_translate("MainWindow", "Delete currently displayed word"))

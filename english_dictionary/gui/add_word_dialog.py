@@ -9,350 +9,86 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from .mainwindow import SVGS_DIR
 
 
-class Ui_Dialog(object):
-    def setupUi(self, Dialog):
-        Dialog.setObjectName("Dialog")
-        Dialog.resize(833, 800)
-        Dialog.setMinimumSize(QtCore.QSize(833, 780))
-        self.verticalLayout = QtWidgets.QVBoxLayout(Dialog)
-        self.verticalLayout.setObjectName("verticalLayout")
-        self.formLayout = QtWidgets.QFormLayout()
+class Ui_AddWordDialog(object):
+    def setupUi(self, AddWordDialog):
+        AddWordDialog.setObjectName("AddWordDialog")
+        AddWordDialog.resize(833, 800)
+        AddWordDialog.setMinimumSize(QtCore.QSize(800, 600))
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout(AddWordDialog)
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.scrollArea = QtWidgets.QScrollArea(AddWordDialog)
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollArea.setObjectName("scrollArea")
+        self.scrollAreaWidgetContents = QtWidgets.QWidget()
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 817, 742))
+        self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
+        self.formLayout = QtWidgets.QFormLayout(self.scrollAreaWidgetContents)
+        self.formLayout.setLabelAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.formLayout.setObjectName("formLayout")
-        self.name_label = QtWidgets.QLabel(Dialog)
-        self.name_label.setObjectName("name_label")
-        self.formLayout.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.name_label)
-        self.name_textedit = QtWidgets.QLineEdit(Dialog)
-        self.name_textedit.setMaxLength(64)
-        self.name_textedit.setClearButtonEnabled(True)
-        self.name_textedit.setObjectName("name_textedit")
-        self.formLayout.setWidget(
-            0, QtWidgets.QFormLayout.FieldRole, self.name_textedit
-        )
-        self.etymology_label = QtWidgets.QLabel(Dialog)
-        self.etymology_label.setObjectName("etymology_label")
-        self.formLayout.setWidget(
-            1, QtWidgets.QFormLayout.LabelRole, self.etymology_label
-        )
-        self.etymology_textedit = QtWidgets.QLineEdit(Dialog)
-        self.etymology_textedit.setClearButtonEnabled(True)
-        self.etymology_textedit.setObjectName("etymology_textedit")
-        self.formLayout.setWidget(
-            1, QtWidgets.QFormLayout.FieldRole, self.etymology_textedit
-        )
-        self.pronunciations_label = QtWidgets.QLabel(Dialog)
-        self.pronunciations_label.setObjectName("pronunciations_label")
-        self.formLayout.setWidget(
-            2, QtWidgets.QFormLayout.LabelRole, self.pronunciations_label
-        )
-        self.frame = QtWidgets.QFrame(Dialog)
-        self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame.setObjectName("frame")
-        self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.frame)
-        self.verticalLayout_6.setObjectName("verticalLayout_6")
-        self.groupBox = QtWidgets.QGroupBox(self.frame)
-        self.groupBox.setTitle("")
-        self.groupBox.setObjectName("groupBox")
-        self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.groupBox)
-        self.verticalLayout_4.setObjectName("verticalLayout_4")
-        self.groupBox_2 = QtWidgets.QGroupBox(self.groupBox)
-        self.groupBox_2.setTitle("")
-        self.groupBox_2.setObjectName("groupBox_2")
-        self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.groupBox_2)
-        self.verticalLayout_5.setObjectName("verticalLayout_5")
-        self.formLayout_2 = QtWidgets.QFormLayout()
-        self.formLayout_2.setObjectName("formLayout_2")
-        self.label_4 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_4.setObjectName("label_4")
-        self.formLayout_2.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_4)
-        self.pronunciations_audio_textedit_1 = QtWidgets.QLineEdit(self.groupBox_2)
-        self.pronunciations_audio_textedit_1.setClearButtonEnabled(True)
-        self.pronunciations_audio_textedit_1.setObjectName(
-            "pronunciations_audio_textedit_1"
-        )
-        self.formLayout_2.setWidget(
-            1, QtWidgets.QFormLayout.FieldRole, self.pronunciations_audio_textedit_1
-        )
-        self.label_5 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_5.setObjectName("label_5")
-        self.formLayout_2.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label_5)
-        self.pronunciations_text_textedit_1 = QtWidgets.QLineEdit(self.groupBox_2)
-        self.pronunciations_text_textedit_1.setClearButtonEnabled(True)
-        self.pronunciations_text_textedit_1.setObjectName(
-            "pronunciations_text_textedit_1"
-        )
-        self.formLayout_2.setWidget(
-            0, QtWidgets.QFormLayout.FieldRole, self.pronunciations_text_textedit_1
-        )
-        self.verticalLayout_5.addLayout(self.formLayout_2)
-        self.verticalLayout_4.addWidget(self.groupBox_2)
-        self.add_pronunciation_button = QtWidgets.QPushButton(self.groupBox)
-        icon = QtGui.QIcon()
-        icon.addPixmap(
-            QtGui.QPixmap(str(SVGS_DIR / "plus.svg")),
-            QtGui.QIcon.Normal,
-            QtGui.QIcon.Off,
-        )
-        self.add_pronunciation_button.setIcon(icon)
+        self.label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.label.setObjectName("label")
+        self.formLayout.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label)
+        self.name_lineedit = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+        self.name_lineedit.setClearButtonEnabled(True)
+        self.name_lineedit.setObjectName("name_lineedit")
+        self.formLayout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.name_lineedit)
+        self.label_2 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.label_2.setObjectName("label_2")
+        self.formLayout.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_2)
+        self.etymology_lineedit = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+        self.etymology_lineedit.setClearButtonEnabled(True)
+        self.etymology_lineedit.setObjectName("etymology_lineedit")
+        self.formLayout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.etymology_lineedit)
+        self.label_3 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.label_3.setObjectName("label_3")
+        self.formLayout.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.label_3)
+        self.pronunciation_groupbox = QtWidgets.QGroupBox(self.scrollAreaWidgetContents)
+        self.pronunciation_groupbox.setTitle("")
+        self.pronunciation_groupbox.setObjectName("pronunciation_groupbox")
+        self.pronunciation_layout = QtWidgets.QVBoxLayout(self.pronunciation_groupbox)
+        self.pronunciation_layout.setObjectName("pronunciation_layout")
+        self.add_pronunciation_button = QtWidgets.QPushButton(self.pronunciation_groupbox)
         self.add_pronunciation_button.setObjectName("add_pronunciation_button")
-        self.verticalLayout_4.addWidget(
-            self.add_pronunciation_button, 0, QtCore.Qt.AlignRight
-        )
-        self.verticalLayout_6.addWidget(self.groupBox)
-        self.formLayout.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.frame)
-        self.meanings_label = QtWidgets.QLabel(Dialog)
-        self.meanings_label.setObjectName("meanings_label")
-        self.formLayout.setWidget(
-            3, QtWidgets.QFormLayout.LabelRole, self.meanings_label
-        )
-        self.frame_2 = QtWidgets.QFrame(Dialog)
-        self.frame_2.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_2.setObjectName("frame_2")
-        self.verticalLayout_9 = QtWidgets.QVBoxLayout(self.frame_2)
-        self.verticalLayout_9.setObjectName("verticalLayout_9")
-        self.groupBox_4 = QtWidgets.QGroupBox(self.frame_2)
-        self.groupBox_4.setTitle("")
-        self.groupBox_4.setObjectName("groupBox_4")
-        self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.groupBox_4)
-        self.verticalLayout_7.setObjectName("verticalLayout_7")
-        self.groupBox_5 = QtWidgets.QGroupBox(self.groupBox_4)
-        self.groupBox_5.setTitle("")
-        self.groupBox_5.setObjectName("groupBox_5")
-        self.verticalLayout_8 = QtWidgets.QVBoxLayout(self.groupBox_5)
-        self.verticalLayout_8.setObjectName("verticalLayout_8")
-        self.formLayout_3 = QtWidgets.QFormLayout()
-        self.formLayout_3.setObjectName("formLayout_3")
-        self.part_of_speech_label = QtWidgets.QLabel(self.groupBox_5)
-        self.part_of_speech_label.setObjectName("part_of_speech_label")
-        self.formLayout_3.setWidget(
-            0, QtWidgets.QFormLayout.LabelRole, self.part_of_speech_label
-        )
-        self.part_of_speech_textedit_1 = QtWidgets.QLineEdit(self.groupBox_5)
-        self.part_of_speech_textedit_1.setMaxLength(64)
-        self.part_of_speech_textedit_1.setClearButtonEnabled(True)
-        self.part_of_speech_textedit_1.setObjectName("part_of_speech_textedit_1")
-        self.formLayout_3.setWidget(
-            0, QtWidgets.QFormLayout.FieldRole, self.part_of_speech_textedit_1
-        )
-        self.frame_6 = QtWidgets.QFrame(self.groupBox_5)
-        self.frame_6.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_6.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_6.setObjectName("frame_6")
-        self.verticalLayout_16 = QtWidgets.QVBoxLayout(self.frame_6)
-        self.verticalLayout_16.setObjectName("verticalLayout_16")
-        self.groupBox_6 = QtWidgets.QGroupBox(self.frame_6)
-        self.groupBox_6.setTitle("")
-        self.groupBox_6.setObjectName("groupBox_6")
-        self.verticalLayout_14 = QtWidgets.QVBoxLayout(self.groupBox_6)
-        self.verticalLayout_14.setObjectName("verticalLayout_14")
-        self.groupBox_9 = QtWidgets.QGroupBox(self.groupBox_6)
-        self.groupBox_9.setTitle("")
-        self.groupBox_9.setObjectName("groupBox_9")
-        self.verticalLayout_15 = QtWidgets.QVBoxLayout(self.groupBox_9)
-        self.verticalLayout_15.setObjectName("verticalLayout_15")
-        self.formLayout_6 = QtWidgets.QFormLayout()
-        self.formLayout_6.setObjectName("formLayout_6")
-        self.examples_label = QtWidgets.QLabel(self.groupBox_9)
-        self.examples_label.setObjectName("examples_label")
-        self.formLayout_6.setWidget(
-            1, QtWidgets.QFormLayout.LabelRole, self.examples_label
-        )
-        self.examples_textedit_1 = QtWidgets.QLineEdit(self.groupBox_9)
-        self.examples_textedit_1.setClearButtonEnabled(True)
-        self.examples_textedit_1.setObjectName("examples_textedit_1")
-        self.formLayout_6.setWidget(
-            1, QtWidgets.QFormLayout.FieldRole, self.examples_textedit_1
-        )
-        self.definition_label = QtWidgets.QLabel(self.groupBox_9)
-        self.definition_label.setObjectName("definition_label")
-        self.formLayout_6.setWidget(
-            0, QtWidgets.QFormLayout.LabelRole, self.definition_label
-        )
-        self.definition_textedit_1 = QtWidgets.QLineEdit(self.groupBox_9)
-        self.definition_textedit_1.setClearButtonEnabled(True)
-        self.definition_textedit_1.setObjectName("definition_textedit_1")
-        self.formLayout_6.setWidget(
-            0, QtWidgets.QFormLayout.FieldRole, self.definition_textedit_1
-        )
-        self.related_words_label = QtWidgets.QLabel(self.groupBox_9)
-        self.related_words_label.setObjectName("related_words_label")
-        self.formLayout_6.setWidget(
-            2, QtWidgets.QFormLayout.LabelRole, self.related_words_label
-        )
-        self.frame_3 = QtWidgets.QFrame(self.groupBox_9)
-        self.frame_3.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_3.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_3.setObjectName("frame_3")
-        self.verticalLayout_19 = QtWidgets.QVBoxLayout(self.frame_3)
-        self.verticalLayout_19.setObjectName("verticalLayout_19")
-        self.groupBox_10 = QtWidgets.QGroupBox(self.frame_3)
-        self.groupBox_10.setTitle("")
-        self.groupBox_10.setObjectName("groupBox_10")
-        self.verticalLayout_17 = QtWidgets.QVBoxLayout(self.groupBox_10)
-        self.verticalLayout_17.setObjectName("verticalLayout_17")
-        self.groupBox_11 = QtWidgets.QGroupBox(self.groupBox_10)
-        self.groupBox_11.setTitle("")
-        self.groupBox_11.setObjectName("groupBox_11")
-        self.verticalLayout_18 = QtWidgets.QVBoxLayout(self.groupBox_11)
-        self.verticalLayout_18.setObjectName("verticalLayout_18")
-        self.formLayout_7 = QtWidgets.QFormLayout()
-        self.formLayout_7.setObjectName("formLayout_7")
-        self.words_label = QtWidgets.QLabel(self.groupBox_11)
-        self.words_label.setObjectName("words_label")
-        self.formLayout_7.setWidget(
-            1, QtWidgets.QFormLayout.LabelRole, self.words_label
-        )
-        self.words_text_edit_1 = QtWidgets.QLineEdit(self.groupBox_11)
-        self.words_text_edit_1.setClearButtonEnabled(True)
-        self.words_text_edit_1.setObjectName("words_text_edit_1")
-        self.formLayout_7.setWidget(
-            1, QtWidgets.QFormLayout.FieldRole, self.words_text_edit_1
-        )
-        self.relationship_type_label_1 = QtWidgets.QLabel(self.groupBox_11)
-        self.relationship_type_label_1.setObjectName("relationship_type_label_1")
-        self.formLayout_7.setWidget(
-            0, QtWidgets.QFormLayout.LabelRole, self.relationship_type_label_1
-        )
-        self.relationship_type_textedit = QtWidgets.QLineEdit(self.groupBox_11)
-        self.relationship_type_textedit.setClearButtonEnabled(True)
-        self.relationship_type_textedit.setObjectName("relationship_type_textedit")
-        self.formLayout_7.setWidget(
-            0, QtWidgets.QFormLayout.FieldRole, self.relationship_type_textedit
-        )
-        self.verticalLayout_18.addLayout(self.formLayout_7)
-        self.verticalLayout_17.addWidget(self.groupBox_11)
-        self.pushButton_7 = QtWidgets.QPushButton(self.groupBox_10)
-        self.pushButton_7.setIcon(icon)
-        self.pushButton_7.setObjectName("pushButton_7")
-        self.verticalLayout_17.addWidget(self.pushButton_7, 0, QtCore.Qt.AlignRight)
-        self.verticalLayout_19.addWidget(self.groupBox_10)
-        self.formLayout_6.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.frame_3)
-        self.verticalLayout_15.addLayout(self.formLayout_6)
-        self.verticalLayout_14.addWidget(self.groupBox_9)
-        self.pushButton_6 = QtWidgets.QPushButton(self.groupBox_6)
-        self.pushButton_6.setIcon(icon)
-        self.pushButton_6.setObjectName("pushButton_6")
-        self.verticalLayout_14.addWidget(self.pushButton_6, 0, QtCore.Qt.AlignRight)
-        self.verticalLayout_16.addWidget(self.groupBox_6)
-        self.formLayout_3.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.frame_6)
-        self.definitions_label = QtWidgets.QLabel(self.groupBox_5)
-        self.definitions_label.setObjectName("definitions_label")
-        self.formLayout_3.setWidget(
-            1, QtWidgets.QFormLayout.LabelRole, self.definitions_label
-        )
-        self.verticalLayout_8.addLayout(self.formLayout_3)
-        self.verticalLayout_7.addWidget(self.groupBox_5)
-        self.pushButton_3 = QtWidgets.QPushButton(self.groupBox_4)
-        self.pushButton_3.setIcon(icon)
-        self.pushButton_3.setObjectName("pushButton_3")
-        self.verticalLayout_7.addWidget(self.pushButton_3, 0, QtCore.Qt.AlignRight)
-        self.verticalLayout_9.addWidget(self.groupBox_4)
-        self.formLayout.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.frame_2)
-        self.verticalLayout.addLayout(self.formLayout)
-        self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
+        self.pronunciation_layout.addWidget(self.add_pronunciation_button, 0, QtCore.Qt.AlignRight)
+        self.formLayout.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.pronunciation_groupbox)
+        self.label_4 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.label_4.setObjectName("label_4")
+        self.formLayout.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.label_4)
+        self.meanings_groupbox = QtWidgets.QGroupBox(self.scrollAreaWidgetContents)
+        self.meanings_groupbox.setTitle("")
+        self.meanings_groupbox.setObjectName("meanings_groupbox")
+        self.meanings_layout = QtWidgets.QVBoxLayout(self.meanings_groupbox)
+        self.meanings_layout.setContentsMargins(0, 0, 0, -1)
+        self.meanings_layout.setObjectName("meanings_layout")
+        self.add_meaning_button = QtWidgets.QPushButton(self.meanings_groupbox)
+        self.add_meaning_button.setObjectName("add_meaning_button")
+        self.meanings_layout.addWidget(self.add_meaning_button, 0, QtCore.Qt.AlignRight)
+        self.formLayout.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.meanings_groupbox)
+        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
+        self.verticalLayout_2.addWidget(self.scrollArea)
+        self.buttonBox = QtWidgets.QDialogButtonBox(AddWordDialog)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(
-            QtWidgets.QDialogButtonBox.Cancel
-            | QtWidgets.QDialogButtonBox.Ok
-            | QtWidgets.QDialogButtonBox.Reset
-        )
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName("buttonBox")
-        self.verticalLayout.addWidget(self.buttonBox)
-        self.name_label.setBuddy(self.name_textedit)
-        self.etymology_label.setBuddy(self.etymology_textedit)
-        self.pronunciations_label.setBuddy(self.pronunciations_text_textedit_1)
-        self.label_4.setBuddy(self.pronunciations_audio_textedit_1)
-        self.meanings_label.setBuddy(self.part_of_speech_textedit_1)
-        self.examples_label.setBuddy(self.examples_textedit_1)
-        self.related_words_label.setBuddy(self.relationship_type_textedit)
-        self.words_label.setBuddy(self.words_text_edit_1)
-        self.relationship_type_label_1.setBuddy(self.relationship_type_textedit)
-        self.definitions_label.setBuddy(self.definition_textedit_1)
+        self.verticalLayout_2.addWidget(self.buttonBox)
 
-        self.retranslateUi(Dialog)
-        self.buttonBox.accepted.connect(Dialog.accept)
-        self.buttonBox.rejected.connect(Dialog.reject)
-        QtCore.QMetaObject.connectSlotsByName(Dialog)
-        Dialog.setTabOrder(self.name_textedit, self.etymology_textedit)
-        Dialog.setTabOrder(self.etymology_textedit, self.pronunciations_text_textedit_1)
-        Dialog.setTabOrder(
-            self.pronunciations_text_textedit_1, self.pronunciations_audio_textedit_1
-        )
-        Dialog.setTabOrder(
-            self.pronunciations_audio_textedit_1, self.add_pronunciation_button
-        )
-        Dialog.setTabOrder(
-            self.add_pronunciation_button, self.part_of_speech_textedit_1
-        )
-        Dialog.setTabOrder(self.part_of_speech_textedit_1, self.definition_textedit_1)
-        Dialog.setTabOrder(self.definition_textedit_1, self.examples_textedit_1)
-        Dialog.setTabOrder(self.examples_textedit_1, self.relationship_type_textedit)
-        Dialog.setTabOrder(self.relationship_type_textedit, self.words_text_edit_1)
-        Dialog.setTabOrder(self.words_text_edit_1, self.pushButton_7)
-        Dialog.setTabOrder(self.pushButton_7, self.pushButton_6)
-        Dialog.setTabOrder(self.pushButton_6, self.pushButton_3)
+        self.retranslateUi(AddWordDialog)
+        self.buttonBox.accepted.connect(AddWordDialog.accept)
+        self.buttonBox.rejected.connect(AddWordDialog.reject)
+        QtCore.QMetaObject.connectSlotsByName(AddWordDialog)
 
-    def retranslateUi(self, Dialog):
+    def retranslateUi(self, AddWordDialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Add New Word - English Dictionary"))
-        self.name_label.setText(_translate("Dialog", "Name"))
-        self.name_textedit.setPlaceholderText(_translate("Dialog", "power"))
-        self.etymology_label.setText(_translate("Dialog", "Etymology"))
-        self.etymology_textedit.setPlaceholderText(
-            _translate(
-                "Dialog",
-                "Middle English: from Anglo-Norman French poeir, from an alteration of Latin posse",
-            )
-        )
-        self.pronunciations_label.setText(_translate("Dialog", "Pronunciations"))
-        self.label_4.setText(_translate("Dialog", "Audio"))
-        self.pronunciations_audio_textedit_1.setPlaceholderText(
-            _translate(
-                "Dialog",
-                "//ssl.gstatic.com/dictionary/static/sounds/20200429/power--_gb_1.mp3",
-            )
-        )
-        self.label_5.setText(_translate("Dialog", "Text"))
-        self.pronunciations_text_textedit_1.setPlaceholderText(
-            _translate("Dialog", "/həˈloʊ/")
-        )
-        self.add_pronunciation_button.setToolTip(
-            _translate("Dialog", "Add more pronunciations")
-        )
-        self.add_pronunciation_button.setText(_translate("Dialog", "Add pronunciation"))
-        self.meanings_label.setText(_translate("Dialog", "Meanings"))
-        self.part_of_speech_label.setText(_translate("Dialog", "Part of Speech"))
-        self.part_of_speech_textedit_1.setPlaceholderText(_translate("Dialog", "noun"))
-        self.examples_label.setText(_translate("Dialog", "Examples"))
-        self.examples_textedit_1.setPlaceholderText(
-            _translate("Dialog", "the power of speech")
-        )
-        self.definition_label.setText(_translate("Dialog", "Definition"))
-        self.definition_textedit_1.setPlaceholderText(
-            _translate(
-                "Dialog",
-                "the ability or capacity to do something or act in a particular way",
-            )
-        )
-        self.related_words_label.setText(_translate("Dialog", "Related Words"))
-        self.words_label.setText(_translate("Dialog", "Words"))
-        self.words_text_edit_1.setPlaceholderText(
-            _translate("Dialog", "ability, capacity")
-        )
-        self.relationship_type_label_1.setText(
-            _translate("Dialog", "Relationship type")
-        )
-        self.relationship_type_textedit.setPlaceholderText(
-            _translate("Dialog", "synonyms")
-        )
-        self.pushButton_7.setToolTip(_translate("Dialog", "Add more related words"))
-        self.pushButton_7.setText(_translate("Dialog", "Add related word"))
-        self.pushButton_6.setToolTip(_translate("Dialog", "Add more Definitions"))
-        self.pushButton_6.setText(_translate("Dialog", "Add definition"))
-        self.definitions_label.setText(_translate("Dialog", "Definitions"))
-        self.pushButton_3.setToolTip(_translate("Dialog", "Add more meanings"))
-        self.pushButton_3.setText(_translate("Dialog", "Add meaning"))
+        AddWordDialog.setWindowTitle(_translate("AddWordDialog", "Add Word - English Dictionary"))
+        self.label.setText(_translate("AddWordDialog", "Name"))
+        self.name_lineedit.setPlaceholderText(_translate("AddWordDialog", "king"))
+        self.label_2.setText(_translate("AddWordDialog", "Etymology"))
+        self.etymology_lineedit.setPlaceholderText(_translate("AddWordDialog", "Old English cyning, cyng, of Germanic origin; related to Dutch koning and German König, also to kin."))
+        self.label_3.setText(_translate("AddWordDialog", "Pronunciations"))
+        self.add_pronunciation_button.setToolTip(_translate("AddWordDialog", "Add another pronunciation form"))
+        self.add_pronunciation_button.setText(_translate("AddWordDialog", "Add Pronunciation"))
+        self.label_4.setText(_translate("AddWordDialog", "Meanings"))
+        self.add_meaning_button.setToolTip(_translate("AddWordDialog", "Add another meanings form"))
+        self.add_meaning_button.setText(_translate("AddWordDialog", "Add Meaning"))

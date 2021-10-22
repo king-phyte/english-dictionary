@@ -1,20 +1,91 @@
+from pathlib import Path
 from typing import Sequence, Optional
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QGuiApplication
-from PyQt5.QtWidgets import QMainWindow, QDialog, QMessageBox
+from PyQt5.QtGui import QGuiApplication, QIcon
+from PyQt5.QtWidgets import QMainWindow, QDialog, QMessageBox, QGroupBox
 
-from .add_word_dialog import Ui_Dialog
-from .mainwindow import Ui_MainWindow
+from .add_word_dialog import Ui_AddWordDialog as UiAddWordDialog
+from .definition_groupbox import Ui_DefinitionGroupBox as UiDefinitionGroupBox
+from .mainwindow import Ui_MainWindow as UiMainWindow
+from .meanings_groupbox import Ui_MeaningsGroupBox as UiMeaningsGroupBox
+from .pronunciation_groupbox import Ui_Pronunciation as UiPronunciationGroupBox
+from .related_words_groupbox import Ui_RelatedWordsGroupBox as UiRelatedWordsGroupBox
 from ..api import BaseAPI
 from ..core import Dictionary, WordData
 from ..database import DATABASE_DIRECTORY, DATABASE_NAME, Database
 
+SVGS_DIR = Path(__file__).resolve().parent / "svgs"
+PLUS_SVG_PATH = SVGS_DIR / "plus.svg"
+SEARCH_SVG_PATH = SVGS_DIR / "search.svg"
+EDIT_SVG_PATH = SVGS_DIR / "edit.svg"
+DELETE_SVG_PATH = SVGS_DIR / "trash-alt.svg"
 
-class AddWordDialog(QDialog, Ui_Dialog):
+plus_icon = QIcon(str(PLUS_SVG_PATH))
+
+
+class RelatedWordsGroupBox(QGroupBox, UiRelatedWordsGroupBox):
+    def __init__(self, *args, **kwargs) -> None:
+        super(RelatedWordsGroupBox, self).__init__(*args, **kwargs)
+        self.setupUi(self)
+
+
+class DefinitionGroupBox(QGroupBox, UiDefinitionGroupBox):
+    def __init__(self, *args, **kwargs) -> None:
+        super(DefinitionGroupBox, self).__init__(*args, **kwargs)
+        self.setupUi(self)
+        self.add_related_words_button.setIcon(plus_icon)
+        self.install_slots()
+        self.add_related_words_field()
+
+    def install_slots(self) -> None:
+        self.add_related_words_button.clicked.connect(self.add_related_words_field)
+
+    def add_related_words_field(self) -> None:
+        self.related_words_groupbox_layout.insertWidget(0, RelatedWordsGroupBox())
+
+
+class PronunciationGroupBox(QGroupBox, UiPronunciationGroupBox):
+    def __init__(self, *args, **kwargs) -> None:
+        super(PronunciationGroupBox, self).__init__(*args, **kwargs)
+        self.setupUi(self)
+
+
+class MeaningsGroupBox(QGroupBox, UiMeaningsGroupBox):
+    def __init__(self, *args, **kwargs) -> None:
+        super(MeaningsGroupBox, self).__init__(*args, **kwargs)
+        self.setupUi(self)
+        self.add_definition_button.setIcon(plus_icon)
+        # self.add_definition_button.setIcon(QIcon(str(PLUS_SVG_PATH)))
+        self.install_slots()
+        self.add_definition_field()
+
+    def install_slots(self) -> None:
+        self.add_definition_button.clicked.connect(self.add_definition_field)
+
+    def add_definition_field(self) -> None:
+        self.definition_layout.insertWidget(0, DefinitionGroupBox())
+
+
+class AddWordDialog(QDialog, UiAddWordDialog):
     def __init__(self, *args, **kwargs) -> None:
         super(AddWordDialog, self).__init__(*args, **kwargs)
         self.setupUi(self)
+        self.add_meaning_button.setIcon(plus_icon)
+        self.add_pronunciation_button.setIcon(plus_icon)
+        self.install_slots()
+        self.add_pronunciation_field()
+        self.add_meaning_field()
+
+    def install_slots(self) -> None:
+        self.add_pronunciation_button.clicked.connect(self.add_pronunciation_field)
+        self.add_meaning_button.clicked.connect(self.add_meaning_field)
+
+    def add_meaning_field(self) -> None:
+        self.meanings_layout.insertWidget(0, MeaningsGroupBox())
+
+    def add_pronunciation_field(self) -> None:
+        self.pronunciation_layout.insertWidget(0, PronunciationGroupBox())
 
     def get_results(self) -> Optional[BaseAPI]:
         if self.name_textedit.text().strip() == "":
@@ -64,12 +135,16 @@ class EditWordDialog(AddWordDialog):
         self.name_textedit.setText(self._word_data.get_name())
 
 
-class MainWindow(QMainWindow, Ui_MainWindow):
+class MainWindow(QMainWindow, UiMainWindow):
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
         self.dictionary = Dictionary()
         self.setupUi(self)
-        self.install_handlers()
+        self.add_button.setIcon(plus_icon)
+        self.delete_button.setIcon(QIcon(str(DELETE_SVG_PATH)))
+        self.search_button.setIcon(QIcon(str(SEARCH_SVG_PATH)))
+        self.edit_button.setIcon(QIcon(str(EDIT_SVG_PATH)))
+        self.install_slots()
         QGuiApplication.setFallbackSessionManagementEnabled(False)
         self.setUnifiedTitleAndToolBarOnMac(True)
         self.update_dictionary(self.dictionary.peek())
@@ -88,7 +163,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.dictionary.append(WordData.from_api(result))
                 self.update_dictionary([WordData.from_api(result).get_name()])
 
-    def install_handlers(self) -> None:
+    def install_slots(self) -> None:
         self.search_bar.textChanged.connect(self.filter_displayed_words)
         self.search_bar.returnPressed.connect(self.fetch_word_from_internet)
         self.search_button.clicked.connect(self.fetch_word_from_internet)
