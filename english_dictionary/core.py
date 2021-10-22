@@ -6,7 +6,9 @@ from .utils.helpers import binary_search
 
 class OrderedList:
     def __init__(
-        self, allow_duplicates: bool = False, instance: Type[Any] = int
+        self,
+        allow_duplicates: bool = False,
+        instance: Type[Any] = int,
     ) -> None:
         self._allow_duplicates = allow_duplicates
         self._instance = instance
@@ -14,7 +16,10 @@ class OrderedList:
 
     @staticmethod
     def bisect_left(
-        sorted_collection: list, item: int, lower_bound: int = 0, upper_bound: int = -1
+        sorted_collection: list,
+        item: int,
+        lower_bound: int = 0,
+        upper_bound: int = -1,
     ) -> int:
         if upper_bound < 0:
             upper_bound = len(sorted_collection)

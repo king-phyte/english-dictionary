@@ -160,20 +160,24 @@ class AddWordDialog(QDialog, UiAddWordDialog):
 
     def add_meaning_field(self) -> None:
         self.meanings_layout.insertWidget(
-            MeaningsGroupBox.next_widget_index, MeaningsGroupBox()
+            MeaningsGroupBox.next_widget_index,
+            MeaningsGroupBox(),
         )
         MeaningsGroupBox.next_widget_index += 1
 
     def add_pronunciation_field(self) -> None:
         self.pronunciation_layout.insertWidget(
-            PronunciationGroupBox.next_widget_index, PronunciationGroupBox()
+            PronunciationGroupBox.next_widget_index,
+            PronunciationGroupBox(),
         )
         PronunciationGroupBox.next_widget_index += 1
 
     def get_results(self) -> Optional[BaseAPI]:
         if self.name_lineedit.text().strip() == "":
             message = QMessageBox.critical(
-                None, self.windowTitle(), "Word field cannot be empty"
+                None,
+                self.windowTitle(),
+                "Word field cannot be empty",
             )
             return None
 
@@ -255,7 +259,11 @@ class MainWindow(QMainWindow, UiMainWindow):
                 self.dictionary.append(WordData.from_api(result))
                 with Database(DATABASE_DIRECTORY / DATABASE_NAME) as db:
                     db.save_word(result)
-                self.update_dictionary([WordData.from_api(result).get_name()])
+                self.update_dictionary(
+                    [
+                        WordData.from_api(result).get_name(),
+                    ]
+                )
 
     def install_slots(self) -> None:
         self.search_bar.textChanged.connect(self.filter_displayed_words)
@@ -360,7 +368,11 @@ class MainWindow(QMainWindow, UiMainWindow):
             db.save_word(word)
         word_data = WordData.from_api(word)
         self.dictionary.append(word_data)
-        self.update_dictionary([word_data.get_name()])
+        self.update_dictionary(
+            [
+                word_data.get_name(),
+            ]
+        )
 
     def parse_word_data(self, word: str) -> str:
         """Convert a word (with name alone) into HTML with all its details."""

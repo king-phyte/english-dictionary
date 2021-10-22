@@ -21,7 +21,8 @@ class Database:
     """
 
     def __init__(
-        self, url: Union[Path, str] = (DATABASE_DIRECTORY / DATABASE_NAME)
+        self,
+        url: Union[Path, str] = (DATABASE_DIRECTORY / DATABASE_NAME),
     ) -> None:
         self._url = url
         self._connection: Optional[Connection] = None
