@@ -194,7 +194,7 @@ class WordData:
         return self._name
 
     @staticmethod
-    def from_api(api: list[dict]) -> "WordData":
+    def from_api(api: List[dict]) -> "WordData":
         word = api[0]
         return WordData(
             name=word.get("name"),
