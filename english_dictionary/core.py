@@ -162,7 +162,7 @@ class Definition:
 @dataclass
 class Meaning:
     part_of_speech: Optional[str] = None
-    definitions: list[Definition] = field(default_factory=list)
+    definitions: List[Definition] = field(default_factory=list)
 
     def to_html(self) -> str:
         pos = f"<p style='text-align : center; text-decoration: underline'>Part of speech: {self.part_of_speech}</p>\n"
