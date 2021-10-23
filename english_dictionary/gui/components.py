@@ -1,52 +1,220 @@
-from typing import Sequence, Optional
+from pathlib import Path
+from typing import Sequence, Optional, Dict, Union
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QGuiApplication
-from PyQt5.QtWidgets import QMainWindow, QDialog, QMessageBox
+from PyQt5.QtGui import QGuiApplication, QIcon
+from PyQt5.QtWidgets import QMainWindow, QDialog, QMessageBox, QGroupBox
 
-from .add_word_dialog import Ui_Dialog
-from .mainwindow import Ui_MainWindow
+from .add_word_dialog import Ui_AddWordDialog as UiAddWordDialog
+from .definition_groupbox import Ui_DefinitionGroupBox as UiDefinitionGroupBox
+from .mainwindow import Ui_MainWindow as UiMainWindow
+from .meanings_groupbox import Ui_MeaningsGroupBox as UiMeaningsGroupBox
+from .pronunciation_groupbox import Ui_Pronunciation as UiPronunciationGroupBox
+from .related_words_groupbox import Ui_RelatedWordsGroupBox as UiRelatedWordsGroupBox
 from ..api import BaseAPI
 from ..core import Dictionary, WordData
 from ..database import DATABASE_DIRECTORY, DATABASE_NAME, Database
 
+SVGS_DIR = Path(__file__).resolve().parent / "svgs"
+PLUS_SVG_PATH = SVGS_DIR / "plus.svg"
+SEARCH_SVG_PATH = SVGS_DIR / "search.svg"
+EDIT_SVG_PATH = SVGS_DIR / "edit.svg"
+DELETE_SVG_PATH = SVGS_DIR / "trash-alt.svg"
 
-class AddWordDialog(QDialog, Ui_Dialog):
+plus_icon = QIcon(str(PLUS_SVG_PATH))
+
+
+class RelatedWordsGroupBox(QGroupBox, UiRelatedWordsGroupBox):
+    def __init__(self, *args, **kwargs) -> None:
+        super(RelatedWordsGroupBox, self).__init__(*args, **kwargs)
+        self.setupUi(self)
+
+    def get_fields_content(self) -> Dict[str, str]:
+        return {
+            "relationship_type": self.relationship_type_lineedit.text().strip(),  # Required
+            "words": self.related_words_lineedit.text().strip(),
+        }
+
+
+class DefinitionGroupBox(QGroupBox, UiDefinitionGroupBox):
+    def __init__(self, *args, **kwargs) -> None:
+        super(DefinitionGroupBox, self).__init__(*args, **kwargs)
+        self._next_related_words_widget_index = 0
+        self.setupUi(self)
+        self.add_related_words_button.setIcon(plus_icon)
+        self.install_slots()
+        self.add_related_words_field()
+
+    def install_slots(self) -> None:
+        self.add_related_words_button.clicked.connect(self.add_related_words_field)
+
+    def add_related_words_field(self) -> None:
+        self.related_words_groupbox_layout.insertWidget(
+            self._next_related_words_widget_index,
+            RelatedWordsGroupBox(),
+        )
+        self._next_related_words_widget_index += 1
+
+    @property
+    def number_of_related_words_widgets_in_related_words_layout(self) -> int:
+        return self._next_related_words_widget_index
+
+    def get_fields_content(self) -> Dict[str, Union[list, str]]:
+        """
+        Related words will not be added if it's relationship type is not provided
+        """
+        return {
+            "definition": self.definition_lineedit.text().strip(),  # Required
+            "example": self.example_lineedit.text().strip(),
+            "related_words": [
+                related_words_data
+                for i in range(
+                    self.number_of_related_words_widgets_in_related_words_layout
+                )
+                if (
+                    (
+                        related_words_data := (
+                            self.related_words_groupbox_layout.itemAt(i)
+                            .widget()
+                            .get_fields_content()
+                        )
+                    )
+                    and (related_words_data.get("relationship_type"))
+                )
+            ],
+        }
+
+
+class PronunciationGroupBox(QGroupBox, UiPronunciationGroupBox):
+    next_widget_index = 0
+
+    def __init__(self, *args, **kwargs) -> None:
+        super(PronunciationGroupBox, self).__init__(*args, **kwargs)
+        self.setupUi(self)
+
+    def get_fields_content(self) -> Dict[str, str]:
+        return {
+            "text": self.pronunciation_text_lineedit.text().strip(),
+            "audio": self.pronunciation_audio_lineedit.text().strip(),
+        }
+
+
+class MeaningsGroupBox(QGroupBox, UiMeaningsGroupBox):
+    next_widget_index = 0
+
+    def __init__(self, *args, **kwargs) -> None:
+        super(MeaningsGroupBox, self).__init__(*args, **kwargs)
+        self._next_definition_widget_index = 0
+        self.setupUi(self)
+        self.add_definition_button.setIcon(plus_icon)
+        self.install_slots()
+        self.add_definition_field()
+
+    def install_slots(self) -> None:
+        self.add_definition_button.clicked.connect(self.add_definition_field)
+
+    def add_definition_field(self) -> None:
+        self.definition_layout.insertWidget(
+            self._next_definition_widget_index, DefinitionGroupBox()
+        )
+        self._next_definition_widget_index += 1
+
+    @property
+    def number_of_definition_widgets_in_definition_layout(self) -> int:
+        return self._next_definition_widget_index
+
+    def get_fields_content(self) -> Dict[str, Union[list, str]]:
+        """
+        A definition will not be included if it does not have the definition field
+        """
+        return {
+            "part_of_speech": self.part_of_speech_lineedit.text().strip(),  # Required
+            "definitions": [
+                definition_data
+                for i in range(self.number_of_definition_widgets_in_definition_layout)
+                if (
+                    (
+                        definition_data := self.definition_layout.itemAt(i)
+                        .widget()
+                        .get_fields_content()
+                    )
+                    and (definition_data.get("definition"))
+                )
+            ],
+        }
+
+
+class AddWordDialog(QDialog, UiAddWordDialog):
     def __init__(self, *args, **kwargs) -> None:
         super(AddWordDialog, self).__init__(*args, **kwargs)
         self.setupUi(self)
+        self.add_meaning_button.setIcon(plus_icon)
+        self.add_pronunciation_button.setIcon(plus_icon)
+        self.install_slots()
+        self.add_pronunciation_field()
+        self.add_meaning_field()
+
+    def install_slots(self) -> None:
+        self.add_pronunciation_button.clicked.connect(self.add_pronunciation_field)
+        self.add_meaning_button.clicked.connect(self.add_meaning_field)
+
+    def add_meaning_field(self) -> None:
+        self.meanings_layout.insertWidget(
+            MeaningsGroupBox.next_widget_index,
+            MeaningsGroupBox(),
+        )
+        MeaningsGroupBox.next_widget_index += 1
+
+    def add_pronunciation_field(self) -> None:
+        self.pronunciation_layout.insertWidget(
+            PronunciationGroupBox.next_widget_index,
+            PronunciationGroupBox(),
+        )
+        PronunciationGroupBox.next_widget_index += 1
 
     def get_results(self) -> Optional[BaseAPI]:
-        if self.name_textedit.text().strip() == "":
+        if self.name_lineedit.text().strip() == "":
             message = QMessageBox.critical(
-                None, self.windowTitle(), "Word field cannot be empty"
+                None,
+                self.windowTitle(),
+                "Word field cannot be empty",
             )
             return None
 
         word_data = [
             {
-                "name": self.name_textedit.text().strip(),
-                "etymology": self.etymology_textedit.text().strip(),
+                "name": self.name_lineedit.text().strip(),  # Required
+                "etymology": self.etymology_lineedit.text().strip(),
+                "pronunciations": [
+                    pronunciation_data
+                    for i in range(PronunciationGroupBox.next_widget_index)
+                    if (
+                        (
+                            pronunciation_data := (
+                                self.pronunciation_layout.itemAt(i)
+                                .widget()
+                                .get_fields_content()
+                            )
+                        )
+                        and (
+                            pronunciation_data.get("text")
+                            or pronunciation_data.get("audio")
+                        )
+                    )
+                ],
                 "meanings": [
-                    {
-                        "part_of_speech": self.part_of_speech_textedit_1.text().strip(),
-                        "definitions": [
-                            {
-                                "definition": self.definition_textedit_1.text().strip(),
-                                "example": self.examples_textedit_1.text().strip(),
-                                "related_words": [
-                                    {
-                                        "relationship_type": self.relationship_type_textedit.text().strip(),
-                                        "words": self.words_text_edit_1.text()
-                                        .strip()
-                                        .split(", ")
-                                        if self.words_text_edit_1.text()
-                                        else "",
-                                    }
-                                ],
-                            }
-                        ],
-                    }
+                    meaning_data
+                    for i in range(MeaningsGroupBox.next_widget_index)
+                    if (
+                        (
+                            meaning_data := (
+                                self.meanings_layout.itemAt(i)
+                                .widget()
+                                .get_fields_content()
+                            )
+                        )
+                        and (meaning_data.get("part_of_speech"))
+                    )
                 ],
             }
         ]
@@ -61,15 +229,20 @@ class EditWordDialog(AddWordDialog):
         self.fill_values()
 
     def fill_values(self) -> None:
-        self.name_textedit.setText(self._word_data.get_name())
+        self.name_lineedit.setText(self._word_data.get_name())
 
 
-class MainWindow(QMainWindow, Ui_MainWindow):
+class MainWindow(QMainWindow, UiMainWindow):
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
         self.dictionary = Dictionary()
         self.setupUi(self)
-        self.install_handlers()
+        self.add_button.setIcon(plus_icon)
+        self.delete_button.setIcon(QIcon(str(DELETE_SVG_PATH)))
+        self.delete_button.setStyleSheet("background:red")
+        self.search_button.setIcon(QIcon(str(SEARCH_SVG_PATH)))
+        self.edit_button.setIcon(QIcon(str(EDIT_SVG_PATH)))
+        self.install_slots()
         QGuiApplication.setFallbackSessionManagementEnabled(False)
         self.setUnifiedTitleAndToolBarOnMac(True)
         self.update_dictionary(self.dictionary.peek())
@@ -83,12 +256,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dialog = AddWordDialog()
         if dialog.exec_() == QDialog.Accepted:
             if result := dialog.get_results():
+                self.dictionary.append(WordData.from_api(result))
                 with Database(DATABASE_DIRECTORY / DATABASE_NAME) as db:
                     db.save_word(result)
-                self.dictionary.append(WordData.from_api(result))
-                self.update_dictionary([WordData.from_api(result).get_name()])
+                self.update_dictionary(
+                    [
+                        WordData.from_api(result).get_name(),
+                    ]
+                )
 
-    def install_handlers(self) -> None:
+    def install_slots(self) -> None:
         self.search_bar.textChanged.connect(self.filter_displayed_words)
         self.search_bar.returnPressed.connect(self.fetch_word_from_internet)
         self.search_button.clicked.connect(self.fetch_word_from_internet)
@@ -191,7 +368,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             db.save_word(word)
         word_data = WordData.from_api(word)
         self.dictionary.append(word_data)
-        self.update_dictionary([word_data.get_name()])
+        self.update_dictionary(
+            [
+                word_data.get_name(),
+            ]
+        )
 
     def parse_word_data(self, word: str) -> str:
         """Convert a word (with name alone) into HTML with all its details."""

@@ -6,7 +6,9 @@ from .utils.helpers import binary_search
 
 class OrderedList:
     def __init__(
-        self, allow_duplicates: bool = False, instance: Type[Any] = int
+        self,
+        allow_duplicates: bool = False,
+        instance: Type[Any] = int,
     ) -> None:
         self._allow_duplicates = allow_duplicates
         self._instance = instance
@@ -14,7 +16,10 @@ class OrderedList:
 
     @staticmethod
     def bisect_left(
-        sorted_collection: list, item: int, lower_bound: int = 0, upper_bound: int = -1
+        sorted_collection: list,
+        item: int,
+        lower_bound: int = 0,
+        upper_bound: int = -1,
     ) -> int:
         if upper_bound < 0:
             upper_bound = len(sorted_collection)
@@ -157,7 +162,7 @@ class Definition:
 @dataclass
 class Meaning:
     part_of_speech: Optional[str] = None
-    definitions: list[Definition] = field(default_factory=list)
+    definitions: List[Definition] = field(default_factory=list)
 
     def to_html(self) -> str:
         pos = f"<p style='text-align : center; text-decoration: underline'>Part of speech: {self.part_of_speech}</p>\n"
