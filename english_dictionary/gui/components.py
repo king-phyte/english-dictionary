@@ -48,10 +48,12 @@ class RelatedWordsGroupBox(QGroupBox, UiRelatedWordsGroupBox):
 
         return self
 
-    def get_fields_content(self) -> Dict[str, str]:
+    def get_fields_content(self) -> Dict[str, Union[list, str]]:
         return {
             "relationship_type": self.relationship_type_lineedit.text().strip(),  # Required
-            "words": self.related_words_lineedit.text().strip(),
+            "words": words.split(", ")
+            if (words := self.related_words_lineedit.text().strip())
+            else [],
         }
 
 
