@@ -91,7 +91,25 @@ class Database:
                 INSERT INTO words (name, data)
                 VALUES (?, ?)
                 """,
-                (word_data["name"], dumps(word_data)),
+                (
+                    word_data["name"],
+                    dumps(word_data),
+                ),
+            )
+
+    def edit_word(self, word_data: BaseAPI) -> None:
+        word_data = word_data[0]
+        with self.get_connection() as conn:
+            conn.execute(
+                """
+                UPDATE words
+                SET data = ?
+                WHERE name = ?
+                """,
+                (
+                    dumps(word_data),
+                    word_data["name"],
+                ),
             )
 
     def delete_word(self, word: str) -> None:
