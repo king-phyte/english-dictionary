@@ -1,4 +1,4 @@
-from typing import Sequence, Optional, List, Dict, Any
+from typing import Any, Dict, List, Optional, Sequence
 
 import requests
 

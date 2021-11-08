@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Union, List, NoReturn, Type, Any, Sequence, Optional
+from typing import Any, List, NoReturn, Optional, Sequence, Type, Union
 
 from .utils.helpers import binary_search
 

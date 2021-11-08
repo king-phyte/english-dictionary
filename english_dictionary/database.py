@@ -1,8 +1,8 @@
 import sqlite3
-from json import loads, dumps
+from json import dumps, loads
 from pathlib import Path
 from sqlite3 import Connection
-from typing import Union, Optional, Generator, Any
+from typing import Any, Generator, Optional, Union
 
 from .api import BaseAPI
 

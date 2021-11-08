@@ -1,9 +1,9 @@
 from pathlib import Path
-from typing import Sequence, Optional, Dict, Union
+from typing import Dict, Optional, Sequence, Union
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QGuiApplication, QIcon
-from PyQt5.QtWidgets import QMainWindow, QDialog, QMessageBox, QGroupBox
+from PyQt5.QtWidgets import QDialog, QGroupBox, QMainWindow, QMessageBox
 
 from .add_word_dialog import Ui_AddWordDialog as UiAddWordDialog
 from .definition_groupbox import Ui_DefinitionGroupBox as UiDefinitionGroupBox
@@ -12,7 +12,7 @@ from .meanings_groupbox import Ui_MeaningsGroupBox as UiMeaningsGroupBox
 from .pronunciation_groupbox import Ui_Pronunciation as UiPronunciationGroupBox
 from .related_words_groupbox import Ui_RelatedWordsGroupBox as UiRelatedWordsGroupBox
 from ..api import BaseAPI
-from ..core import Dictionary, WordData, RelatedWord, Definition, Pronunciation, Meaning
+from ..core import Definition, Dictionary, Meaning, Pronunciation, RelatedWord, WordData
 from ..database import DATABASE_DIRECTORY, DATABASE_NAME, Database
 
 SVGS_DIR = Path(__file__).resolve().parent / "svgs"

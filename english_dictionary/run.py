@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
-import english_dictionary
 from PyQt5.QtWidgets import QApplication
+
+import english_dictionary
 
 
 def main():
