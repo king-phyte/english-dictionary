@@ -1,4 +1,4 @@
-from typing import Sequence, Union, Iterable
+from typing import Iterable, Sequence, Union
 
 
 def binary_search(array: Sequence[Union[str, int]], target: Union[str, int]):

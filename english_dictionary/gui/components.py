@@ -1,9 +1,9 @@
 from pathlib import Path
-from typing import Sequence, Optional, Dict, Union
+from typing import Dict, Optional, Sequence, Union
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QGuiApplication, QIcon
-from PyQt5.QtWidgets import QMainWindow, QDialog, QMessageBox, QGroupBox
+from PyQt5.QtWidgets import QDialog, QGroupBox, QMainWindow, QMessageBox
 
 from .add_word_dialog import Ui_AddWordDialog as UiAddWordDialog
 from .definition_groupbox import Ui_DefinitionGroupBox as UiDefinitionGroupBox
@@ -12,7 +12,7 @@ from .meanings_groupbox import Ui_MeaningsGroupBox as UiMeaningsGroupBox
 from .pronunciation_groupbox import Ui_Pronunciation as UiPronunciationGroupBox
 from .related_words_groupbox import Ui_RelatedWordsGroupBox as UiRelatedWordsGroupBox
 from ..api import BaseAPI
-from ..core import Dictionary, WordData, RelatedWord, Definition, Pronunciation, Meaning
+from ..core import Definition, Dictionary, Meaning, Pronunciation, RelatedWord, WordData
 from ..database import DATABASE_DIRECTORY, DATABASE_NAME, Database
 
 SVGS_DIR = Path(__file__).resolve().parent / "svgs"
@@ -111,9 +111,7 @@ class DefinitionGroupBox(QGroupBox, UiDefinitionGroupBox):
         return self
 
     def get_fields_content(self) -> Dict[str, Union[list, str]]:
-        """
-        Related words will not be added if it's relationship type is not provided
-        """
+        """Related words will not be added if it's relationship type is not provided"""
         return {
             "definition": self.definition_lineedit.text().strip(),  # Required
             "example": self.example_lineedit.text().strip(),
@@ -137,8 +135,6 @@ class DefinitionGroupBox(QGroupBox, UiDefinitionGroupBox):
 
 
 class PronunciationGroupBox(QGroupBox, UiPronunciationGroupBox):
-    next_widget_index = 0
-
     def __init__(
         self,
         pronunciation: Optional[Pronunciation] = None,
@@ -169,8 +165,6 @@ class PronunciationGroupBox(QGroupBox, UiPronunciationGroupBox):
 
 
 class MeaningsGroupBox(QGroupBox, UiMeaningsGroupBox):
-    next_widget_index = 0
-
     def __init__(
         self,
         meaning: Optional[Meaning] = None,
@@ -217,9 +211,7 @@ class MeaningsGroupBox(QGroupBox, UiMeaningsGroupBox):
         return self
 
     def get_fields_content(self) -> Dict[str, Union[list, str]]:
-        """
-        A definition will not be included if it does not have the definition field
-        """
+        """A definition will not be included if it does not have the definition field"""
         return {
             "part_of_speech": self.part_of_speech_lineedit.text().strip(),  # Required
             "definitions": [
@@ -241,6 +233,8 @@ class AddWordDialog(QDialog, UiAddWordDialog):
     def __init__(self, *args, **kwargs) -> None:
         super(AddWordDialog, self).__init__(*args, **kwargs)
         self.setupUi(self)
+        self._next_meaning_widget_index = 0
+        self._next_pronunciation_widget_index = 0
         self.add_meaning_button.setIcon(plus_icon)
         self.add_pronunciation_button.setIcon(plus_icon)
         self.install_slots()
@@ -253,19 +247,19 @@ class AddWordDialog(QDialog, UiAddWordDialog):
 
     def add_meaning_field(self) -> None:
         self.meanings_layout.insertWidget(
-            MeaningsGroupBox.next_widget_index,
+            self._next_meaning_widget_index,
             MeaningsGroupBox(),
         )
 
-        MeaningsGroupBox.next_widget_index += 1
+        self._next_meaning_widget_index += 1
 
     def add_pronunciation_field(self) -> None:
         self.pronunciation_layout.insertWidget(
-            PronunciationGroupBox.next_widget_index,
+            self._next_pronunciation_widget_index,
             PronunciationGroupBox(),
         )
 
-        PronunciationGroupBox.next_widget_index += 1
+        self._next_pronunciation_widget_index += 1
 
     def get_results(self) -> Optional[BaseAPI]:
         if self.name_lineedit.text().strip() == "":
@@ -319,14 +313,12 @@ class AddWordDialog(QDialog, UiAddWordDialog):
 class EditWordDialog(AddWordDialog):
     def __init__(
         self,
-        word_data: WordData = None,
+        word_data: Optional[WordData] = None,
         *args,
         **kwargs,
     ) -> None:
-        super(AddWordDialog, self).__init__(*args, **kwargs)
+        super(EditWordDialog, self).__init__(*args, **kwargs)
         self._word_data = word_data
-        self.setupUi(self)
-        self.install_slots()
         self.fill_values()
 
     def fill_values(self) -> None:
@@ -341,7 +333,7 @@ class EditWordDialog(AddWordDialog):
                 PronunciationGroupBox(pronunciation=pronunciation).set_fields_text(),
             )
 
-            PronunciationGroupBox.next_widget_index += 1
+            self._next_pronunciation_widget_index += 1
 
         for (i, meaning) in enumerate(self._word_data.meanings):
             self.meanings_layout.insertWidget(
@@ -349,7 +341,7 @@ class EditWordDialog(AddWordDialog):
                 MeaningsGroupBox(meaning=meaning).set_fields_text(),
             )
 
-            MeaningsGroupBox.next_widget_index += 1
+            self._next_meaning_widget_index += 1
 
 
 class MainWindow(QMainWindow, UiMainWindow):
